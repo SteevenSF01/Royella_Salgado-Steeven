@@ -51,7 +51,7 @@ const Action = () => {
             data-aos-duration="1000"
           >
             <img
-              src="/images/home-1/action-img.png"
+              src="https://img.youtube.com/vi/ZuyJiNxzgIg/maxresdefault.jpg"              
               className="h-full w-full md:h-[80%] lg:h-full 2xl:h-[99%] "
               alt=""
             />
@@ -66,7 +66,7 @@ const Action = () => {
           </div>
           <FsLightbox
             toggler={toggler}
-            sources={["https://youtu.be/fFDyoI73viQ?si=GbDzAagjoa_0Nv2x"]}
+            sources={["https://www.youtube.com/watch?v=ZuyJiNxzgIg"]}
           />
         </div>
       </section>

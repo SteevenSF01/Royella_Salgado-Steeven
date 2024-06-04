@@ -17,4 +17,5 @@ class ManagerVideo(models.Model):
     nom_hotel = models.CharField(max_length=50, default='')
     description = models.TextField(default='')
     quote = models.TextField(default='')
+    employe = models.ForeignKey(Employe, on_delete=models.SET_NULL, null=True, blank=True)
     

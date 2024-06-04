@@ -56,3 +56,17 @@ def runEmployees():
     
     pks = seeder.execute()
     print(pks)
+    
+def runManagerVideos():
+    seeder = Seed.seeder()
+    
+    manager_video = {
+        'url': "https://www.youtube.com/watch?v=ZuyJiNxzgIg",
+        'nom_hotel': "LUXURY BEST HOTEL IN CITY CALIFORNIA, USA",
+        'description': "Rapidiously myocardinate cross-platform intellectual capital after model. Appropriately create interactive infrastructures after main Holisticly facilitate stand-alone inframe",
+        'quote': " Model. Appropriately create interactive infrastructures after main Holisticly facilitate stand-alone inframe of the world",
+        'employe_id': 1
+    }
+    seeder.add_entity(ManagerVideo, 1, manager_video)
+    pks = seeder.execute()
+    print(pks)
