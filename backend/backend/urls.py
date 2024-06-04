@@ -8,8 +8,9 @@ from django.conf.urls.static import static
 
 router = routers.DefaultRouter()
 router.register('backoffice/managerVideo', ManagerView)
+router.register('backoffice/employe', EmployeView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls))
+    path('api', include(router.urls))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
