@@ -16,7 +16,6 @@ def runPostes():
     pks = seeder.execute()
     print(pks)
 
-
 def runEmployees():
     seeder = Seed.seeder()
     faker = Faker()
@@ -70,3 +69,4 @@ def runManagerVideos():
     seeder.add_entity(ManagerVideo, 1, manager_video)
     pks = seeder.execute()
     print(pks)
+    

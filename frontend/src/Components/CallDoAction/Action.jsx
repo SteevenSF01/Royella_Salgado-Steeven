@@ -1,46 +1,64 @@
 import { BsPlay } from "react-icons/bs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FsLightbox from "fslightbox-react";
+import axios from "axios";
 const Action = () => {
   const [toggler, setToggler] = useState(false);
+  const [data, setData] = useState(null);
+
+  const getData = async () => {
+    try {
+      const res = await axios.get("/api/backoffice/managerVideo/");
+      setData(res.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  console.log(data);
+
   return (
     <div className="dark:bg-mediumBlack dark:z-[-1]">
       <section className="Container mt-[-90px] dark:z-[1]">
-        <div className=" w-full grid grid-cols-1 lg:grid-cols-2 items-center ">
+
+      {data && data.map((d)=> {
+        return(
+          <div className=" w-full grid grid-cols-1 lg:grid-cols-2 items-center ">
           <div
             className="bg-[#f8f6f3] dark:bg-normalBlack space-y-[14px] flex-1 font-Garamond px-5 sm:px-7 md:px-9 lg:pl-[70px] py-10 md:py-[96px] lg:pr-[70px]"
             data-aos="fade-up"
             data-aos-duration="1000"
           >
-            <h5 className="text-base text-khaki leading-[26px] font-semibold">
-              MANAGER
+            <h5 className=" text-khaki leading-[26px] font-semibold uppercase text-xl">
+            {d.employe.poste.poste}
             </h5>
             <h1 className="text-[22px] sm:text-2xl md:text-[28px] xl:text-[32px] 2xl:text-[38px] leading-[38px] lg:leading-[44px] text-lightBlack dark:text-white font-semibold">
-              LUXURY BEST HOTEL IN CITY CALIFORNIA, USA
+              {d.nom_hotel}
             </h1>
             <p className="text-sm sm:text-base font-Lora text-gray dark:text-lightGray font-normal leading-[26px]">
-              Rapidiously myocardinate cross-platform intellectual capital after
-              model. Appropriately create interactive infrastructures after main
-              Holisticly facilitate stand-alone inframe
+              {d.description}
             </p>
             <p className="text-sm sm:text-base font-Lora italic leading-[26px] underline  text-gray dark:text-lightGray font-normal ">
-              “ Model. Appropriately create interactive infrastructures after
-              main Holisticly facilitate stand-alone inframe of the world ”
+              “ {d.quote} ”
             </p>
             <div className="flex items-center space-x-6 pt-5">
               <img
-                src="/images/home-1/call-do-action-img.png"
+                src={d.employe.photo}
                 className="w-[65px] h-[65px] object-cover"
                 alt=""
               />
 
               <div className="">
                 <h4 className="text-lg sm:text-[22px] leading-[26px] text-lightBlack dark:text-white font-semibold font-Garamond">
-                  John D. Alexon
+                  {d.employe.prenom + " " + d.employe.nom}
                 </h4>
                 <p className="pt-1 text-base leading-[26px] font-normal text-gray dark:text-lightGray flex items-center font-Lora">
                   <span className="w-5 h-[1px] inline-block text-khaki bg-khaki mr-2"></span>
-                  Manger
+                  {d.employe.poste.poste}
                 </p>
               </div>
             </div>
@@ -69,6 +87,9 @@ const Action = () => {
             sources={["https://www.youtube.com/watch?v=ZuyJiNxzgIg"]}
           />
         </div>
+        )
+      })}
+
       </section>
     </div>
   );
