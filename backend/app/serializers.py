@@ -13,8 +13,12 @@ class EmployeSerializer(serializers.ModelSerializer):
         fields = ['id', 'nom', 'prenom', 'photo', 'poste', 'email']
 class ManagerVideoSerializer(serializers.ModelSerializer):
     employe = EmployeSerializer(read_only=True)
+    employe_id = serializers.PrimaryKeyRelatedField(queryset=Employe.objects.all(), source='employe')
+
+
     class Meta:
         model = ManagerVideo
-        fields = ['id', 'url', 'nom_hotel', 'description', 'quote', 'employe']
+        fields = '__all__'
+        # fields = ['id', 'url', 'nom_hotel', 'description', 'quote', 'employe_id']
         
         

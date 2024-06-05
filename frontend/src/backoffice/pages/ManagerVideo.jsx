@@ -1,54 +1,97 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import React from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function ManagerVideo() {
-    const [managerHome, setManagerHome] = useState([])
-    const [employes, setEmployes] = useState([])
-    const [formData, setFormData] = useState({
-        url: '',
-        nom_hotel: '',
-        description: '',
-        quote: '',
-        employe: ''
+  const [managerHome, setManagerHome] = useState({});
+  const [employes, setEmployes] = useState([]);
+  const [formData, setFormData] = useState({
+    url: '',
+    nom_hotel: '',
+    description: '',
+    quote: '',
+    employe_id: null
+  });
+
+  const getData = async () => {
+    try {
+      const managerRes = await axios.get("/api/backoffice/managerVideo/1");
+      setManagerHome(managerRes.data);
+      setFormData({
+        url: managerRes.data.url || '',
+        nom_hotel: managerRes.data.nom_hotel || '',
+        description: managerRes.data.description || '',
+        quote: managerRes.data.quote || '',
+        employe_id: managerRes.data.employe?.id || ''
       });
 
-    const getData = async () => {
-        try {
-          const managerRes = await axios.get("/api/backoffice/managerVideo/1");
-          setManagerHome(managerRes.data);
+      const employesRes = await axios.get("/api/backoffice/employe/");
+      setEmployes(employesRes.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-          const employesRes = await axios.get("/api/backoffice/employe/");
-          setManagerHome(employesRes.data);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      };
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: name === 'employe_id' ? parseInt(value) : value
+    });
+};
     
-      useEffect(() => {
-        getData();
-      }, []);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-      };
+    try {
+      const response = await axios.put("http://127.0.0.1:8000/api/backoffice/managerVideo/1/", formData);
+      console.log("Data submitted successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting data:", error);
+    }
+  };
+//   console.log(employes);
+  const employesFilter = employes.filter((employe) => employe.id !== formData.employe_id);
+//   console.log(employesFilter);
 
-//   console.log(managerHome)
-//   console.log(employes)
   return (
     <>
-        <form  className="w-[800px] items-center justify-center">
+      <form className="w-[800px] items-center justify-center" onSubmit={handleSubmit}>
         <div className="bg-[#f8f6f3] dark:bg-normalBlack space-y-[14px] flex-1 font-Garamond px-5 sm:px-7 md:px-9 lg:pl-[70px] py-10 md:py-[96px] lg:pr-[70px]" data-aos="fade-up" data-aos-duration="1000">
-            <input type="url" name="url" value={managerHome.url} onChange={handleChange} className="w-full" placeholder="URL" />
-            <input type="text" name="nom_hotel" value={managerHome.nom_hotel} onChange={handleChange} className="w-full" placeholder="Nombre del hotel" />
-            <textarea name="description" value={managerHome.description} onChange={handleChange} className="w-full" placeholder="Descripción"></textarea>
-            <textarea name="quote" value={managerHome.quote} onChange={handleChange} className="w-full" placeholder="Cita"></textarea>
-            {/* Aquí deberías agregar un campo select para el empleado */}
-            {/* <input type="text" name="employe" value={managerHome.employe} onChange={handleChange} className="w-full" placeholder="Empleado" /> */}
-        <button type="submit" className="bg-khaki hover:bg-[#c19d68cc] text-white font-bold py-2 px-4 rounded mt-4 ml-4">Enregistrer</button>
+          <label htmlFor="url" className='text-[#2d2d2d] text-[16px] font-bold'>
+            URL
+            <input type="url" name="url" value={formData.url} onChange={handleChange} className="w-full font-normal" placeholder="URL" />
+          </label>
+          <label htmlFor="nom_hotel" className='text-[#2d2d2d] text-[16px] font-bold'>
+            Nom de l'hotel
+            <input type="text" name="nom_hotel" value={formData.nom_hotel} onChange={handleChange} className="w-full font-normal" placeholder="Nombre del hotel" />
+          </label>
+          <label htmlFor="description" className='text-[#2d2d2d] text-[16px] font-bold'>
+            Descripción
+            <textarea name="description" value={formData.description} onChange={handleChange} className="w-full font-normal" placeholder="Descripción"></textarea>
+          </label>
+          <label htmlFor="quote" className='text-[#2d2d2d] text-[16px] font-bold'>
+            Citation
+            <textarea name="quote" value={formData.quote} onChange={handleChange} className="w-full font-normal" placeholder="Cita"></textarea>
+          </label>
+          <label htmlFor="employe" className='text-[#2d2d2d] text-[16px] font-bold'>
+            Employe
+            <select name="employe_id" value={formData.employe_id}  onChange={handleChange} className='flex'> 
+              <option value="">{employes[formData.employe_id -1 ]?.nom}</option>
+              {employesFilter.map((employe) => (
+                <option value={employe.id} key={employe.id} className='font-normal' >
+                  {employe.nom}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button type="submit" className="bg-khaki hover:bg-[#c19d68cc] text-white font-bold py-2 px-4 rounded mt-4">Enregistrer</button>
         </div>
-        </form> 
+      </form>
     </>
-  )
+  );
 }
