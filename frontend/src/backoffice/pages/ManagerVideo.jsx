@@ -1,9 +1,23 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ManagerVideo() {
-  const [managerHome, setManagerHome] = useState({});
+
+    const notify = () => toast.success('Mise à jour enregistrée', {
+        position: "top-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+        });
+
   const [employes, setEmployes] = useState([]);
   const [formData, setFormData] = useState({
     url: '',
@@ -16,7 +30,6 @@ export default function ManagerVideo() {
   const getData = async () => {
     try {
       const managerRes = await axios.get("/api/backoffice/managerVideo/1");
-      setManagerHome(managerRes.data);
       setFormData({
         url: managerRes.data.url || '',
         nom_hotel: managerRes.data.nom_hotel || '',
@@ -50,13 +63,12 @@ export default function ManagerVideo() {
     try {
       const response = await axios.put("http://127.0.0.1:8000/api/backoffice/managerVideo/1/", formData);
       console.log("Data submitted successfully:", response.data);
+      notify();
     } catch (error) {
       console.error("Error submitting data:", error);
     }
   };
-//   console.log(employes);
   const employesFilter = employes.filter((employe) => employe.id !== formData.employe_id);
-//   console.log(employesFilter);
 
   return (
     <>
@@ -92,6 +104,7 @@ export default function ManagerVideo() {
           <button type="submit" className="bg-khaki hover:bg-[#c19d68cc] text-white font-bold py-2 px-4 rounded mt-4">Enregistrer</button>
         </div>
       </form>
+      <ToastContainer />
     </>
   );
 }
