@@ -10,6 +10,7 @@ router = routers.DefaultRouter()
 router.register('backoffice/managerVideo', ManagerView)
 router.register('backoffice/employe', EmployeView)
 router.register('backoffice/posteEmploye', PosteEmployeView)
+router.register('backoffice/heroHome', herroHomeView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -1,4 +1,4 @@
-from .models import ManagerVideo, Employe, PosteEmploye
+from .models import ManagerVideo, Employe, PosteEmploye, HeroHome
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 
@@ -14,11 +14,11 @@ class EmployeSerializer(serializers.ModelSerializer):
 class ManagerVideoSerializer(serializers.ModelSerializer):
     employe = EmployeSerializer(read_only=True)
     employe_id = serializers.PrimaryKeyRelatedField(queryset=Employe.objects.all(), source='employe')
-
-
     class Meta:
         model = ManagerVideo
         fields = '__all__'
-        # fields = ['id', 'url', 'nom_hotel', 'description', 'quote', 'employe_id']
         
-        
+class heroHomeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HeroHome
+        fields = '__all__'

@@ -1,6 +1,7 @@
 from app.models import *
 import random
-from django_seeder import Seed
+# from django_seeder import Seed
+from django_seed import Seed
 from faker import Faker
 
 
@@ -70,3 +71,45 @@ def runManagerVideos():
     pks = seeder.execute()
     print(pks)
     
+def runHeroHome():
+    seeder = Seed.seeder()
+    
+    hotels = [
+    {
+        "titre": "LUXURY HOTEL AND RESORT",
+        "best": "THE BEST LUXURY HOTEL",
+        "place":"IN CALIFORNIA",
+        "photo": "images/hotels/hotelhome1.jpg",
+        "etoiles": 1,
+        "telephone": "+980 123 4567 890"
+    },
+    {
+        "titre": "LUXURY HOTEL AND RESORT",
+        "best": "THE BEST LUXURY HOTEL",
+        "place":"IN KASHMIR",
+        "photo": "images/hotels/hotelhome2.jpg",
+        "etoiles": 2,
+        "telephone": "+980 123 4567 890"
+    },
+    {
+        "titre": "LUXURY HOTEL AND RESORT",
+        "best": "THE BEST LUXURY HOTEL",
+        "place":"IN COLOSSEUM",
+        "photo": "images/hotels/hotelhome3.jpg",
+        "etoiles": 3,
+        "telephone": "+980 123 4567 890"
+    },
+    {
+        "titre": "LUXURY HOTEL AND RESORT",
+        "best": "THE BEST LUXURY HOTEL",
+        "place":"IN SRILANKA",
+        "photo": "images/hotels/hotelhome4.jpg",
+        "etoiles": 4,
+        "telephone": "+980 123 4567 890"
+    },
+    ]
+    
+    for hotel in hotels:
+        seeder.add_entity(HeroHome, 1, hotel)
+    pks = seeder.execute()
+    print(pks)

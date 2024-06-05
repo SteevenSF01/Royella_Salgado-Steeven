@@ -47,8 +47,9 @@ class ManagerVideo(models.Model):
 
 
 class HeroHome(models.Model):
-    nom = models.CharField(max_length=50)
-    chaine = models.CharField(max_length=50)
+    titre = models.CharField(max_length=50)
+    best = models.CharField(max_length=50)
+    place = models.CharField(max_length=50, default='')
     photo = models.ImageField(upload_to='images/hotels', null=True, blank=True)
     etoiles = models.PositiveIntegerField()
     telephone = models.CharField(max_length=20)
