@@ -44,4 +44,11 @@ class ManagerVideo(models.Model):
     description = models.TextField(default='')
     quote = models.TextField(default='')
     employe = models.ForeignKey(Employe, on_delete=models.SET_NULL, null=True, blank=True)
-    
+
+
+class HeroHome(models.Model):
+    nom = models.CharField(max_length=50)
+    chaine = models.CharField(max_length=50)
+    photo = models.ImageField(upload_to='images/hotels', null=True, blank=True)
+    etoiles = models.PositiveIntegerField()
+    telephone = models.CharField(max_length=20)
