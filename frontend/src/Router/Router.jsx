@@ -1,5 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 
+// Backoffice
+import HeroHomeCreate from "../backoffice/pages/heroHome/HeroHomeCreate";
+
 // Home And Main Home1
 import Main from "../Main/Main";
 import Home1 from "../Pages/Home1/Home1";
@@ -77,12 +80,19 @@ const router = createBrowserRouter([
         path: "/contact",
         element: <Contact />,
       },
-      {
-        path: "/backoffice",
-        element: < PageBackoffice/>,
-      },
     ],
   },
+  {
+    path: "/backoffice",
+    element: < PageBackoffice/>,
+    children: [
+    ]
+  },
+  {
+    path: "/backoffice/heroHome",
+    element: <HeroHomeCreate />,
+  },
+
 ]);
 
 export default router;

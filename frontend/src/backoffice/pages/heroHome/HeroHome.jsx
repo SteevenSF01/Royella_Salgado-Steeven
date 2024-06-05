@@ -20,17 +20,12 @@ export default function HeroHome() {
     getData();
   }, []);
 
-  const handleModify = (id) => {
-    console.log('Modificar slider con id:', id);
-  };
-
   const handleDelete = (id) => {
-    console.log('Borrar slider con id:', id);
   };
 
   return (
-    <div className="container mx-auto p-4 h-fit">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="w-full h-fit p-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {data && data.map((item) => (
           <div
             key={item.id}
@@ -57,7 +52,7 @@ export default function HeroHome() {
                 </h1>
               </div>
             </div>
-            <div className="w-[221px] h-[50px] border-white border hidden md:flex items-center justify-center absolute left-28 top-24 lg:left-10 lg:top-24 xl:left-28 xl:top-24 ">
+            <div className="w-[221px] h-[50px] border-white border hidden md:flex items-center justify-center absolute left-28 top-24 lg:left-10 lg:top-24 ">
               <BiPhoneCall className="w-5 h-5 mr-2 text-khaki" /> {item.telephone}
             </div>
             <div className="absolute top-4 right-4 flex space-x-2">
