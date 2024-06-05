@@ -19,15 +19,25 @@ const Action = () => {
     getData();
   }, []);
 
-  console.log(data);
-
-  return (
+  function urlImage(url) {
+    const urlParams = new URL(url).searchParams;
+    const videoId = urlParams.get('v');
+    if (videoId) {
+      const miniature = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+      return miniature;
+    } else {
+      console.error("YouTube URL non valide");
+      return null;
+    }
+  }
+    
+    return (
     <div className="dark:bg-mediumBlack dark:z-[-1]">
       <section className="Container mt-[-90px] dark:z-[1]">
 
       {data && data.map((d)=> {
         return(
-          <div className=" w-full grid grid-cols-1 lg:grid-cols-2 items-center ">
+          <div className=" w-full grid grid-cols-1 lg:grid-cols-2 items-center " key={d.id}>
           <div
             className="bg-[#f8f6f3] dark:bg-normalBlack space-y-[14px] flex-1 font-Garamond px-5 sm:px-7 md:px-9 lg:pl-[70px] py-10 md:py-[96px] lg:pr-[70px]"
             data-aos="fade-up"
@@ -69,11 +79,10 @@ const Action = () => {
             data-aos-duration="1000"
           >
             <img
-              src="https://img.youtube.com/vi/ZuyJiNxzgIg/maxresdefault.jpg"              
+              src={urlImage(d.url)}              
               className="h-full w-full md:h-[80%] lg:h-full 2xl:h-[99%] "
               alt=""
             />
-
             <div
               className="w-[70px] h-[70px]  text-white absolute top-1/2 md:top-[35%] lg:top-1/2 left-[45%] bg-khaki rounded-full flex items-center justify-center cursor-pointer z-[1] "
               onClick={() => setToggler(!toggler)}
@@ -84,7 +93,7 @@ const Action = () => {
           </div>
           <FsLightbox
             toggler={toggler}
-            sources={["https://www.youtube.com/watch?v=ZuyJiNxzgIg"]}
+            sources={[d.url]}
           />
         </div>
         )
