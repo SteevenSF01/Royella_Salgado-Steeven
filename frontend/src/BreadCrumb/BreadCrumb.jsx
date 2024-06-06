@@ -15,7 +15,6 @@ const BreadCrumb = ({ title, home }) => {
         };
           getData();
     }, []);
-    console.log(data);
     const location = useLocation();
     const pathName = location.pathname.split("/")[1];
     return (

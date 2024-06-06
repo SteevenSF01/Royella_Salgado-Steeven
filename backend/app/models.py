@@ -58,4 +58,4 @@ class BanierePages(models.Model):
     image = models.ImageField(upload_to='images/hotels', null=True, blank=True)
     
 class FooterGallery(models.Model):
-    image = models.ImageField(upload_to='images/hotels', null=True, blank=True)
+    image = models.ImageField(upload_to='images/footer', null=True, blank=True)

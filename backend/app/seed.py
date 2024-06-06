@@ -128,3 +128,21 @@ def runBanierePages():
     })
     pks = seeder.execute()
     print(pks)
+
+
+def runFooterGallery():
+    seeder = Seed.seeder()
+    images = [
+        'images/footer/footerG1.jpg',
+        'images/footer/footerG2.jpg',
+        'images/footer/footerG3.jpg',
+        'images/footer/footerG4.jpg',
+        'images/footer/footerG5.jpg',
+        'images/footer/footerG6.jpg'
+    ]
+    for image in images:
+        seeder.add_entity(FooterGallery, 1, {
+            'image': image
+        })
+    pks = seeder.execute()
+    print(pks)
