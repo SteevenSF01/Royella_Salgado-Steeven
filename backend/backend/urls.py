@@ -11,9 +11,9 @@ router.register('backoffice/managerVideo', ManagerView)
 router.register('backoffice/employe', EmployeView)
 router.register('backoffice/posteEmploye', PosteEmployeView)
 router.register('backoffice/heroHome', HeroHomeView)
+router.register('backoffice/banierePages', BanierePageView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/backoffice/banierePages/<int:id>', BanierePageView.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

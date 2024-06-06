@@ -27,6 +27,6 @@ class HeroHomeView(viewsets.ModelViewSet):
     queryset = HeroHome.objects.all()
     serializer_class = HeroHomeSerializer
 
-class BanierePageView(generics.RetrieveUpdateAPIView):
+class BanierePageView(viewsets.ModelViewSet):
     queryset = BanierePages.objects.all()
     serializer_class = BanierePagesSerializer

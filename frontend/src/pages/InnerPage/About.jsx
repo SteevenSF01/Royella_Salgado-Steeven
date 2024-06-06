@@ -7,13 +7,16 @@ import {
   BsTwitter,
 } from "react-icons/bs";
 import { FaFacebookF, FaLinkedinIn, FaPinterestP } from "react-icons/fa6";
-import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import "../../Components4/Testimonial/testimonials.css";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import { Link } from "react-router-dom";
 import FsLightbox from "fslightbox-react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+
 const About = () => {
   const [setCurrentSlide] = useState(0);
   // const [setLoaded] = useState(false);

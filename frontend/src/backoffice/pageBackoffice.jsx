@@ -1,7 +1,5 @@
 import React from "react";
-import HeroHome from "./pages/heroHome/HeroHome";
 import { Outlet, Link } from "react-router-dom";
-// import ManagerVideo from './pages/ManagerVideo'
 
 export default function PageBackoffice() {
     return (
@@ -12,7 +10,6 @@ export default function PageBackoffice() {
                 </button>
             </Link>
             <h1 className="text-5xl font-Garamond font-semibold">Backoffice</h1>
-            {/* <HeroHome /> */}
             <Outlet />
         </div>
     );

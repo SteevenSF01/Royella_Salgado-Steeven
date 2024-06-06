@@ -29,7 +29,6 @@ const HeroSection = () => {
     }
     fetchData();
   }, []);
-console.log(data);
 
   return (
     <div className="">
