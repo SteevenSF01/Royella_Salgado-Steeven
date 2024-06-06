@@ -18,7 +18,12 @@ class ManagerVideoSerializer(serializers.ModelSerializer):
         model = ManagerVideo
         fields = '__all__'
         
-class heroHomeSerializer(serializers.ModelSerializer):
+class HeroHomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeroHome
         fields = '__all__'
+
+    def update(self, instance, validated_data):
+        if 'photo' not in validated_data:
+            validated_data['photo'] = instance.photo 
+        return super().update(instance, validated_data)

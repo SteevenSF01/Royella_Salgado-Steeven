@@ -13,7 +13,7 @@ export default function HeroHome() {
       toast.success("supprimé avec succès", {
           position: "top-left",
           autoClose: 5000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -56,7 +56,9 @@ export default function HeroHome() {
             const res = await axios.delete(`/api/backoffice/heroHome/${id}`);
             console.log("Deleted successfully:", res.data);
             notifySuccess();
-            window.location.reload();
+            setTimeout(() => {
+                window.location.reload();
+            }, 2500);
         } catch (error) {
             console.error("Error deleting:", error);
             notifyError();
@@ -65,6 +67,9 @@ export default function HeroHome() {
 
     return (
         <div className="w-full h-fit p-4">
+          <button className="bg-khaki hover:bg-[rgba(141,115,77,0.9)] text-white font-bold py-2 px-5 rounded mb-5" onClick={() => navigate("/backoffice/heroHome/create")}>
+            Créer
+          </button>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {data &&
                     data.map((item) => (
@@ -101,12 +106,13 @@ export default function HeroHome() {
                                 {item.telephone}
                             </div>
                             <div className="absolute top-4 right-4 flex space-x-2">
+                              <Link to={`/backoffice/heroHome/update/${item.id}`}>
                                 <button
-                                    onClick={() => handleModify(item.id)}
                                     className="bg-khaki hover:bg-[rgba(141,115,77,0.9)] text-white font-bold py-2 px-4 rounded"
                                 >
                                     Modifier
                                 </button>
+                              </Link>
                                 <button
                                     onClick={() => handleDelete(item.id)}
                                     className="bg-khaki  hover:bg-[rgba(141,115,77,0.9)] text-white font-bold py-2 px-4 rounded"

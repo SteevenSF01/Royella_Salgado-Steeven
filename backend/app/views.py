@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import ManagerVideo, Employe, PosteEmploye, HeroHome
-from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, heroHomeSerializer
+from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
@@ -24,6 +24,6 @@ class EmployeView(viewsets.ModelViewSet):
     serializer_class = EmployeSerializer
 
 
-class herroHomeView(viewsets.ModelViewSet):
+class HeroHomeView(viewsets.ModelViewSet):
     queryset = HeroHome.objects.all()
-    serializer_class = heroHomeSerializer
+    serializer_class = HeroHomeSerializer

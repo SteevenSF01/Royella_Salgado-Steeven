@@ -1,8 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 
-// Backoffice
-import HeroHomeCreate from "../backoffice/pages/heroHome/HeroHomeCreate";
-
 // Home And Main Home1
 import Main from "../Main/Main";
 import Home1 from "../Pages/Home1/Home1";
@@ -24,6 +21,9 @@ import ErrorPage from "../Shared/ErrorPage/ErrorPage";
 
 // Backoffice
 import PageBackoffice from "../backoffice/pageBackoffice";
+import HeroHome from "../backoffice/pages/heroHome/HeroHome";
+import HeroHomeCreate from "../backoffice/pages/heroHome/HeroHomeCreate";
+import HeroHomeUpdate from "../backoffice/pages/heroHome/HeroHomeUpdate";
 
 // Starting React Router.
 const router = createBrowserRouter([
@@ -82,16 +82,29 @@ const router = createBrowserRouter([
       },
     ],
   },
+  // Backoffice //
   {
     path: "/backoffice",
     element: < PageBackoffice/>,
     children: [
+      {
+        path: "/backoffice/heroHome",
+        element: <HeroHome />,
+      },
+      {
+        path: "/backoffice/heroHome/create",
+        element: <HeroHomeCreate />,
+      },
+      {
+        path: "/backoffice/heroHome/update/:id",
+        element: <HeroHomeUpdate />,
+      }
     ]
   },
-  {
-    path: "/backoffice/heroHome",
-    element: <HeroHomeCreate />,
-  },
+  // {
+  //   path: "/backoffice/heroHome",
+  //   element: <HeroHomeCreate />,
+  // },
 
 ]);
 
