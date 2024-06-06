@@ -45,7 +45,7 @@ class ManagerVideo(models.Model):
     quote = models.TextField(default='')
     employe = models.ForeignKey(Employe, on_delete=models.SET_NULL, null=True, blank=True)
 
-
+# Baniere du home et des autres pages #
 class HeroHome(models.Model):
     titre = models.CharField(max_length=50)
     best = models.CharField(max_length=50)
@@ -53,3 +53,6 @@ class HeroHome(models.Model):
     photo = models.ImageField(upload_to='images/hotels', null=True, blank=True)
     etoiles = models.PositiveIntegerField()
     telephone = models.CharField(max_length=20)
+    
+class BanierePages(models.Model):
+    image = models.ImageField(upload_to='images/hotels', null=True, blank=True)

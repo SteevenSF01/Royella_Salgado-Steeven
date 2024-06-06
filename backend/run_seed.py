@@ -6,4 +6,5 @@ if __name__ == '__main__':
     # seed.runPostes()
     # seed.runEmployees()
     # seed.runManagerVideos()
-    seed.runHeroHome()
+    # seed.runHeroHome()
+    seed.runBanierePages()

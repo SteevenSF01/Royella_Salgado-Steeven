@@ -1,10 +1,9 @@
 from django.shortcuts import render
-from .models import ManagerVideo, Employe, PosteEmploye, HeroHome
-from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer
+from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages
+from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer, BanierePagesSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
-from rest_framework import viewsets
+from rest_framework import status, viewsets, generics
 
 
 # Create your views here.
@@ -27,3 +26,7 @@ class EmployeView(viewsets.ModelViewSet):
 class HeroHomeView(viewsets.ModelViewSet):
     queryset = HeroHome.objects.all()
     serializer_class = HeroHomeSerializer
+
+class BanierePageView(generics.RetrieveUpdateAPIView):
+    queryset = BanierePages.objects.all()
+    serializer_class = BanierePagesSerializer

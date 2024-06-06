@@ -14,5 +14,6 @@ router.register('backoffice/heroHome', HeroHomeView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('api/backoffice/banierePages/<int:id>', BanierePageView.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
