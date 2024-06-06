@@ -12,15 +12,18 @@ from rest_framework import viewsets
 class ManagerView(viewsets.ModelViewSet):
     queryset = ManagerVideo.objects.all()
     serializer_class = ManagerVideoSerializer
-    
+
+
 class PosteEmployeView(viewsets.ModelViewSet):
     queryset = PosteEmploye.objects.all()
     serializer_class = PosteEmployeSerializer
+
+
 class EmployeView(viewsets.ModelViewSet):
     queryset = Employe.objects.all()
     serializer_class = EmployeSerializer
-    
+
+
 class herroHomeView(viewsets.ModelViewSet):
     queryset = HeroHome.objects.all()
     serializer_class = heroHomeSerializer
-    
