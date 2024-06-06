@@ -1,4 +1,4 @@
-from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages
+from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 
@@ -19,7 +19,7 @@ class ManagerVideoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# Baniere du home et des autres pages #
+# Baniere du home et des autres pages + footer gallery #
 class HeroHomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeroHome
@@ -33,6 +33,15 @@ class HeroHomeSerializer(serializers.ModelSerializer):
 class BanierePagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = BanierePages
+        fields = '__all__'
+    def update(self, instance, validated_data):
+        if 'image' not in validated_data:
+            validated_data['image'] = instance.image
+        return super().update(instance, validated_data)
+
+class FooterGallerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FooterGallery
         fields = '__all__'
     def update(self, instance, validated_data):
         if 'image' not in validated_data:

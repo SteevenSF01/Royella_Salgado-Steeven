@@ -12,6 +12,7 @@ router.register('backoffice/employe', EmployeView)
 router.register('backoffice/posteEmploye', PosteEmployeView)
 router.register('backoffice/heroHome', HeroHomeView)
 router.register('backoffice/banierePages', BanierePageView)
+router.register('backoffice/footerGallery', FooterGalleryView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

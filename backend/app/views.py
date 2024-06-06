@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages
-from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer, BanierePagesSerializer
+from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery
+from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer, BanierePagesSerializer, FooterGallerySerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, viewsets, generics
@@ -23,6 +23,7 @@ class EmployeView(viewsets.ModelViewSet):
     serializer_class = EmployeSerializer
 
 
+# Baniere du home et des autres pages + footer gallery #
 class HeroHomeView(viewsets.ModelViewSet):
     queryset = HeroHome.objects.all()
     serializer_class = HeroHomeSerializer
@@ -30,3 +31,7 @@ class HeroHomeView(viewsets.ModelViewSet):
 class BanierePageView(viewsets.ModelViewSet):
     queryset = BanierePages.objects.all()
     serializer_class = BanierePagesSerializer
+
+class FooterGalleryView(viewsets.ModelViewSet):
+    queryset = FooterGallery.objects.all()
+    serializer_class = FooterGallerySerializer
