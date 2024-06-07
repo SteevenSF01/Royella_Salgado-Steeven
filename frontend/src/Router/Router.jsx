@@ -25,6 +25,7 @@ import HeroHome from "../backoffice/pages/heroHome/HeroHome";
 import HeroHomeCreate from "../backoffice/pages/heroHome/HeroHomeCreate";
 import HeroHomeUpdate from "../backoffice/pages/heroHome/HeroHomeUpdate";
 import BanierePagesMod from "../backoffice/pages/banierePages/BanierePagesMod";
+import FooterImages from "../backoffice/pages/footer/FooterImages";
 
 // Starting React Router.
 const router = createBrowserRouter([
@@ -103,14 +104,13 @@ const router = createBrowserRouter([
       {
         path: "/backoffice/banierePages",
         element: <BanierePagesMod />,
+      },
+      {
+        path: "/backoffice/footerImages",
+        element: <FooterImages />,
       }
     ]
   },
-  // {
-  //   path: "/backoffice/heroHome",
-  //   element: <HeroHomeCreate />,
-  // },
-
 ]);
 
 export default router;

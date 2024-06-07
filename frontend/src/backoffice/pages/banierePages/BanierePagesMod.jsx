@@ -39,7 +39,6 @@ export default function BanierePagesMod() {
                 const res = await axios.get("/api/backoffice/banierePages/1");
                 setImagePreview(res.data.image);
             } catch (error) {
-                console.log(error);
             }
         };
         getData();
@@ -81,7 +80,7 @@ export default function BanierePagesMod() {
         <>
             <div className="container mx-auto p-4">
                 <h1 className="text-2xl font-semibold mb-4">
-                    Modify Background Image
+                    Modifier le Background Image
                 </h1>
                 <form
                     onSubmit={handleSubmit}
@@ -92,7 +91,7 @@ export default function BanierePagesMod() {
                             className="block text-gray-700 text-sm font-bold mb-2"
                             htmlFor="image"
                         >
-                            Upload New Image
+                            Upload une nouvelle image
                         </label>
                         <input
                             id="image"
@@ -106,7 +105,7 @@ export default function BanierePagesMod() {
                             type="submit"
                             className="bg-khaki hover:bg-[rgba(141,115,77,0.9)] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         >
-                            Save Changes
+                            Sauvegarder
                         </button>
                     </div>
                 </form>

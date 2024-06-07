@@ -4,7 +4,23 @@ import Brand from "../../Components/Brand/Brand";
 import { BiEnvelope, BiLogoLinkedin } from "react-icons/bi";
 import { FaFacebookF, FaPinterestP, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useState,useEffect } from "react";
+import axios from "axios";
 const Footer = () => {
+  const [footerImages, setFooterImages] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/api/backoffice/footerGallery/")
+      .then((res) => {
+        const firstSixImages = res.data.slice(0, 6);
+        setFooterImages(firstSixImages);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  
   return (
     <>
       <Brand />
@@ -89,7 +105,7 @@ const Footer = () => {
               <div className="pt-[30px] pb-0 lg:py-[30px]">
                 <ul
                   className="text-lightGray font-Lora font-normal text-sm sm:text-base leading-[26px] list-none hover:list-disc
-                 "
+                "
                 >
                   <li className="hover:ml-[17px] md:hover:ml-[18px] transition-all duration-500 hover:text-khaki leading-[44px]">
                     <Link to="#">About Hotel</Link>
@@ -120,12 +136,11 @@ const Footer = () => {
                 GALLERY
               </h1>
               <div className="grid grid-cols-3 gap-2 mt-[45px] w-[250px] sm:w-[300px] lg:w-full  content-center ">
-                <img src="/images/home-1/gallery-1.jpg" alt="" />
-                <img src="/images/home-1/gallery-2.jpg" alt="" />
-                <img src="/images/home-1/gallery-3.jpg" alt="" />
-                <img src="/images/home-1/gallery-4.jpg" alt="" />
-                <img src="/images/home-1/gallery-5.jpg" alt="" />
-                <img src="/images/home-1/gallery-6.jpg" alt="" />
+                {footerImages && footerImages.map((image)=>{
+                  return(
+                    <img src={image.image} alt="" />
+                  )
+                })}
               </div>
             </div>
             {/* footer content-4 */}
