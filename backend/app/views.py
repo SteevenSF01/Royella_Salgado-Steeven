@@ -38,6 +38,6 @@ class FooterGalleryView(viewsets.ModelViewSet):
     
 # Google maps + contact #
 
-class ContactListCreate(generics.ListCreateAPIView):
+class ContactListCreate(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
