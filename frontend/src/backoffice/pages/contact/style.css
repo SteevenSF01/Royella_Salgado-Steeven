@@ -1,0 +1,36 @@
+/* src/App.css */
+.App {
+    text-align: center;
+  }
+  
+  .App-header {
+    background-color: #282c34;
+    padding: 20px;
+    color: white;
+  }
+  
+  input {
+    padding: 10px;
+    margin: 10px;
+    width: 300px;
+    font-size: 16px;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    padding: 10px;
+    background: #fff;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    width: 300px;
+  }
+  
+  li:hover {
+    background: #f0f0f0;
+  }
+  

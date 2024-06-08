@@ -1,4 +1,4 @@
-from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery
+from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 
@@ -47,3 +47,10 @@ class FooterGallerySerializer(serializers.ModelSerializer):
         if 'image' not in validated_data:
             validated_data['image'] = instance.image
         return super().update(instance, validated_data)
+
+# Google maps + contact #
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = '__all__'

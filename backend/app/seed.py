@@ -146,3 +146,15 @@ def runFooterGallery():
         })
     pks = seeder.execute()
     print(pks)
+
+def runContact():
+    seeder = Seed.seeder()
+    seeder.add_entity(Contact, 1, {
+        'email': 'example@gmail.com',
+        'numero': '980 123 4567 890',
+        'address': 'New York, NY, USA',
+        'latitude': 40.7128,
+        'longitude': -74.0060
+    })
+    pks = seeder.execute()
+    print(pks)

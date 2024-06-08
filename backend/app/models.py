@@ -59,3 +59,13 @@ class BanierePages(models.Model):
     
 class FooterGallery(models.Model):
     image = models.ImageField(upload_to='images/footer', null=True, blank=True)
+    
+# Google maps + contact #
+
+class Contact(models.Model):
+    text = models.TextField()
+    email = models.EmailField()
+    numero = models.CharField(max_length=20)
+    address = models.CharField(max_length=255) 
+    latitude = models.FloatField()  
+    longitude = models.FloatField() 

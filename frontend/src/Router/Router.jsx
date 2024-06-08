@@ -21,11 +21,16 @@ import ErrorPage from "../Shared/ErrorPage/ErrorPage";
 
 // Backoffice
 import PageBackoffice from "../backoffice/pageBackoffice";
+// Backoffice - Hero Home
 import HeroHome from "../backoffice/pages/heroHome/HeroHome";
 import HeroHomeCreate from "../backoffice/pages/heroHome/HeroHomeCreate";
 import HeroHomeUpdate from "../backoffice/pages/heroHome/HeroHomeUpdate";
+// Backoffice - Baniere Pages
 import BanierePagesMod from "../backoffice/pages/banierePages/BanierePagesMod";
+// Backoffice - Footer Images
 import FooterImages from "../backoffice/pages/footer/FooterImages";
+// Backoffice - Address
+import Autocomplete from "../backoffice/pages/contact/Googlemaps";
 
 // Starting React Router.
 const router = createBrowserRouter([
@@ -108,6 +113,10 @@ const router = createBrowserRouter([
       {
         path: "/backoffice/footerImages",
         element: <FooterImages />,
+      },
+      {
+        path: "/backoffice/address",
+        element: <Autocomplete />,
       }
     ]
   },

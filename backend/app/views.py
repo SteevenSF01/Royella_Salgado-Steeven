@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery
-from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer, BanierePagesSerializer, FooterGallerySerializer
+from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact
+from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer, BanierePagesSerializer, ContactSerializer ,FooterGallerySerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, viewsets, generics
@@ -35,3 +35,9 @@ class BanierePageView(viewsets.ModelViewSet):
 class FooterGalleryView(viewsets.ModelViewSet):
     queryset = FooterGallery.objects.all()
     serializer_class = FooterGallerySerializer
+    
+# Google maps + contact #
+
+class ContactListCreate(generics.ListCreateAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer

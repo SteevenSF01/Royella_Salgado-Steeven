@@ -138,7 +138,7 @@ const Footer = () => {
               <div className="grid grid-cols-3 gap-2 mt-[45px] w-[250px] sm:w-[300px] lg:w-full  content-center ">
                 {footerImages && footerImages.map((image)=>{
                   return(
-                    <img src={image.image} alt="" />
+                    <img src={image.image} alt="" key={image.id} />
                   )
                 })}
               </div>
