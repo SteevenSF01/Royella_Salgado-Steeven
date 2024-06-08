@@ -8,4 +8,5 @@ if __name__ == '__main__':
     # seed.runManagerVideos()
     # seed.runHeroHome()
     # seed.runBanierePages()
-    seed.runFooterGallery()
+    # seed.runFooterGallery()
+    seed.runContact()

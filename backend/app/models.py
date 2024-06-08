@@ -63,7 +63,7 @@ class FooterGallery(models.Model):
 # Google maps + contact #
 
 class Contact(models.Model):
-    text = models.TextField()
+    text = models.TextField(default='')
     email = models.EmailField()
     numero = models.CharField(max_length=20)
     address = models.CharField(max_length=255) 

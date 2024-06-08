@@ -1,7 +1,7 @@
 from app.models import *
 import random
-# from django_seeder import Seed
-from django_seed import Seed
+from django_seeder import Seed
+# from django_seed import Seed
 from faker import Faker
 
 
@@ -154,7 +154,8 @@ def runContact():
         'numero': '980 123 4567 890',
         'address': 'New York, NY, USA',
         'latitude': 40.7128,
-        'longitude': -74.0060
+        'longitude': -74.0060,
+        'text': 'Rapidiously myocardinate cross-platform intellectual capital after the model. Appropriately create interactive infrastructures after maintance Holisticly facilitate stand-alone'
     })
     pks = seeder.execute()
     print(pks)
