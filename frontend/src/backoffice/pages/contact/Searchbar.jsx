@@ -1,10 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Searchbar() {
     const [query, setQuery] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [selectedLocation, setSelectedLocation] = useState(null);
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try{
+                const res = await axios.get(`/api/backoffice/contact/`);
+                setData(res.data);
+            }catch(error){
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
+    console.log(data);
 
     const handleInputChange = async (e) => {
         const value = e.target.value;
