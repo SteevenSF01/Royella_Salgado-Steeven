@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact
-from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer, BanierePagesSerializer, ContactSerializer ,FooterGallerySerializer
+from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact, FAQ
+from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer, BanierePagesSerializer, ContactSerializer ,FooterGallerySerializer, FAQSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, viewsets, generics
@@ -41,3 +41,9 @@ class FooterGalleryView(viewsets.ModelViewSet):
 class ContactListCreate(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
+    
+# FAQ #
+
+class FAQView(viewsets.ModelViewSet):
+    queryset = FAQ.objects.all()
+    serializer_class = FAQSerializer

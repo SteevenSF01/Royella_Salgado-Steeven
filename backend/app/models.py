@@ -69,3 +69,10 @@ class Contact(models.Model):
     address = models.CharField(max_length=255) 
     latitude = models.FloatField()  
     longitude = models.FloatField() 
+    
+# FAQ #
+
+class FAQ(models.Model):
+    question = models.CharField(max_length=150)
+    reponse = models.TextField()
+    active = models.BooleanField(default=False)

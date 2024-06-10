@@ -147,6 +147,7 @@ def runFooterGallery():
     pks = seeder.execute()
     print(pks)
 
+
 def runContact():
     seeder = Seed.seeder()
     seeder.add_entity(Contact, 1, {
@@ -159,3 +160,62 @@ def runContact():
     })
     pks = seeder.execute()
     print(pks)
+
+
+def runFAQ():
+    seeder = Seed.seeder()
+    faqs = [
+        {
+            "question": "How to Booking a Room?",
+            "reponse": "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
+            "active": False,
+        },
+
+        {
+            "question": "What kinds of Bedroom available?",
+            "reponse": "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
+            "active": False,
+        },
+
+        {
+            "question": "Do you have any Discount Current Month?",
+            "reponse": "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
+            "active": False,
+        },
+
+        {
+            "question": "Have you available money back Gaurentee?",
+            "reponse": "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
+            "active": False,
+        },
+
+        {
+            "question": "Do you have any Discount Current Month?",
+            "reponse": "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
+            "active": False,
+        },
+
+        {
+            "question": "How to Booking a Room?",
+            "reponse": "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
+            "active": False,
+        },
+
+        {
+            "question": "What kinds of Bedroom available?",
+            "reponse": "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
+            "active": False,
+        },
+
+        {
+            "question": "Have you available money back Gaurentee?",
+            "reponse": "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
+            "active": False,
+        }
+    ]
+    for faq in faqs:
+        seeder.add_entity(FAQ, 1, faq)
+    pks = seeder.execute()
+    print(pks)
+    
+    

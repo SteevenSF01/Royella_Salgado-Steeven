@@ -9,4 +9,5 @@ if __name__ == '__main__':
     # seed.runHeroHome()
     # seed.runBanierePages()
     # seed.runFooterGallery()
-    seed.runContact()
+    # seed.runContact()
+    seed.runFAQ()
