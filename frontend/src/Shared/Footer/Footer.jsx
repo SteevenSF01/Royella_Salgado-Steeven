@@ -45,7 +45,7 @@ const Footer = () => {
                             {contactData &&
                                 contactData.map((contact) => {
                                     return (
-                                        <div className=" py-6 md:py-7 lg:py-[50px]  px-10 lg:px-5 xl:px-8 2xl:px-9 ">
+                                        <div className=" py-6 md:py-7 lg:py-[50px]  px-10 lg:px-5 xl:px-8 2xl:px-9 " key={contact.id}>
                                             <img
                                                 src="/images/home-1/logo-1.png"
                                                 alt=""

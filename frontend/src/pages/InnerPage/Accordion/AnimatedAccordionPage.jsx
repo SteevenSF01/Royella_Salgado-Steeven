@@ -1,56 +1,24 @@
 import Accordion from "./Accordion";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function AnimatedAccordionPage() {
-  //  All Faqs and  answers.
-  const faqs = [
-    {
-      title: "How to Booking a Room?",
-      text: "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
-      active: false,
-    },
+  const [faqs, setFaqs] = useState([]);
 
-    {
-      title: "What kinds of Bedroom available?",
-      text: "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
-      active: false,
-    },
+  useEffect(() => {
+    const fetchFaqs = async () => {
+      try {
+        const response = await axios.get(
+          "/api/backoffice/faq/"
+        );
+        setFaqs(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchFaqs();
+  }, []);
 
-    {
-      title: "Do you have any Discount Current Month?",
-      text: "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
-      active: false,
-    },
-
-    {
-      title: "Have you available money back Gaurentee?",
-      text: "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
-      active: false,
-    },
-
-    {
-      title: "Do you have any Discount Current Month?",
-      text: "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
-      active: false,
-    },
-
-    {
-      title: "How to Booking a Room?",
-      text: "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
-      active: false,
-    },
-
-    {
-      title: "What kinds of Bedroom available?",
-      text: "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
-      active: false,
-    },
-
-    {
-      title: "Have you available money back Gaurentee?",
-      text: "Credibly morph resource maximizing applications rather than fully test metrics via intermandated expertise. Globally administrate reliable platfor Globally brand seamless systems",
-      active: false,
-    },
-  ];
 
   return (
     <main className="relative flex flex-col justify-center  overflow-hidden">
@@ -60,14 +28,14 @@ export default function AnimatedAccordionPage() {
           data-aos="zoom-in-up"
           data-aos-duration="1000"
         >
-          {faqs.map((faq, index) => (
+          {faqs.map((faq) => (
             <Accordion
-              key={index}
-              title={faq.title}
-              id={`faqs-${index}`}
+              key={faq.id}
+              title={faq.question}
+              id={`faqs-${faq.id}`}
               active={faq.active}
             >
-              {faq.text}
+              {faq.reponse}
             </Accordion>
           ))}
         </div>
