@@ -1,189 +1,311 @@
-import { Link, NavLink } from "react-router-dom";
-import useScrollPosition from "../../../Shared/Navbar/useScrollPosition";
-import { FaBars } from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
-import { BiChevronDown, BiSun } from "react-icons/bi";
+import React, { useState, useEffect } from "react";
+import {
+    Navbar,
+    Collapse,
+    Typography,
+    Button,
+    IconButton,
+    List,
+    ListItem,
+    Menu,
+    MenuHandler,
+    MenuList,
+    MenuItem,
+} from "@material-tailwind/react";
+import {
+    ChevronDownIcon,
+    Bars3Icon,
+    XMarkIcon,
+} from "@heroicons/react/24/outline";
+import {
+    Bars4Icon,
+    GlobeAmericasIcon,
+    NewspaperIcon,
+    PhoneIcon,
+    RectangleGroupIcon,
+    SquaresPlusIcon,
+    SunIcon,
+    TagIcon,
+    UserGroupIcon,
+} from "@heroicons/react/24/outline";
+import { BiSun } from "react-icons/bi";
 import { IoMoonSharp } from "react-icons/io5";
-import { useEffect, useState } from "react";
 
-const NavbarOffice = () => {
-    // modal openar
-    const [isOpen, setIsOpen] = useState(false);
-    // dark mode toggle bar
-    const [isDarkMode, setIsDarkMode] = useState(
-        localStorage.getItem("darkMode") === "true"
+const navListMenuItems = [
+    {
+        title: "Hero Home",
+        description: "Section Hero",
+        link: 'heroHome',
+        icon: SquaresPlusIcon,
+    },
+    {
+        title: "Baniere Pages",
+        description: "Section Baniere Pages",
+        link: 'banierePages',
+        icon: UserGroupIcon,
+    },
+    {
+        title: "Footer Images",
+        description: "Section Footer Images",
+        link: 'footerImages',
+        icon: Bars4Icon,
+    },
+    {
+        title: "Contact",
+        description: "Section Contact",
+        link: 'address',
+        icon: Bars4Icon,
+    },
+    {
+        title: "Faq",
+        description: "Section Faq",
+        link: 'faq',
+        icon: Bars4Icon,
+    },
+    // {
+    //     title: "Services",
+    //     description: "Learn how we can help you achieve your goals.",
+    //     link: 'backoffice1',
+    //     icon: SunIcon,
+    // },
+    // {
+    //     title: "Support",
+    //     description: "Reach out to us for assistance or inquiries",
+    //     link: 'backoffice1',
+    //     icon: GlobeAmericasIcon,
+    // },
+    // {
+    //     title: "Contact",
+    //     description: "Find the perfect solution for your needs.",
+    //     link: 'backoffice1',
+    //     icon: PhoneIcon,
+    // },
+    // {
+    //     title: "News",
+    //     description: "Read insightful articles, tips, and expert opinions.",
+    //     link: 'backoffice1',
+    //     icon: NewspaperIcon,
+    // },
+    // {
+    //     title: "Products",
+    //     description: "Find the perfect solution for your needs.",
+    //     link: 'backoffice1',
+    //     icon: RectangleGroupIcon,
+    // },
+    // {
+    //     title: "Special Offers",
+    //     description: "Explore limited-time deals and bundles",
+    //     link: 'backoffice1',
+    //     icon: TagIcon,
+    // },
+];
+
+import { Link } from "react-router-dom";
+function NavListMenu() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const renderItems = navListMenuItems.map(
+        ({ icon, title, description, link, }, key) => (
+            <a href={link} key={key}>
+                <MenuItem className="flex items-center gap-3 rounded-lg">
+                    <div className="flex items-center justify-center rounded-lg bg-blue-gray-50 p-2">
+                        {React.createElement(icon, {
+                            strokeWidth: 2,
+                            className: "h-6 text-gray-900 w-6",
+                        })}
+                    </div>
+                    <div>
+                        <Typography
+                            variant="h6"
+                            color="blue-gray"
+                            className="flex items-center text-sm font-bold"
+                        >
+                            {title}
+                        </Typography>
+                        <Typography
+                            variant="paragraph"
+                            className="text-xs font-medium text-blue-gray-500"
+                        >
+                            {description}
+                        </Typography>
+                    </div>
+                </MenuItem>
+            </a>
+        )
     );
-    // scrolling tracker
-    const scrollPosition = useScrollPosition();
-    // background color add and remover
-    const navbarBgColor =
-        scrollPosition > 100 ? "lg:bg-lightBlack" : "lg:bg-transparent";
-
-    const toggleNavbar = () => {
-        setIsOpen(!isOpen);
-    };
-
-    const handleClick = () => {
-        const newMode = !isDarkMode;
-        setIsDarkMode(newMode);
-        localStorage.setItem("darkMode", newMode);
-    };
-
-    useEffect(() => {
-        if (isDarkMode) {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
-    }, [isDarkMode]);
 
     return (
-        <nav
-            className={` w-full lg:fixed font-Lora z-10  lg:px-5 lg:py-2  transition-all duration-300 ${navbarBgColor} `}
-        >
-            <div className="lg:px-10">
-                <div className="flex flex-col lg:flex-row items-center justify-between">
-                    {/* website Logo */}
-                    <div className=" w-48 lg:w-52 lg:p-4 ">
-                        <Link to="/">
-                            <img
-                                src="/images/home-3/logo.png"
-                                className="hidden lg:block w-full"
-                                alt="website_logo"
-                            />
-                        </Link>
-                    </div>
-                    {/* small screen size */}
-                    <div className="px-3 w-full lg:hidden flex justify-between text-lightBlack lg:text-white dark:text-white bg-khaki h-[70px]  items-center  p-3">
-                        <div className=" w-28  ">
-                            <Link to="/">
-                                <img
-                                    src="/images/home-1/brand-1.png"
-                                    className="block lg:hidden "
-                                    alt="Royella_website_logo"
-                                />
-                            </Link>
-                        </div>
-
-                        {/* toggle bar and dark and light mode. */}
-                        <div className="flex items-center ">
-                            <span
-                                onClick={handleClick}
-                                className="mr-3 cursor-pointer"
-                            >
-                                {isDarkMode ? (
-                                    <BiSun
-                                        className="text-white"
-                                        title="Apply Light Mode"
-                                        size={20}
-                                    />
-                                ) : (
-                                    <IoMoonSharp
-                                        size={20}
-                                        className="text-white"
-                                        title="Apply Dark Mode"
-                                    />
-                                )}
-                            </span>
-                            <button
-                                className="lg:hidden block focus:outline-none "
-                                onClick={toggleNavbar}
-                            >
-                                {/* modal open and close */}
-                                {isOpen ? (
-                                    <IoMdClose className="w-6 h-6 text-white" />
-                                ) : (
-                                    <FaBars className="w-5 h-5 text-white" />
-                                )}
-                            </button>
-                        </div>
-                    </div>
-                    {/* All navLink are hear with active */}
-                    <ul
-                        className={`${
-                            isOpen ? "block" : "hidden"
-                        } text-left w-full lg:w-fit  ease-in-out lg:flex space-y-2 lg:space-y-0 lg:text-center space-x-0 lg:space-x-3 xl:space-x-4 2xl:space-x-5 3xl:space-x-[24px] flex flex-col lg:flex-row text-sm text-lightBlack lg:text-white dark:text-white uppercase font-normal bg-white dark:bg-normalBlack lg:bg-transparent dark:lg:bg-transparent py-3 lg:py-0 `}
+        <React.Fragment>
+            <Menu
+                open={isMenuOpen}
+                handler={setIsMenuOpen}
+                offset={{ mainAxis: 20 }}
+                placement="bottom"
+                allowHover={true}
+            >
+                <MenuHandler>
+                    <Typography
+                        as="div"
+                        variant="small"
+                        className="font-medium"
                     >
-                        <NavLink
-                            className={`${({ isActive, isPending }) =>
-                                isPending
-                                    ? "pending"
-                                    : isActive
-                                    ? "active"
-                                    : ""} text-lightBlack lg:text-white dark:text-white  lg:border-b-0  py-2 w-full block transition-all duration-300 group relative`}
-                            to="heroHome"
+                        <ListItem
+                            className="flex items-center gap-2 py-2 pr-4 font-medium text-black bg-white"
+                            selected={isMenuOpen || isMobileMenuOpen}
+                            onClick={() => setIsMobileMenuOpen((cur) => !cur)}
                         >
-                            <span className="flex items-center">Hero</span>
-                        </NavLink>
-                        <NavLink
-                            className={`${({ isActive, isPending }) =>
-                                isPending
-                                    ? "pending"
-                                    : isActive
-                                    ? "active"
-                                    : ""} text-lightBlack lg:text-white dark:text-white  lg:border-b-0 px-3 py-2 w-full block transition-all duration-300 group relative `}
-                            to="banierePages"
-                        >
-                                baniere
-                        </NavLink>
-                        <NavLink to="footerImages " className=" block">
-                            <span className="flex items-center">
-                                footer Images
-                            </span>
-                        </NavLink>
-                        {/* blog sub menu link */}
-                        <NavLink
-                            className={`${({ isActive, isPending }) =>
-                                isPending
-                                    ? "pending"
-                                    : isActive
-                                    ? "active"
-                                    : ""} text-lightBlack lg:text-white dark:text-white  lg:border-b-0 px-3 py-2 w-full block transition-all duration-300 group relative `}
-                            to="address"
-                        >
-                            Contact
-                        </NavLink>
-                        <NavLink
-                            className={`${({ isActive, isPending }) =>
-                                isPending
-                                    ? "pending"
-                                    : isActive
-                                    ? "active"
-                                    : ""} text-lightBlack lg:text-white dark:text-white  lg:border-b-0  py-2 w-full block transition-all duration-300 group relative `}
-                            to="faq"
-                        >
-                            FAQ
-                        </NavLink>
+                            Resources
+                            <ChevronDownIcon
+                                strokeWidth={2.5}
+                                className={`hidden h-3 w-3 transition-transform lg:block ${
+                                    isMenuOpen ? "rotate-180" : ""
+                                }`}
+                            />
+                            <ChevronDownIcon
+                                strokeWidth={2.5}
+                                className={`block h-3 w-3 transition-transform lg:hidden ${
+                                    isMobileMenuOpen ? "rotate-180" : ""
+                                }`}
+                            />
+                        </ListItem>
+                    </Typography>
+                </MenuHandler>
+                <MenuList className="hidden max-w-screen-xl rounded-xl lg:block bg-white">
+                    <ul className="grid grid-cols-3 gap-y-2 outline-none outline-0">
+                        {renderItems}
                     </ul>
-
-                    {/* large device visible button and search icon */}
-                    <div className="hidden lg:flex items-center">
-                        <span
-                            onClick={handleClick}
-                            className="mr-3 cursor-pointer group "
-                        >
-                            {isDarkMode ? (
-                                <BiSun
-                                    className="text-white group-hover:rotate-90 rotate transition-all duration-300"
-                                    title="Apply Light Mode"
-                                    size={35}
-                                />
-                            ) : (
-                                <IoMoonSharp
-                                    className="text-white group-hover:rotate-[360deg] transition-all duration-300"
-                                    title="Apply Dark Mode"
-                                    size={35}
-                                />
-                            )}
-                        </span>
-                        {/* <Link to="/find_room">
-              <button className="btn-secondary ">Booking Online</button>
-            </Link> */}
-                    </div>
-                </div>
+                </MenuList>
+            </Menu>
+            <div className="block lg:hidden">
+                <Collapse open={isMobileMenuOpen}>{renderItems}</Collapse>
             </div>
-        </nav>
+        </React.Fragment>
     );
-};
+}
 
-export default NavbarOffice;
+function NavList() {
+    return (
+        <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
+            <Typography
+                as="a"
+                href="/"
+                variant="small"
+                className="font-medium text-white"
+            >
+                <ListItem className="flex items-center gap-2 py-2 pr-4">
+                    Home
+                </ListItem>
+            </Typography>
+            <NavListMenu />
+            <Typography
+                as="a"
+                href="#"
+                variant="small"
+                className="font-medium text-white"
+            >
+                <ListItem className="flex items-center gap-2 py-2 pr-4">
+                    Contact Us
+                </ListItem>
+            </Typography>
+        </List>
+    );
+}
+
+export default function Navbaroffice() {
+  const [isDarkMode, setIsDarkMode] = useState(
+      localStorage.getItem("darkMode") === "true"
+  );
+
+
+  const [openNav, setOpenNav] = useState(false);
+
+  const handleClick = () => {
+      const newMode = !isDarkMode;
+      setIsDarkMode(newMode);
+      localStorage.setItem("darkMode", newMode);
+      document.documentElement.classList.toggle("dark", newMode); 
+  };
+
+  useEffect(() => {
+      window.addEventListener(
+          "resize",
+          () => window.innerWidth >= 960 && setOpenNav(false)
+      );
+      document.documentElement.classList.toggle("dark", isDarkMode);
+
+      return () => {
+          window.removeEventListener(
+              "resize",
+              () => window.innerWidth >= 960 && setOpenNav(false)
+          );
+      };
+  }, [isDarkMode]);
+
+  return (
+    <section className="flex justify-center backdrop-blur-sm fixed w-full z-30">
+            <Navbar className="mx-auto w-full px-4 py-2  bg-khaki text-white flex-grow z-40 mt-3  ">
+          <div className="flex items-center justify-between">
+              <Typography
+                  as="a"
+                  href="#"
+                  variant="h6"
+                  className="mr-4 cursor-pointer py-1.5 lg:ml-2 text-white"
+              >
+                  Royella Backoffice
+              </Typography>
+              <div className="hidden lg:block">
+                  <NavList />
+              </div>
+              <div className="hidden gap-2 lg:flex">
+                  <span onClick={handleClick} className="mr-3 cursor-pointer">
+                      {isDarkMode ? (
+                          <BiSun
+                              className="text-white"
+                              title="Apply Light Mode"
+                              size={20}
+                          />
+                      ) : (
+                          <IoMoonSharp
+                              size={20}
+                              className="text-white"
+                              title="Apply Dark Mode"
+                          />
+                      )}
+                  </span>{" "}
+              </div>
+              <IconButton
+                  variant="text"
+                  className="lg:hidden text-white"
+                  onClick={() => setOpenNav(!openNav)}
+              >
+                  {openNav ? (
+                      <XMarkIcon className="h-6 w-6" strokeWidth={2} />
+                  ) : (
+                      <Bars3Icon className="h-6 w-6" strokeWidth={2} />
+                  )}
+              </IconButton>
+          </div>
+          <Collapse open={openNav}>
+              <NavList />
+              <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
+                  <span onClick={handleClick} className="mr-3 cursor-pointer">
+                      {isDarkMode ? (
+                          <BiSun
+                              className="text-white"
+                              title="Apply Light Mode"
+                              size={20}
+                          />
+                      ) : (
+                          <IoMoonSharp
+                              size={20}
+                              className="text-white"
+                              title="Apply Dark Mode"
+                          />
+                      )}
+                  </span>
+              </div>
+          </Collapse>
+      </Navbar>
+    </section>
+  );
+}

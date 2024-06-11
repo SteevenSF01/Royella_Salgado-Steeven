@@ -107,7 +107,7 @@ export default function AccordionFaq({ children, title, id, active = false, onSa
                     {!isEditing && (
                         <button
                             onClick={() => setIsEditing(true)}
-                            className="mt-2 p-2 bg-khaki hover:bg-[rgba(141,115,77,0.9)] rounded-lg text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
+                            className="mt-2 p-2 bg-khaki hover:bg-[rgba(141,115,77,0.9)] rounded-lg text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline mb-4"
                         >
                             Modifier
                         </button>

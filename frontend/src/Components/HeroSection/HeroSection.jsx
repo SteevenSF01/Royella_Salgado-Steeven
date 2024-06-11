@@ -58,6 +58,7 @@ const HeroSection = () => {
               backgroundBlendMode: 'overlay',
               backgroundColor: 'rgba(30, 30, 30, 0.4)',      
             }}
+            key={item.id}
           >
               <>
               <div className="font-Garamond 2xl:w-[720px] text-center">
