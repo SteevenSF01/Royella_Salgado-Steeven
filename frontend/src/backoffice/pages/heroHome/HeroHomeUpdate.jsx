@@ -89,7 +89,7 @@ export default function HeroHomeUpdate() {
             notifyError();
         }
     };
-
+    
     return (
         <>
             <section>

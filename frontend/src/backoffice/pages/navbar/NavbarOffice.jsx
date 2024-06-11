@@ -142,14 +142,20 @@ const NavbarOffice = () => {
                                     : isActive
                                     ? "active"
                                     : ""} text-lightBlack lg:text-white dark:text-white  lg:border-b-0 px-3 py-2 w-full block transition-all duration-300 group relative `}
-                            to="#"
+                            to="address"
                         >
-                            <span className="flex items-center">
-                                <NavLink to="address" className="block">
-                                    Contact
-                                </NavLink>
-                                {/* <BiChevronDown className="ml-1" /> */}
-                            </span>
+                            Contact
+                        </NavLink>
+                        <NavLink
+                            className={`${({ isActive, isPending }) =>
+                                isPending
+                                    ? "pending"
+                                    : isActive
+                                    ? "active"
+                                    : ""} text-lightBlack lg:text-white dark:text-white  lg:border-b-0 px-3 py-2 w-full block transition-all duration-300 group relative `}
+                            to="faq"
+                        >
+                            FAQ
                         </NavLink>
                     </ul>
 

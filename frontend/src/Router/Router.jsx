@@ -31,6 +31,8 @@ import BanierePagesMod from "../backoffice/pages/banierePages/BanierePagesMod";
 import FooterImages from "../backoffice/pages/footer/FooterImages";
 // Backoffice - Address
 import Autocomplete from "../backoffice/pages/contact/Googlemaps";
+// Backoffice - FAQ
+import FAQ from "../backoffice/pages/faq/FAQ";
 
 // Starting React Router.
 const router = createBrowserRouter([
@@ -117,6 +119,10 @@ const router = createBrowserRouter([
       {
         path: "/backoffice/address",
         element: <Autocomplete />,
+      },
+      {
+        path: "/backoffice/faq",
+        element: <FAQ />,
       }
     ]
   },

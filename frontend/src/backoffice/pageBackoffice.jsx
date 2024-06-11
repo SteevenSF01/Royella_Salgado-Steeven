@@ -6,7 +6,7 @@ export default function PageBackoffice() {
     return (
         <section>
             <NavbarOffice />
-            <div className="h-fit bg-[#aeadac] dark:bg-normalBlack flex flex-col items-center pt-32">
+            <div className="h-fit dark:text-white bg-[#aeadac] dark:bg-normalBlack flex flex-col items-center pt-32 ">
                 <Link to="/">
                     <button className="bg-khaki text-white hover:bg-[rgba(141,115,77,0.9)] font-bold py-2 px-4 rounded-lg">
                         retour
