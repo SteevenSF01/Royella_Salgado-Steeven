@@ -79,14 +79,14 @@ export default function BanierePagesMod() {
     return (
         <>
             <div className="container mx-auto p-4">
-                <h1 className="text-2xl font-semibold mb-4">
+                <h1 className="text-2xl font-semibold mb-4 text-black dark:text-white">
                     Modifier le Background Image
                 </h1>
                 <form
                     onSubmit={handleSubmit}
                     className="space-y-4 bg-white p-6 rounded shadow-md"
                 >
-                    <div className="mb-4">
+                    <div className="mb-4 text-black">
                         <label
                             className="block text-gray-700 text-sm font-bold mb-2"
                             htmlFor="image"

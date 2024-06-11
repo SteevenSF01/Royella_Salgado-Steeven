@@ -110,7 +110,7 @@ const NavbarOffice = () => {
                                     ? "pending"
                                     : isActive
                                     ? "active"
-                                    : ""} text-lightBlack lg:text-white dark:text-white  lg:border-b-0 px-3 py-2 w-full block transition-all duration-300 group relative`}
+                                    : ""} text-lightBlack lg:text-white dark:text-white  lg:border-b-0  py-2 w-full block transition-all duration-300 group relative`}
                             to="heroHome"
                         >
                             <span className="flex items-center">Hero</span>
@@ -124,10 +124,7 @@ const NavbarOffice = () => {
                                     : ""} text-lightBlack lg:text-white dark:text-white  lg:border-b-0 px-3 py-2 w-full block transition-all duration-300 group relative `}
                             to="banierePages"
                         >
-                            <span className="flex items-center">
                                 baniere
-                                {/* <BiChevronDown className="ml-1" /> */}
-                            </span>
                         </NavLink>
                         <NavLink to="footerImages " className=" block">
                             <span className="flex items-center">
@@ -152,7 +149,7 @@ const NavbarOffice = () => {
                                     ? "pending"
                                     : isActive
                                     ? "active"
-                                    : ""} text-lightBlack lg:text-white dark:text-white  lg:border-b-0 px-3 py-2 w-full block transition-all duration-300 group relative `}
+                                    : ""} text-lightBlack lg:text-white dark:text-white  lg:border-b-0  py-2 w-full block transition-all duration-300 group relative `}
                             to="faq"
                         >
                             FAQ

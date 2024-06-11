@@ -122,8 +122,8 @@ export default function Searchbar() {
 
     return (
         <>
-            <section className="h-fit">
-                <div className="flex flex-col items-center py-10">
+            <section className="h-fit text-black dark:text-white ">
+                <div className="flex flex-col items-center py-10 text-black">
                     <input
                         type="text"
                         value={query}
@@ -150,7 +150,7 @@ export default function Searchbar() {
                         <>
                             <div className="w-[900px] flex justify-center gap-4 h-fit py-10">
                                 <form
-                                    className="w-full max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+                                    className="w-full max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-black"
                                     onSubmit={handleFormSubmit}
                                     key={data.id}
                                 >

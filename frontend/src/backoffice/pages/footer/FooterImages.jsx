@@ -92,9 +92,9 @@ export default function FooterImages() {
 
     return (
         <>
-            <div className="mx-auto p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mx-auto p-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-black">
                 <div className="mx-auto p-4 max-w-lg">
-                    <h1 className="text-2xl font-semibold mb-4">
+                    <h1 className="text-2xl font-semibold mb-4 text-black dark:text-white">
                         Upload les images du footer
                     </h1>
                     <div className="space-y-4 bg-white p-6 rounded shadow-md">
@@ -139,7 +139,7 @@ export default function FooterImages() {
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
-                    <h2 className="text-xl font-semibold mb-4 col-span-full">
+                    <h2 className="text-xl font-semibold mb-4 col-span-full text-black dark:text-white">
                         Footer Gallery
                     </h2>
                     {footerImages.map((image) => (

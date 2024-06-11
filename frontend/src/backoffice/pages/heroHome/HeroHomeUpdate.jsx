@@ -89,10 +89,10 @@ export default function HeroHomeUpdate() {
             notifyError();
         }
     };
-    
+
     return (
         <>
-            <section>
+            <section className="text-black">
                 <div className="container mx-auto p-4">
                     <form
                         onSubmit={handleSubmit}
