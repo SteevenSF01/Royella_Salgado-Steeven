@@ -10,4 +10,5 @@ if __name__ == '__main__':
     # seed.runBanierePages()
     # seed.runFooterGallery()
     # seed.runContact()
-    seed.runFAQ()
+    # seed.runFAQ()
+    seed.runFacilities()

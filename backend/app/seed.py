@@ -217,5 +217,43 @@ def runFAQ():
         seeder.add_entity(FAQ, 1, faq)
     pks = seeder.execute()
     print(pks)
+
+
+def runFacilities():
+    seeder = Seed.seeder()
+    facilities = [
+        {
+            "nom": "Fitness",
+            "sous_titre": "Gym Training Grounds",
+            "description": "Rapidiously myocardinate cross-platform intellectual capital after model. Appropriately create interactive infrastructures after are Holisticly facilitate stand-alone",
+            "photo": "images/facilities/fitness.jpg",
+            "order": 1
+        },
+        {
+            "nom": "Fitness",
+            "sous_titre": "Indoor Swiming Pool",
+            "description": "Rapidiously myocardinate cross-platform intellectual capital after model. Appropriately create interactive infrastructures after are Holisticly facilitate stand-alone",
+            "photo": "images/facilities/pool.jpg",
+            "order": 2
+        },
+        {
+            "nom": "Foods",
+            "sous_titre": "The Restaurant Center",
+            "description": "Rapidiously myocardinate cross-platform intellectual capital after model. Appropriately create interactive infrastructures after are Holisticly facilitate stand-alone",
+            "photo": "images/facilities/restaurant.jpg",
+            "order": 3
+        },
+        {
+            "nom": "Cinema",
+            "sous_titre": "The Cinema Center",
+            "description": "Rapidiously myocardinate cross-platform intellectual capital after model. Appropriately create interactive infrastructures after are Holisticly facilitate stand-alone",
+            "photo": "images/facilities/cinema.jpg",
+            "order": 4
+        }
+    ]
+    for facility in facilities:
+        seeder.add_entity(Facilities, 1, facility)
+    pks = seeder.execute()
+    print(pks)
     
     
