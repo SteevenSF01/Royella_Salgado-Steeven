@@ -62,12 +62,18 @@ const navListMenuItems = [
         link: "/backoffice/faq",
         icon: Bars4Icon,
     },
-    // {
-    //     title: "Services",
-    //     description: "Learn how we can help you achieve your goals.",
-    //     link: 'backoffice1',
-    //     icon: SunIcon,
-    // },
+    {
+        title: "Facilities",
+        description: "Find the perfect solution for your needs.",
+        link: '/backoffice/facilities',
+        icon: SunIcon,
+    },
+    {
+        title: "Services",
+        description: "Learn how we can help you achieve your goals.",
+        link: 'backoffice1',
+        icon: SunIcon,
+    },
     // {
     //     title: "Support",
     //     description: "Reach out to us for assistance or inquiries",

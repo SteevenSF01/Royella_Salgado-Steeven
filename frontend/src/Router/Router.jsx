@@ -33,6 +33,8 @@ import FooterImages from "../backoffice/pages/footer/FooterImages";
 import Autocomplete from "../backoffice/pages/contact/Googlemaps";
 // Backoffice - FAQ
 import FAQ from "../backoffice/pages/faq/FAQ";
+// Backoffice - Facilities
+import FacilitiesAll from "../backoffice/pages/facilities/FacilitiesAll";
 
 // Starting React Router.
 const router = createBrowserRouter([
@@ -123,6 +125,10 @@ const router = createBrowserRouter([
       {
         path: "/backoffice/faq",
         element: <FAQ />,
+      },
+      {
+        path: "/backoffice/facilities",
+        element: <FacilitiesAll />,
       }
     ]
   },

@@ -10,7 +10,8 @@ const Facilities = () => {
         const getData = async () => {
             try {
                 const res = await axios.get("/api/backoffice/facilities/");
-                setFacilities(res.data);
+                const resSlice = res.data.slice(0, 4);
+                setFacilities(resSlice);
             } catch (error) {
                 console.log(error);
             }
