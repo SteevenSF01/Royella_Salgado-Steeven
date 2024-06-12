@@ -81,5 +81,7 @@ class FAQ(models.Model):
 
 class Facilities(models.Model):
     nom = models.CharField(max_length=50)
+    sous_titre = models.CharField(max_length=50)
     description = models.TextField(default='')
     photo = models.ImageField(upload_to='images/facilities', null=True, blank=True)
+    order = models.PositiveIntegerField(unique=True)

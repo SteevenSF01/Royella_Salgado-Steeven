@@ -1,4 +1,4 @@
-from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact, FAQ
+from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact, FAQ, Facilities
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 
@@ -60,4 +60,11 @@ class ContactSerializer(serializers.ModelSerializer):
 class FAQSerializer(serializers.ModelSerializer):
     class Meta:
         model = FAQ
+        fields = '__all__'
+    
+# Facilities #
+
+class FacilitiesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Facilities
         fields = '__all__'
