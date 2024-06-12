@@ -76,3 +76,10 @@ class FAQ(models.Model):
     question = models.CharField(max_length=150)
     reponse = models.TextField()
     active = models.BooleanField(default=False)
+    
+# Facilities #
+
+class Facilities(models.Model):
+    nom = models.CharField(max_length=50)
+    description = models.TextField(default='')
+    photo = models.ImageField(upload_to='images/facilities', null=True, blank=True)

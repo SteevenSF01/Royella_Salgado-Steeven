@@ -35,31 +35,31 @@ const navListMenuItems = [
     {
         title: "Hero Home",
         description: "Section Hero",
-        link: 'heroHome',
+        link: "/backoffice/heroHome",
         icon: SquaresPlusIcon,
     },
     {
         title: "Baniere Pages",
         description: "Section Baniere Pages",
-        link: 'banierePages',
+        link: "/backoffice/banierePages",
         icon: UserGroupIcon,
     },
     {
         title: "Footer Images",
         description: "Section Footer Images",
-        link: 'footerImages',
+        link: "/backoffice/footerImages",
         icon: Bars4Icon,
     },
     {
         title: "Contact",
         description: "Section Contact",
-        link: 'address',
+        link: "/backoffice/address",
         icon: Bars4Icon,
     },
     {
         title: "Faq",
         description: "Section Faq",
-        link: 'faq',
+        link: "/backoffice/faq",
         icon: Bars4Icon,
     },
     // {
@@ -105,7 +105,7 @@ function NavListMenu() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const renderItems = navListMenuItems.map(
-        ({ icon, title, description, link, }, key) => (
+        ({ icon, title, description, link }, key) => (
             <a href={link} key={key}>
                 <MenuItem className="flex items-center gap-3 rounded-lg">
                     <div className="flex items-center justify-center rounded-lg bg-blue-gray-50 p-2">
@@ -212,100 +212,105 @@ function NavList() {
 }
 
 export default function Navbaroffice() {
-  const [isDarkMode, setIsDarkMode] = useState(
-      localStorage.getItem("darkMode") === "true"
-  );
+    const [isDarkMode, setIsDarkMode] = useState(
+        localStorage.getItem("darkMode") === "true"
+    );
 
+    const [openNav, setOpenNav] = useState(false);
 
-  const [openNav, setOpenNav] = useState(false);
+    const handleClick = () => {
+        const newMode = !isDarkMode;
+        setIsDarkMode(newMode);
+        localStorage.setItem("darkMode", newMode);
+        document.documentElement.classList.toggle("dark", newMode);
+    };
 
-  const handleClick = () => {
-      const newMode = !isDarkMode;
-      setIsDarkMode(newMode);
-      localStorage.setItem("darkMode", newMode);
-      document.documentElement.classList.toggle("dark", newMode); 
-  };
+    useEffect(() => {
+        window.addEventListener(
+            "resize",
+            () => window.innerWidth >= 960 && setOpenNav(false)
+        );
+        document.documentElement.classList.toggle("dark", isDarkMode);
 
-  useEffect(() => {
-      window.addEventListener(
-          "resize",
-          () => window.innerWidth >= 960 && setOpenNav(false)
-      );
-      document.documentElement.classList.toggle("dark", isDarkMode);
+        return () => {
+            window.removeEventListener(
+                "resize",
+                () => window.innerWidth >= 960 && setOpenNav(false)
+            );
+        };
+    }, [isDarkMode]);
 
-      return () => {
-          window.removeEventListener(
-              "resize",
-              () => window.innerWidth >= 960 && setOpenNav(false)
-          );
-      };
-  }, [isDarkMode]);
-
-  return (
-    <section className="flex justify-center backdrop-blur-sm fixed w-full z-30">
+    return (
+        <section className="flex justify-center backdrop-blur-sm fixed w-full z-30">
             <Navbar className="mx-auto w-full px-4 py-2  bg-khaki text-white flex-grow z-40 mt-3  ">
-          <div className="flex items-center justify-between">
-              <Typography
-                  as="a"
-                  href="#"
-                  variant="h6"
-                  className="mr-4 cursor-pointer py-1.5 lg:ml-2 text-white"
-              >
-                  Royella Backoffice
-              </Typography>
-              <div className="hidden lg:block">
-                  <NavList />
-              </div>
-              <div className="hidden gap-2 lg:flex">
-                  <span onClick={handleClick} className="mr-3 cursor-pointer">
-                      {isDarkMode ? (
-                          <BiSun
-                              className="text-white"
-                              title="Apply Light Mode"
-                              size={20}
-                          />
-                      ) : (
-                          <IoMoonSharp
-                              size={20}
-                              className="text-white"
-                              title="Apply Dark Mode"
-                          />
-                      )}
-                  </span>{" "}
-              </div>
-              <IconButton
-                  variant="text"
-                  className="lg:hidden text-white"
-                  onClick={() => setOpenNav(!openNav)}
-              >
-                  {openNav ? (
-                      <XMarkIcon className="h-6 w-6" strokeWidth={2} />
-                  ) : (
-                      <Bars3Icon className="h-6 w-6" strokeWidth={2} />
-                  )}
-              </IconButton>
-          </div>
-          <Collapse open={openNav}>
-              <NavList />
-              <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
-                  <span onClick={handleClick} className="mr-3 cursor-pointer">
-                      {isDarkMode ? (
-                          <BiSun
-                              className="text-white"
-                              title="Apply Light Mode"
-                              size={20}
-                          />
-                      ) : (
-                          <IoMoonSharp
-                              size={20}
-                              className="text-white"
-                              title="Apply Dark Mode"
-                          />
-                      )}
-                  </span>
-              </div>
-          </Collapse>
-      </Navbar>
-    </section>
-  );
+                <div className="flex items-center justify-between">
+                    <Typography
+                        as="a"
+                        href="/"
+                        variant="h6"
+                        className="mr-4 cursor-pointer py-1.5 lg:ml-2 text-white"
+                    >
+                        Royella Backoffice
+                    </Typography>
+                    <div className="hidden lg:block">
+                        <NavList />
+                    </div>
+                    <div className="hidden gap-2 lg:flex">
+                        <span
+                            onClick={handleClick}
+                            className="mr-3 cursor-pointer"
+                        >
+                            {isDarkMode ? (
+                                <BiSun
+                                    className="text-white"
+                                    title="Apply Light Mode"
+                                    size={20}
+                                />
+                            ) : (
+                                <IoMoonSharp
+                                    size={20}
+                                    className="text-white"
+                                    title="Apply Dark Mode"
+                                />
+                            )}
+                        </span>{" "}
+                    </div>
+                    <IconButton
+                        variant="text"
+                        className="lg:hidden text-white"
+                        onClick={() => setOpenNav(!openNav)}
+                    >
+                        {openNav ? (
+                            <XMarkIcon className="h-6 w-6" strokeWidth={2} />
+                        ) : (
+                            <Bars3Icon className="h-6 w-6" strokeWidth={2} />
+                        )}
+                    </IconButton>
+                </div>
+                <Collapse open={openNav}>
+                    <NavList />
+                    <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
+                        <span
+                            onClick={handleClick}
+                            className="mr-3 cursor-pointer"
+                        >
+                            {isDarkMode ? (
+                                <BiSun
+                                    className="text-white"
+                                    title="Apply Light Mode"
+                                    size={20}
+                                />
+                            ) : (
+                                <IoMoonSharp
+                                    size={20}
+                                    className="text-white"
+                                    title="Apply Dark Mode"
+                                />
+                            )}
+                        </span>
+                    </div>
+                </Collapse>
+            </Navbar>
+        </section>
+    );
 }
