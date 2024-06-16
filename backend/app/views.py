@@ -51,33 +51,29 @@ class FAQView(viewsets.ModelViewSet):
     serializer_class = FAQSerializer
     
 # Facilities #
-
-class FacilitiesView(viewsets.ModelViewSet):
-    queryset = Facilities.objects.all().order_by('order')
+class FacilitiesViewSet(viewsets.ModelViewSet):
+    queryset = Facilities.objects.all()
     serializer_class = FacilitiesSerializer
 
-    @action(detail=True, methods=['post'], url_path='change-order')
-    def change_order(self, request, pk=None):
-        facility = self.get_object()
+    def reorder_facilities(self, request):
+        facility_id = request.data.get('facility_id')
         new_order = request.data.get('new_order')
 
-        if new_order is None:
-            return Response({'error': 'new_order not provided'}, status=status.HTTP_400_BAD_REQUEST)
-
-        new_order = int(new_order)
-
-        if facility.order == new_order:
-            return Response({'status': 'success'}, status=status.HTTP_200_OK)
-
         try:
-            if facility.order < new_order:
-                Facilities.objects.filter(order__gt=facility.order, order__lte=new_order).update(order=F('order') - 1)
-            else:
-                Facilities.objects.filter(order__lt=facility.order, order__gte=new_order).update(order=F('order') + 1)
+            # On récupére 2 id pour faire un interchangement
+            facility_to_move = Facilities.objects.get(id=facility_id)
+            facility_to_swap = Facilities.objects.get(order=new_order)
 
-            facility.order = new_order
-            facility.save()
+            # On changer 'Order' avec celui qui prends sa place
+            temp_order = facility_to_move.order
+            facility_to_move.order = facility_to_swap.order
+            facility_to_swap.order = temp_order
 
-            return Response({'status': 'success'}, status=status.HTTP_200_OK)
+            facility_to_move.save()
+            facility_to_swap.save()
+
+            return Response({"message": "Les facilities on bien été reordonnées"}, status=status.HTTP_200_OK)
+        except Facilities.DoesNotExist:
+            return Response({"message": "Cette facilitie n'existe pas"}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"message": "Une erreur est survenue"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
