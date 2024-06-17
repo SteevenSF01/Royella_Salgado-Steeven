@@ -65,9 +65,9 @@ class FacilitiesViewSet(viewsets.ModelViewSet):
             facility_to_swap = Facilities.objects.get(order=new_order)
 
             # On changer 'Order' avec celui qui prends sa place
-            temp_order = facility_to_move.order
+            # temp_order = facility_to_move.order
             facility_to_move.order = facility_to_swap.order
-            facility_to_swap.order = temp_order
+            facility_to_swap.order = facility_to_move.order
 
             facility_to_move.save()
             facility_to_swap.save()

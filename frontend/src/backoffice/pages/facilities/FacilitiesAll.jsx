@@ -5,9 +5,15 @@ import { useState, useEffect } from "react";
 
 const FacilitiesAll = () => {
     const [facilities, setFacilities] = useState([]);
+    const [newOrder, setNewOrder] = useState(1);
     const [editMode, setEditMode] = useState(null);
-    const [editData, setEditData] = useState({ nom: '', sous_titre: '', description: '', order: null });
-
+    const [editData, setEditData] = useState({
+        nom: "",
+        sous_titre: "",
+        description: "",
+        order: newOrder,
+    });
+    // GET les données
     useEffect(() => {
         const getData = async () => {
             try {
@@ -20,24 +26,24 @@ const FacilitiesAll = () => {
         };
         getData();
     }, []);
-
+    // Function pour edit
     const handleEdit = (facilitie) => {
-        setEditMode(facilitie.order);
-        setEditData({ nom: facilitie.nom, sous_titre: facilitie.sous_titre, description: facilitie.description, order: facilitie.order });
+        setEditMode(facilitie.id);
+        setEditData({
+            nom: facilitie.nom,
+            sous_titre: facilitie.sous_titre,
+            description: facilitie.description,
+            order: newOrder,
+        });
     };
-
+    // Function pour changer les données
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setEditData({ ...editData, [name]: value });
     };
-
+    // Function pour sauvegarder les données
     const handleSave = async (id) => {
         try {
-            // if (facilities.some(facility => facility.order === editData.order && facility.id !== id)) {
-            //     console.log("¡La posición seleccionada ya está ocupada por otra facilidad!");
-            //     return;
-            // }
-
             await axios.put(`/api/backoffice/facilities/${id}/`, editData);
             setEditMode(null);
             const res = await axios.get("/api/backoffice/facilities/");
@@ -54,11 +60,15 @@ const FacilitiesAll = () => {
                 <div className="">
                     {facilities &&
                         facilities.map((facilitie) => {
-                            const isEditing = editMode === facilitie.order;
+                            // Pour eviter que l'edit s'ouvre dans tout les facilities en mettant que l'useState soit égale à facilitie.id
+                            const isEditing = editMode === facilitie.id;
                             return facilitie.order % 2 === 0 ? (
                                 <>
                                     <hr className="text-[#e8e8e8] dark:text-[#383838] mb-10 mt-10" />
-                                    <div className="grid grid-cols-1 md:grid-cols-2" key={facilitie.id}>
+                                    <div
+                                        className="grid grid-cols-1 md:grid-cols-2"
+                                        key={facilitie.id}
+                                    >
                                         <div className="relative w-full h-[100%] md:pr-[30px]">
                                             <img
                                                 src={facilitie.photo}
@@ -78,45 +88,88 @@ const FacilitiesAll = () => {
                                                         type="text"
                                                         name="nom"
                                                         value={editData.nom}
-                                                        onChange={handleInputChange}
+                                                        onChange={
+                                                            handleInputChange
+                                                        }
                                                         className="w-full mb-2 text-black"
                                                     />
                                                     <input
                                                         type="text"
                                                         name="sous_titre"
-                                                        value={editData.sous_titre}
-                                                        onChange={handleInputChange}
+                                                        value={
+                                                            editData.sous_titre
+                                                        }
+                                                        onChange={
+                                                            handleInputChange
+                                                        }
                                                         className="w-full mb-2 text-black"
                                                     />
                                                     <textarea
                                                         name="description"
-                                                        value={editData.description}
-                                                        onChange={handleInputChange}
+                                                        value={
+                                                            editData.description
+                                                        }
+                                                        onChange={
+                                                            handleInputChange
+                                                        }
                                                         className="w-full mb-2"
                                                     ></textarea>
                                                     <select
                                                         value={editData.order}
-                                                        onChange={handleInputChange}
+                                                        onChange={
+                                                            handleInputChange
+                                                        }
                                                         name="order"
                                                         className="w-full mb-2 text-black"
                                                     >
-                                                        {facilities.map((facility) => (
-                                                            <option key={facility.order} value={facility.order}>
-                                                                {facility.order}
-                                                            </option>
-                                                        ))}
+                                                        {facilities.map(
+                                                            (facility) => (
+                                                                <option
+                                                                    key={
+                                                                        facility.order
+                                                                    }
+                                                                    value={
+                                                                        facility.order
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        facility.order
+                                                                    }
+                                                                </option>
+                                                            )
+                                                        )}
                                                     </select>
-                                                    <button onClick={() => handleSave(facilitie.id)} className="bg-khaki text-white px-3 py-1 mb-2 rounded-lg">Sauvegarder</button>
+                                                    <button
+                                                        onClick={() =>
+                                                            handleSave(
+                                                                facilitie.id
+                                                            )
+                                                        }
+                                                        className="bg-khaki text-white px-3 py-1 mb-2 rounded-lg"
+                                                    >
+                                                        Sauvegarder
+                                                    </button>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <button onClick={() => handleEdit(facilitie)} className="bg-khaki text-white px-3 py-1 mb-2 rounded-lg">Modifier</button>
+                                                    <button
+                                                        onClick={() =>
+                                                            handleEdit(
+                                                                facilitie
+                                                            )
+                                                        }
+                                                        className="bg-khaki text-white px-3 py-1 mb-2 rounded-lg"
+                                                    >
+                                                        Modifier
+                                                    </button>
                                                     <h4 className="text-base font-semibold text-khaki leading-[26px] pb-[6px] uppercase mt-2 md:mt-0">
                                                         {facilitie.nom}
                                                     </h4>
                                                     <h1 className="text-2xl md:text-3xl 2xl:text-[32px] leading-[26px] font-semibold text-lightBlack dark:text-white">
                                                         <Link to="/service_details">
-                                                            {facilitie.sous_titre}
+                                                            {
+                                                                facilitie.sous_titre
+                                                            }
                                                         </Link>
                                                     </h1>
                                                     <p className="font-Lora text-sm sm:text-base text-gray dark:text-lightGray leading-[26px] font-normal my-10 lg:mt-[46px] lg:mb-[40px] before:absolute before:h-[30px] before:left-0 before:top-[-35px] before:bg-[#ddd] before:w-[1px] relative">
@@ -136,7 +189,10 @@ const FacilitiesAll = () => {
                             ) : (
                                 <>
                                     <hr className="text-[#e8e8e8] dark:text-[#383838] mb-10 mt-10" />
-                                    <div className="grid grid-cols-1 md:grid-cols-2" key={facilitie.id}>
+                                    <div
+                                        className="grid grid-cols-1 md:grid-cols-2"
+                                        key={facilitie.id}
+                                    >
                                         <div className="font-Garamond md:mr-[2px] lg:mr-[110px] h-full text-black">
                                             {isEditing ? (
                                                 <>
@@ -144,45 +200,88 @@ const FacilitiesAll = () => {
                                                         type="text"
                                                         name="nom"
                                                         value={editData.nom}
-                                                        onChange={handleInputChange}
+                                                        onChange={
+                                                            handleInputChange
+                                                        }
                                                         className="w-full mb-2"
                                                     />
                                                     <input
                                                         type="text"
                                                         name="sous_titre"
-                                                        value={editData.sous_titre}
-                                                        onChange={handleInputChange}
+                                                        value={
+                                                            editData.sous_titre
+                                                        }
+                                                        onChange={
+                                                            handleInputChange
+                                                        }
                                                         className="w-full mb-2"
                                                     />
                                                     <textarea
                                                         name="description"
-                                                        value={editData.description}
-                                                        onChange={handleInputChange}
+                                                        value={
+                                                            editData.description
+                                                        }
+                                                        onChange={
+                                                            handleInputChange
+                                                        }
                                                         className="w-full mb-2"
                                                     ></textarea>
                                                     <select
                                                         value={editData.order}
-                                                        onChange={handleInputChange}
+                                                        onChange={
+                                                            handleInputChange
+                                                        }
                                                         name="order"
                                                         className="w-full mb-2 text-black"
                                                     >
-                                                        {facilities.map((facility) => (
-                                                            <option key={facility.order} value={facility.order}>
-                                                                {facility.order}
-                                                            </option>
-                                                        ))}
+                                                        {facilities.map(
+                                                            (facility) => (
+                                                                <option
+                                                                    key={
+                                                                        facility.order
+                                                                    }
+                                                                    value={
+                                                                        facility.order
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        facility.order
+                                                                    }
+                                                                </option>
+                                                            )
+                                                        )}
                                                     </select>
-                                                    <button onClick={() => handleSave(facilitie.id)} className="bg-khaki text-white px-3 py-1 mb-2 rounded-lg">Sauvegarder</button>
+                                                    <button
+                                                        onClick={() =>
+                                                            handleSave(
+                                                                facilitie.id
+                                                            )
+                                                        }
+                                                        className="bg-khaki text-white px-3 py-1 mb-2 rounded-lg"
+                                                    >
+                                                        Sauvegarder
+                                                    </button>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <button onClick={() => handleEdit(facilitie)} className="bg-khaki text-white px-3 py-1 mb-2 rounded-lg">Modifier</button>
+                                                    <button
+                                                        onClick={() =>
+                                                            handleEdit(
+                                                                facilitie
+                                                            )
+                                                        }
+                                                        className="bg-khaki text-white px-3 py-1 mb-2 rounded-lg"
+                                                    >
+                                                        Modifier
+                                                    </button>
                                                     <h4 className="text-base font-semibold text-khaki leading-[26px] pb-[6px] uppercase">
                                                         {facilitie.nom}
                                                     </h4>
                                                     <h1 className="text-2xl md:text-3xl 2xl:text-[32px] leading-[26px] font-semibold text-lightBlack dark:text-white">
                                                         <Link to="/service_details">
-                                                            {facilitie.sous_titre}
+                                                            {
+                                                                facilitie.sous_titre
+                                                            }
                                                         </Link>
                                                     </h1>
                                                     <p className="font-Lora relative text-sm sm:text-base text-gray dark:text-lightGray leading-[26px] font-normal my-10 lg:mt-[46px] lg:mb-[40px] before:absolute before:h-[30px] before:left-0 before:top-[-35px] before:bg-[#ddd] before:w-[1px]">
@@ -220,4 +319,4 @@ const FacilitiesAll = () => {
     );
 };
 
-export default FacilitiesAll
+export default FacilitiesAll;
