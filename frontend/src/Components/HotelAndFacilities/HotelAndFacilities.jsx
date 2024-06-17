@@ -161,7 +161,7 @@ const HotelAndFacilities = () => {
                                                     left: 0;
                                                     top: 0;
                                                     background-image: var(
-                                                    --facility-before-bg
+                                                        --facility-before-bg
                                                     );
                                                     background-size: cover;
                                                     background-position: center;
@@ -174,12 +174,12 @@ const HotelAndFacilities = () => {
                                                 @media (min-width: 768px) {
                                                     .facility-card:hover::before {
                                                         width: 100%;
+                                                        }
                                                     }
-                                                }
-                                                @media (min-width: 1280px) {
-                                                    .facility-card::before {
-                                                        right: -222px;
-                                                    }
+                                                    @media (min-width: 1280px) {
+                                                      .facility-card::before {
+                                                          left: -218px;
+                                                      }
                                                     .facility-card:hover::before {
                                                         width: 100%;
                                                     }
