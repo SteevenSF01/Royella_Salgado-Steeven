@@ -1,4 +1,24 @@
+import axios from "axios";
+import { useState, useEffect } from "react";
+
 const HotelAndFacilities = () => {
+    const [facilities, setFacilities] = useState([]);
+    const [facilitie, setFacilitie] = useState("");
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get("/api/backoffice/facilitiesRoom");
+                const data = res.data.slice(1, 6);
+                setFacilities(data);
+                const facilitie = res.data[0];
+                setFacilitie(facilitie);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
+    console.log(facilitie, facilities);
     return (
         <section className="bg-lightBlack z-[1]">
             <div className="py-[110px] bg-[url('/images/home-1/section-shape2.png')] bg-no-repeat bg-top bg-opacity-[0.07]">
@@ -33,97 +53,147 @@ const HotelAndFacilities = () => {
                         data-aos="fade-up"
                         data-aos-duration="1000"
                     >
-                        <div className="h-[200px] w-[191px] pt-[37px] pb-[27px] border border-[#343434] text-center transition-all duration-500 relative z-[1] before:bg-[url('/images/home-1/feature-imgs-1.jpg')] before:absolute before:w-0 before:h-full before:left-[-0px] xl:before:right-[-222px] 3xl:before:left-[-222px] before:top-0 before:transition-all before:duration-500 before:bg-cover before:bg-center hover:before:w-[100%] hover:before:z-[1] md:hover:before:w-[114%] xl:hover:before:w-[116%]  group  after:absolute after:w-0 after:h-full after:left-0 after:top-0 after:hover:bg-[#272727] after:transition after:duration-500 after:z-[-1] after:hover:w-full">
-                            <div>
-                                <img
-                                    src="/images/home-1/feature-1.png"
-                                    alt=""
-                                    className="mx-auto"
-                                />
-                            </div>
-                            <div className="">
-                                <h4 className="text-[22px] leading-[52px] font-Garamond text-white font-medium mt-[45px] relative before:absolute before:w-[1px] before:h-[25px] before:left-[50%] before:top-[-27px] before:bg-slate-500 before:group-hover:bg-khaki">
-                                    Room Services
-                                </h4>
-                            </div>
-                        </div>
+                        {facilitie && (
+                            <div className="container">
+                                <div className="content">
+                                    <img
+                                        src={facilitie.logo}
+                                        alt={facilitie.nom}
+                                        className="logo"
+                                    />
+                                    <h4 className="title">{facilitie.nom}</h4>
+                                </div>
+                                <style jsx>{`
+                                    .container {
+                                        height: 200px;
+                                        width: 197px;
+                                        padding-top: 37px;
+                                        padding-bottom: 27px;
+                                        border: 1px solid #343434;
+                                        text-align: center;
+                                        transition: all 500ms;
+                                        position: relative;
+                                        z-index: 1;
+                                    }
 
+                                    .container:before {
+                                        content: "";
+                                        background-image: url(${facilitie.image});
+                                        position: absolute;
+                                        width: 0;
+                                        height: 100%;
+                                        left: -0px;
+                                        top: 0;
+                                        transition: all 700ms;
+                                        background-size: cover;
+                                        background-position: center;
+                                    }
 
-                        <div className="pt-[37px] pb-[27px] border border-[#343434] h-[200px] w-[191px] text-center transition-all duration-500 relative z-[1] before:bg-[url('/images/home-1/feature-imgs-1.jpg')] before:absolute before:w-0 before:h-full before:left-[-0px] 2xl:before:left-[-222px] before:top-0 before:transition-all before:duration-500 before:bg-cover before:bg-center hover:before:w-[100%] hover:before:z-[1]  md:hover:before:w-[114%] xl:hover:before:w-[116%] after:absolute after:w-0 after:h-full after:left-0 after:top-0 after:hover:bg-[#272727] after:transition after:duration-500 after:z-[-1] after:hover:w-full ">
-                            <div>
-                                <img
-                                    src="/images/home-1/feature-2.png"
-                                    alt=""
-                                    className="mx-auto"
-                                />
-                            </div>
-                            <div className="">
-                                <h4 className="text-[22px] leading-[52px] font-Garamond text-white font-medium mt-[45px] relative before:absolute before:w-[1px] before:h-[25px] before:left-[50%] before:top-[-27px] before:bg-slate-500 before:group-hover:bg-khaki">
-                                    Wi-Fi Internet
-                                </h4>
-                            </div>
-                        </div>
+                                    .container:hover:before {
+                                        width: 100%;
+                                        z-index: 1;
+                                    }
 
+                                    .content {
+                                        position: relative;
+                                    }
 
-                        <div className={`pt-[37px] pb-[27px] border border-[#343434] h-[200px] w-[191px] text-center transition-all duration-500 relative z-[1] before:bg-[url('/images/home-1/feature-imgs-1.jpg')] before:absolute before:w-0 before:h-full before:left-[-0px] 2xl:before:left-[-222px] before:top-0 before:transition-all before:duration-500 before:bg-cover before:bg-center  hover:before:w-[100%] hover:before:z-[1] md:hover:before:w-[114%] xl:hover:before:w-[116%] group after:absolute after:w-0 after:h-full after:left-0 after:top-0 after:hover:bg-[#272727] after:transition after:duration-500 after:z-[-1] after:hover:w-full `}>
-                            <div>
-                                <img
-                                    src="/images/home-1/feature-3.png"
-                                    alt=""
-                                    className="mx-auto"
-                                />
-                            </div>
-                            <div className="">
-                                <h4 className="text-[22px] leading-[52px] font-Garamond text-white font-medium mt-[45px] relative before:absolute before:w-[1px] before:h-[25px] before:left-[50%] before:top-[-27px] before:bg-slate-500 before:group-hover:bg-khaki">
-                                    Smart Key
-                                </h4>
-                            </div>
-                        </div>
+                                    .logo {
+                                        margin: auto;
+                                    }
 
-                        <div className="pt-[37px] pb-[27px] border border-[#343434] h-[200px] w-[191px] text-center transition-all duration-500 relative z-[1] before:bg-[url('/images/home-1/feature-imgs-1.jpg')] before:absolute before:w-0 before:h-full before:left-[-0px] 2xl:before:left-[-222px] before:top-0 before:transition-all before:duration-500 before:bg-cover before:bg-center  hover:before:w-[100%] hover:before:z-[1] md:hover:before:w-[114%] xl:hover:before:w-[116%] group after:absolute after:w-0 after:h-full after:left-0 after:top-0 after:hover:bg-[#272727] after:transition after:duration-500 after:z-[-1] after:hover:w-full ">
-                            <div>
-                                <img
-                                    src="/images/home-1/feature-4.png"
-                                    alt=""
-                                    className="mx-auto"
-                                />
-                            </div>
-                            <div className="">
-                                <h4 className="text-[22px] leading-[52px] font-Garamond text-white font-medium mt-[45px] relative before:absolute before:w-[1px] before:h-[25px] before:left-[50%] before:top-[-27px] before:bg-slate-500 before:group-hover:bg-khaki">
-                                    Breakfast
-                                </h4>
-                            </div>
-                        </div>
+                                    .title {
+                                        font-size: 22px;
+                                        line-height: 52px;
+                                        font-family: Garamond;
+                                        color: white;
+                                        font-weight: medium;
+                                        margin-top: 45px;
+                                        position: relative;
+                                    }
 
-                        <div className="pt-[37px] pb-[27px] border border-[#343434] h-[200px] w-[191px] text-center transition-all duration-500 relative z-[1] before:bg-[url('/images/home-1/feature-imgs-1.jpg')] before:absolute before:w-0 before:h-full before:left-[-0px] 2xl:before:left-[-222px] before:top-0 before:transition-all before:duration-500 before:bg-cover before:bg-center  hover:before:w-[100%] hover:before:z-[1] md:hover:before:w-[114%] xl:hover:before:w-[116%] group after:absolute after:w-0 after:h-full after:left-0 after:top-0 after:hover:bg-[#272727] after:transition after:duration-500 after:z-[-1] after:hover:w-full ">
-                            <div>
-                                <img
-                                    src="/images/home-1/feature-5.png"
-                                    alt=""
-                                    className="mx-auto"
-                                />
-                            </div>
-                            <div className="">
-                                <h4 className="text-[22px] leading-[52px] font-Garamond text-white font-medium mt-[45px] relative before:absolute before:w-[1px] before:h-[25px] before:left-[50%] before:top-[-27px] before:bg-slate-500 before:group-hover:bg-khaki">
-                                    Swimming Pool
-                                </h4>
-                            </div>
-                        </div>
+                                    .title:before {
+                                        content: "";
+                                        width: 1px;
+                                        height: 25px;
+                                        background-color: #808080;
+                                        position: absolute;
+                                        left: 50%;
+                                        top: -27px;
+                                    }
 
-                        <div className="pt-[37px] pb-[27px] border border-[#343434] h-[200px] w-[191px] text-center transition-all duration-500 relative z-[1] before:bg-[url('/images/home-1/feature-imgs-1.jpg')] before:absolute before:w-0 before:h-full before:left-[-0px] 2xl:before:left-[-222px] before:top-0 before:transition-all before:duration-500 before:bg-cover before:bg-center  hover:before:w-[100%] hover:before:z-[1] md:hover:before:w-[114%] xl:hover:before:w-[116%] group after:absolute after:w-0 after:h-full after:left-0 after:top-0 after:hover:bg-[#272727] after:transition after:duration-500 after:z-[-1] after:hover:w-full ">
-                            <div>
-                                <img
-                                    src="/images/home-1/feature-1.png"
-                                    alt=""
-                                    className="mx-auto"
-                                />
+                                    .title:hover:before {
+                                        background-color: #f0e68c;
+                                    }
+                                `}</style>
                             </div>
-                            <div className="">
-                                <h4 className="text-[22px] leading-[52px] font-Garamond text-white font-medium mt-[45px] relative before:absolute before:w-[1px] before:h-[25px] before:left-[50%] before:top-[-27px] before:bg-slate-500 before:group-hover:bg-khaki">
-                                    Room Service
-                                </h4>
-                            </div>
-                        </div>
+                        )}
+
+                        {facilities &&
+                            facilities.map((facilitie) => {
+                                return (
+                                    <>
+                                        <div
+                                            key={facilitie.id}
+                                            className="h-[200px] w-[197px] pt-[37px] pb-[27px] border border-[#343434] text-center transition-all duration-500 relative z-[1] group facility-card"
+                                            style={{
+                                                "--facility-before-bg": `url(${facilitie.image})`,
+                                            }}
+                                        >
+                                            <div className="flex items-center justify-center">
+                                                <img
+                                                    src={facilitie.logo}
+                                                    alt={facilitie.nom}
+                                                    className="w-[50px] h-[50px]"
+                                                />
+                                            </div>
+                                            <div className="">
+                                                <h4 className="text-[22px] leading-[52px] font-Garamond text-white font-medium mt-[45px] relative before:absolute before:w-[1px] before:h-[25px] before:left-[50%] before:top-[-27px] before:bg-slate-500 before:group-hover:bg-khaki">
+                                                    {facilitie.nom}
+                                                </h4>
+                                            </div>
+                                            <style jsx>{`
+                                                .facility-card::before {
+                                                    content: "";
+                                                    position: absolute;
+                                                    width: 0;
+                                                    height: 100%;
+                                                    left: 0;
+                                                    top: 0;
+                                                    background-image: var(
+                                                    --facility-before-bg
+                                                    );
+                                                    background-size: cover;
+                                                    background-position: center;
+                                                    transition: all 0.5s;
+                                                    z-index: 1;
+                                                }
+                                                .facility-card:hover::before {
+                                                    width: 100%;
+                                                }
+                                                @media (min-width: 768px) {
+                                                    .facility-card:hover::before {
+                                                        width: 100%;
+                                                    }
+                                                }
+                                                @media (min-width: 1280px) {
+                                                    .facility-card::before {
+                                                        right: -222px;
+                                                    }
+                                                    .facility-card:hover::before {
+                                                        width: 100%;
+                                                    }
+                                                }
+                                                @media (min-width: 1920px) {
+                                                    .facility-card::before {
+                                                        left: -222px;
+                                                    }
+                                                }
+                                            `}</style>
+                                        </div>
+                                    </>
+                                );
+                            })}
                     </div>
                 </div>
             </div>
