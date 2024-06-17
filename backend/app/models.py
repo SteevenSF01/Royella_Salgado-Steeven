@@ -90,3 +90,25 @@ class FacilitiesRoom(models.Model):
     nom = models.CharField(max_length=50)
     logo = models.ImageField(upload_to='images/facilitiesRoom', null=True, blank=True)
     image = models.ImageField(upload_to='images/facilitiesRoom', null=True, blank=True)
+
+# Rooms #
+
+class Rooms(models.Model):
+    nom = models.CharField(max_length=50)
+    description = models.TextField(default='')
+    photo = models.ImageField(upload_to='images/rooms', null=True, blank=True)
+    etoiles = models.PositiveIntegerField()
+    lit = models.PositiveIntegerField()
+    nom_lit = models.CharField(max_length=50)
+    prix = models.PositiveIntegerField()
+    adultes = models.PositiveIntegerField()
+    enfants = models.PositiveIntegerField()
+    max_adultes = models.PositiveIntegerField()
+    max_enfants = models.PositiveIntegerField()
+    date_in = models.DateField()
+    date_out = models.DateField()
+    superficie = models.PositiveIntegerField()
+    amenities = models.ManyToManyField(FacilitiesRoom, blank=True)
+    prom_start = models.DateField()
+    prom_end = models.DateField()
+    
