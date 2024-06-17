@@ -85,3 +85,8 @@ class Facilities(models.Model):
     description = models.TextField(default='')
     photo = models.ImageField(upload_to='images/facilities', null=True, blank=True)
     order = models.PositiveIntegerField(unique=True)
+    
+class FacilitiesRoom(models.Model):
+    nom = models.CharField(max_length=50)
+    logo = models.ImageField(upload_to='images/facilitiesRoom', null=True, blank=True)
+    image = models.ImageField(upload_to='images/facilitiesRoom', null=True, blank=True)

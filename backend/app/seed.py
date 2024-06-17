@@ -256,4 +256,43 @@ def runFacilities():
     pks = seeder.execute()
     print(pks)
     
+
+def runFacilitiesRoom():
+    seeder = Seed.seeder()
+    facilities_rooms = [
+        {
+            "nom": "Room Services",
+            "logo": "images/facilitiesRoom/room-service-logo.svg",
+            "image": "images/facilitiesRoom/roomService.jpg",
+        },
+        {
+            "nom": "Wi-Fi Internet",
+            "logo": "images/facilitiesRoom/wifi-logo.svg",
+            "image": "images/facilitiesRoom/wifi.jpg",
+        },
+        {
+            "nom": "Smart Key",
+            "logo": "images/facilitiesRoom/key-card-logo.svg",
+            "image": "images/facilitiesRoom/smartKey.jpg",
+        },
+        {
+            "nom": "Breakfast",
+            "logo": "images/facilitiesRoom/breakfast-logo.svg",
+            "image": "images/facilitiesRoom/breakfast.jpg",
+        }, 
+        {
+            "nom": "Swimming Pool",
+            "logo": "images/facilitiesRoom/pool-logo.svg",
+            "image": "images/facilitiesRoom/pool.jpg",
+        },
+        {
+            "nom": "Fitness Center",
+            "logo": "images/facilitiesRoom/fitness-logo.svg",
+            "image": "images/facilitiesRoom/fitness.jpg",
+        },
+    ]
+    for facilities_room in facilities_rooms:
+        seeder.add_entity(FacilitiesRoom, 1, facilities_room)
+    pks = seeder.execute()
+    print(pks)
     

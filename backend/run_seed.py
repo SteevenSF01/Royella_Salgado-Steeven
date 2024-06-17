@@ -11,4 +11,5 @@ if __name__ == '__main__':
     # seed.runFooterGallery()
     # seed.runContact()
     # seed.runFAQ()
-    seed.runFacilities()
+    # seed.runFacilities()
+    seed.runFacilitiesRoom()
