@@ -2,15 +2,16 @@ from django.shortcuts import render
 from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact, FAQ, Facilities, FacilitiesRoom, Rooms, RoomService
 from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer, BanierePagesSerializer, ContactSerializer ,FooterGallerySerializer, FAQSerializer, FacilitiesSerializer, FacilitiesRoomSerializer, RoomsSerializer, RoomServiceSerializer, UserRegistrationSerializer
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework import status, viewsets, generics, pagination
 from rest_framework.decorators import action
 from django.db.models import F
 import random
 from django.utils import timezone
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import update_last_login
+from django.contrib.auth import authenticate, login, logout
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.response import Response as JsonResponse
+from rest_framework.decorators import api_view
+from .models import CustomUser
 
 
 # Create your views here.
@@ -30,23 +31,45 @@ class UserRegistrationView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 # UserLogin #
-class UserLoginView(APIView):
 
-    def post(self, request, *args, **kwargs):
-        email = request.data.get('email')
-        password = request.data.get('password')
-        user = authenticate(request, email=email, password=password)
+@api_view(['POST'])
+def login_view(request):
+    data = request.data
+    email = data.get('email')
+    password = data.get('password')
 
-        if user is not None:
+    try:
+        user = CustomUser.objects.get(email=email)
+    except CustomUser.DoesNotExist:
+        user = None
+
+    if user is not None:
+        if user.check_password(password):
             login(request, user)
             refresh = RefreshToken.for_user(user)
-            update_last_login(None, user)
-            return Response({
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Connexion réussie',
+                'access_token': str(refresh.access_token),
+                'refresh_token': str(refresh)
             })
         else:
-            return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+            return JsonResponse({
+                'status': 'error',
+                'message': 'Mot de passe incorrect'
+            }, status=400)
+    else:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Utilisateur non trouvé'
+        }, status=400)
+        
+# Logout #
+
+@api_view(['POST'])
+def deconnexion(request):
+    logout(request)
+    return JsonResponse({'status': 'success', 'message': 'Utilisateur déconnecté'})
 
 # Manager #
 

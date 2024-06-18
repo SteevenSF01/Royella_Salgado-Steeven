@@ -1,8 +1,7 @@
 from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact, FAQ, Facilities, FacilitiesRoom, Rooms, RoomService
 from rest_framework import serializers
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.hashers import make_password
-from rest_framework import serializers
-from django.contrib.auth import get_user_model
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
@@ -30,10 +29,8 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             password=validated_data['password'],
             photo=validated_data.get('photo'),
         )
-        # Generate base64 image for email
         base64_image = self.get_base64_logo()
 
-        # Send confirmation email
         self.send_confirmation_email(user, base64_image)        
         return user
     
@@ -53,6 +50,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         email = EmailMultiAlternatives(subject, '', from_email, to_email)
         email.attach_alternative(html_content, "text/html")
         email.send()
+        
 
 # Employe #
 

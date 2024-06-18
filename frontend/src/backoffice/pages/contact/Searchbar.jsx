@@ -18,7 +18,7 @@ export default function Searchbar() {
         });
 
     const notifyError = () =>
-        toast.error("AError occurred during the upload", {
+        toast.error("An Error occurred during the upload", {
             position: "top-left",
             autoClose: 5000,
             hideProgressBar: true,
