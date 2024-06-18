@@ -301,7 +301,6 @@ def runFacilitiesRoom():
     
     
 def runRooms():
-    seeder = Seed.seeder()
     fake = Faker()
 
     with transaction.atomic():
@@ -323,7 +322,7 @@ def runRooms():
             date_in = fake.date_this_year()
             date_out = date_in + timedelta(days=random.randint(1, 10))
 
-            superficie = random.randint(90, 150)
+            superficie = random.randint(1000, 1600)
 
             amenities = random.sample(range(1, 7), random.randint(5, 6))
 
