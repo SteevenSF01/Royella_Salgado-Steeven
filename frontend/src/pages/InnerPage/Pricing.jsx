@@ -20,7 +20,6 @@ const Pricing = () => {
         };
         fecthServices();
     }, []);
-    console.log(services);
     return (
         <div>
             <BreadCrumb title="Pricing" />

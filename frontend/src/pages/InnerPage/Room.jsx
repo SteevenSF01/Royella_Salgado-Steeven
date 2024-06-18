@@ -145,7 +145,7 @@ const Room = () => {
                                                                         alt=""
                                                                     />
                                                                     <span className="ml-[10px] text-gray dark:text-lightGray">
-                                                                        2 {room.nom_lit}{" "}
+                                                                        {room.lit} {room.nom_lit}{" "}
                                                                         Bed
                                                                     </span>
                                                                 </span>

@@ -60,7 +60,6 @@ const HeroSection = () => {
             }}
             key={item.id}
           >
-              <>
               <div className="font-Garamond 2xl:w-[720px] text-center">
                 <div className="flex space-x-2 items-center justify-center mb-5 lg:mb-6">
                   {_.times(item.etoiles,(i)=>{
@@ -94,7 +93,6 @@ const HeroSection = () => {
               <div className="w-[221px] h-[50px] border-white border hidden md:flex items-center justify-center absolute left-0 top-1/2 -rotate-90">
                 <BiPhoneCall className="w-5 h-5 mr-2 text-khaki" /> {item.telephone}
               </div>
-              </>
           </div>
         </SwiperSlide>
               )

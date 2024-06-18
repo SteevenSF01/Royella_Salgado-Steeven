@@ -50,10 +50,10 @@ const Facilities = () => {
                         facilities.map((facilitie) => {
                             return (
                               facilitie.order % 2 == 0 ?(
-                                  <>
+                                  <section key={facilitie.id}>
                                     <hr className="text-[#e8e8e8] dark:text-[#383838] mb-10 mt-10" />
                                     <div
-                                        className="grid grid-cols-1 md:grid-cols-2 "
+                                        className="grid grid-cols-1 md:grid-cols-2 " 
                                         data-aos="fade-up"
                                         data-aos-duration="1000"
                                     >
@@ -91,10 +91,10 @@ const Facilities = () => {
                                             </Link>
                                         </div>
                                     </div>
-                                    </>
+                                    </section>
                                 ):
                                 (
-                                  <>
+                                  <section key={facilitie.id}>
                                     <hr className="text-[#e8e8e8] dark:text-[#383838] mb-10 mt-10" />
                                     <div
                                         className="grid grid-cols-1 md:grid-cols-2 "
@@ -136,94 +136,10 @@ const Facilities = () => {
                                             </div>
                                         </div>
                                         </div>
-                                        </>
+                                        </section>
                                 )
-
-
-
                             );
                         })}
-
-                    {/* <hr className="text-[#e8e8e8] dark:text-[#383838] mb-10 mt-10" />
-            <div
-              className="grid grid-cols-1 md:grid-cols-2 "
-              data-aos="fade-up"
-              data-aos-duration="1000"
-            >
-              <div className="relative w-full h-[100%] md:pr-[30px]">
-                <img
-                  src="/images/home-1/facilities-thumb-3.jpg"
-                  alt=""
-                  className="w-full h-full"
-                />
-                <div className="hidden md:block absolute -top-[0px] md:-right-[12%] -right-[7%] xl:-right-[5%]">
-                  <h2 className="text-3xl md:text-4xl lg:text-[40px] leading-[38px] text-khaki font-Garamond">
-                    03
-                  </h2>
-                </div>
-              </div>
-              <div className=" font-Garamond md:ml-[60px] lg:ml-[107px] mt-3 md:mt-0 relative h-full">
-                <h4 className="text-base font-semibold text-khaki leading-[26px] pb-[6px] uppercase mt-2 md:mt-0">
-                  FOODS
-                </h4>
-                <h1 className="text-2xl md:text-3xl 2xl:text-[32px] leading-[26px] font-semibold text-lightBlack dark:text-white">
-                  <Link to="/service_details"> The Restaurant Center</Link>
-                </h1>
-
-                <p className="font-Lora text-sm sm:text-base text-gray dark:text-lightGray leading-[26px] font-normal my-10 lg:mt-[46px] lg:mb-[40px] relative before:absolute before:h-[30px] before:left-0 before:top-[-35px] before:bg-[#ddd] before:w-[1px]">
-                  Rapidiously myocardinate cross-platform intellectual capital
-                  after model. Appropriately create interactive infrastructures
-                  after are Holisticly facilitate stand-alone
-                </p>
-                <Link to="/service_details">
-                  <HiArrowLongRight
-                    className="text-gray hover:text-khaki"
-                    size={30}
-                  />
-                </Link>
-              </div>
-            </div>
-
-            <hr className="text-[#e8e8e8] dark:text-[#383838] mb-10 mt-10" />
-            <div
-              className="grid grid-cols-1 md:grid-cols-2 "
-              data-aos="fade-up"
-              data-aos-duration="1000"
-            >
-              <div className=" font-Garamond md:mr-[2px] lg:mr-[110px]  h-full">
-                <h4 className="text-base font-semibold text-khaki leading-[26px] pb-[6px] uppercase ">
-                  EXPERIENCE
-                </h4>
-                <h1 className="text-2xl md:text-3xl 2xl:text-[32px] leading-[26px] font-semibold text-lightBlack dark:text-white">
-                  <Link to="/service_details"> Gym Training Grounds</Link>
-                </h1>
-
-                <p className="font-Lora relative text-sm sm:text-base text-gray dark:text-lightGray leading-[26px] font-normal my-10 lg:mt-[46px] lg:mb-[40px] before:absolute before:h-[30px] before:left-0 before:top-[-35px] before:bg-[#ddd] before:w-[1px]">
-                  Rapidiously myocardinate cross-platform intellectual capital
-                  after model. Appropriately create interactive infrastructures
-                  after are Holisticly facilitate stand-alone
-                </p>
-                <Link to="/service_details">
-                  <HiArrowLongRight
-                    className="text-gray hover:text-khaki"
-                    size={30}
-                  />
-                </Link>
-              </div>
-
-              <div className="w-full h-[100%]  relative md:pl-[30px] mt-5 md:mt-0">
-                <img
-                  src="/images/home-1/facilities-thumb-4.jpg"
-                  alt=""
-                  className="w-full h-full "
-                />
-                <div className="hidden md:block absolute -top-[0px] -left-[12%] xl:-left-[6%]">
-                  <h1 className="text-3xl md:text-4xl lg:text-[40px] leading-[38px] text-khaki font-Garamond">
-                    04
-                  </h1>
-                </div>
-              </div>
-            </div> */}
                 </div>
             </section>
         </div>

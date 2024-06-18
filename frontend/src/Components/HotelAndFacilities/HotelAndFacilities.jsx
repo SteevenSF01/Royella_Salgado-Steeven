@@ -18,7 +18,6 @@ const HotelAndFacilities = () => {
         };
         fetchData();
     }, []);
-    console.log(facilitie, facilities);
     return (
         <section className="bg-lightBlack z-[1]">
             <div className="py-[110px] bg-[url('/images/home-1/section-shape2.png')] bg-no-repeat bg-top bg-opacity-[0.07]">
@@ -132,7 +131,6 @@ const HotelAndFacilities = () => {
                         {facilities &&
                             facilities.map((facilitie) => {
                                 return (
-                                    <>
                                         <div
                                             key={facilitie.id}
                                             className="h-[200px] w-[197px] pt-[37px] pb-[27px] border border-[#343434] text-center transition-all duration-500 relative z-[1] group facility-card"
@@ -191,7 +189,6 @@ const HotelAndFacilities = () => {
                                                 }
                                             `}</style>
                                         </div>
-                                    </>
                                 );
                             })}
                     </div>

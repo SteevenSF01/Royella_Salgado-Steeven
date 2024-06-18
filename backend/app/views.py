@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework import status, viewsets, generics
 from rest_framework.decorators import action
 from django.db.models import F
+import random
 
 
 # Create your views here.
@@ -84,10 +85,25 @@ class FacilitiesRoomViewSet(viewsets.ModelViewSet):
     
 # Rooms #
 
-class RoomsViewSet(viewsets.ModelViewSet):
-    queryset = Rooms.objects.all()
-    serializer_class = RoomsSerializer
+class RoomsViewSet(viewsets.ModelViewSet):  
+    queryset = Rooms.objects.all()  
+    serializer_class = RoomsSerializer 
 
+# Définir une action supplémentaire pour la vue
+    @action(detail=False, methods=['get'], url_path='random') 
+    # la methode pour l'action
+    def random_rooms(self, request):  
+        # Pour obtenir le nombre total d'objet 'room'
+        count = self.queryset.count()  
+        if count == 0: 
+            return Response({"detail": "No rooms available"}, status=404)
+        # Ensemble est limitée à un maximum de 3 ou au nombre total de chambres disponibles, selon le plus petit des deux.
+        random_indices = random.sample(range(count), min(3, count))  
+        # Sélectionner les objets Rooms correspondant aux indices aléatoires générés
+        random_rooms = [self.queryset.all()[i] for i in random_indices] 
+        # Convertir les objets Rooms sélectionnés en JSON à l'aide du sérialiseur
+        serializer = self.get_serializer(random_rooms, many=True)  
+        return Response(serializer.data)  
 class RoomServiceViewSet(generics.ListAPIView):
     queryset = RoomService.objects.all()
     serializer_class = RoomServiceSerializer
