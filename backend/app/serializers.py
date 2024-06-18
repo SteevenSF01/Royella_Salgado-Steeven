@@ -1,4 +1,4 @@
-from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact, FAQ, Facilities, FacilitiesRoom
+from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact, FAQ, Facilities, FacilitiesRoom, Rooms
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 
@@ -73,3 +73,30 @@ class FacilitiesRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = FacilitiesRoom
         fields = '__all__'
+        
+# Rooms #
+
+class RoomsSerializer(serializers.ModelSerializer):
+    amenities = FacilitiesRoomSerializer(many=True, read_only=True)
+    amenities_ids = serializers.PrimaryKeyRelatedField(
+        many=True, 
+        queryset=FacilitiesRoom.objects.all(), 
+        write_only=True
+    )
+    
+    class Meta:
+        model = Rooms
+        fields = '__all__'
+        extra_fields = ['amenities_ids']
+    
+    def create(self, validated_data):
+        amenities_ids = validated_data.pop('amenities_ids', [])
+        room = super().create(validated_data)
+        room.amenities.set(amenities_ids)
+        return room
+
+    def update(self, instance, validated_data):
+        amenities_ids = validated_data.pop('amenities_ids', [])
+        room = super().update(instance, validated_data)
+        room.amenities.set(amenities_ids)
+        return room

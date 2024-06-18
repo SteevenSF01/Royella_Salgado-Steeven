@@ -1,5 +1,8 @@
 from app.models import *
+from django.db import transaction
 import random
+from datetime import timedelta
+from faker import Faker
 from django_seeder import Seed
 # from django_seed import Seed
 from faker import Faker
@@ -296,3 +299,65 @@ def runFacilitiesRoom():
     pks = seeder.execute()
     print(pks)
     
+    
+def runRooms():
+    seeder = Seed.seeder()
+    fake = Faker()
+
+    with transaction.atomic():
+        for _ in range(6):
+            room_types = ['Deluxe', 'Double Suite', 'Junior Suite', 'Family Suite', 'Beautiful Family']
+            room_type = random.choice(room_types)
+
+            nom_lit_options = ['Queen', 'King', 'Double', 'Twin']
+            nom_lit = random.choice(nom_lit_options)
+
+            description = fake.paragraph()
+
+            etoiles = random.uniform(4, 5)
+
+            lit = random.randint(1, 2)
+
+            prix = random.randint(400, 600)
+
+            date_in = fake.date_this_year()
+            date_out = date_in + timedelta(days=random.randint(1, 10))
+
+            superficie = random.randint(90, 150)
+
+            amenities = random.sample(range(1, 7), random.randint(5, 6))
+
+            prom_start = fake.date_this_year()
+            prom_end = prom_start + timedelta(days=random.randint(1, 30))
+
+            room_data = {
+                "nom": f"{room_type} Room",
+                "description": description,
+                "photo": f"images/rooms/room-{_}.jpg",
+                "etoiles": etoiles,
+                "lit": lit,
+                "nom_lit": nom_lit,
+                "prix": prix,
+                "adultes": 0,
+                "enfants": 0,
+                "max_adultes": 2,
+                "max_enfants": 2,
+                "date_in": date_in,
+                "date_out": date_out,
+                "superficie": superficie,
+                "prom_start": prom_start,
+                "prom_end": prom_end
+            }
+
+            room = Rooms.objects.create(**room_data)
+
+            if room:
+                for amenity_id in amenities:
+                    try:
+                        amenity = FacilitiesRoom.objects.get(pk=amenity_id)
+                        room.amenities.add(amenity)
+                    except FacilitiesRoom.DoesNotExist:
+                        print(f"Amenity with id {amenity_id} does not exist.")
+
+        print("Rooms created successfully.")
+        

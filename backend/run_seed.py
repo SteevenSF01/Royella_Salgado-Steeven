@@ -12,4 +12,5 @@ if __name__ == '__main__':
     # seed.runContact()
     # seed.runFAQ()
     # seed.runFacilities()
-    seed.runFacilitiesRoom()
+    # seed.runFacilitiesRoom()
+    seed.runRooms()

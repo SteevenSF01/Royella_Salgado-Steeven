@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact, FAQ, Facilities, FacilitiesRoom
-from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer, BanierePagesSerializer, ContactSerializer ,FooterGallerySerializer, FAQSerializer, FacilitiesSerializer, FacilitiesRoomSerializer
+from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact, FAQ, Facilities, FacilitiesRoom, Rooms
+from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer, BanierePagesSerializer, ContactSerializer ,FooterGallerySerializer, FAQSerializer, FacilitiesSerializer, FacilitiesRoomSerializer, RoomsSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, viewsets, generics
@@ -81,3 +81,9 @@ class FacilitiesViewSet(viewsets.ModelViewSet):
 class FacilitiesRoomViewSet(viewsets.ModelViewSet):
     queryset = FacilitiesRoom.objects.all()
     serializer_class = FacilitiesRoomSerializer
+    
+# Rooms #
+
+class RoomsViewSet(viewsets.ModelViewSet):
+    queryset = Rooms.objects.all()
+    serializer_class = RoomsSerializer
