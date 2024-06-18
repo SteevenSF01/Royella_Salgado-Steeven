@@ -1,6 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import BaseUserManager
+
+
 # Create your models here.
+
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        return self.create_user(email, password, **extra_fields)
 
 class CustomUser(AbstractUser):
     ROLES = (
@@ -10,23 +30,23 @@ class CustomUser(AbstractUser):
         ('WEBMASTER', 'Webmaster'),
         ('ADMINISTRATEUR', 'Administrateur'),
     )
-    role = models.CharField(max_length=20, choices=ROLES, default='UTILISATEUR')
-    photo = models.ImageField(upload_to='images/utilisateur', null=True, blank=True)
-    carteCredit = models.CharField(max_length=50, default='')
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='custom_user_groups',
-        blank=True,
-        verbose_name='groups',
-        help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.',
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='custom_user_permissions',
-        blank=True,
-        verbose_name='user permissions',
-        help_text='Specific permissions for this user.',
-    )
+    username = None 
+    email = models.EmailField('email address', unique=True)
+    role = models.CharField('role', max_length=20, choices=ROLES, default='UTILISATEUR')
+    photo = models.ImageField('photo', upload_to='images/utilisateur', null=True, blank=True)
+    carteCredit = models.CharField('credit card', max_length=50, default='')
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = 'user'
+        verbose_name_plural = 'users'
     
 class PosteEmploye(models.Model):
     poste = models.CharField(max_length=50)

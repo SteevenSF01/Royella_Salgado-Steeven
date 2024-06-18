@@ -1,6 +1,46 @@
 from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact, FAQ, Facilities, FacilitiesRoom, Rooms, RoomService
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
+from rest_framework import serializers
+from django.contrib.auth import get_user_model
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.conf import settings
+
+
+
+CustomUser = get_user_model()
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    photo = serializers.ImageField(required=False)
+
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'email', 'password', 'photo']
+
+    def create(self, validated_data):
+        user = CustomUser.objects.create_user(
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+            email=validated_data['email'],
+            password=validated_data['password'],
+            photo=validated_data.get('photo'),
+        )
+        self.send_confirmation_email(user)
+        return user
+
+    def send_confirmation_email(self, user):
+        subject = "Confirmation d'inscription"
+        from_email = settings.EMAIL_HOST_USER
+        to_email = [user.email]
+        context = {'user': user}
+        html_content = render_to_string('modelMail.html', context)
+        
+        email = EmailMultiAlternatives(subject, '', from_email, to_email)
+        email.attach_alternative(html_content, "text/html")
+        email.send()
+
 
 class PosteEmployeSerializer(serializers.ModelSerializer):
     class Meta:

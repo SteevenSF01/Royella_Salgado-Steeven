@@ -23,4 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/backoffice/roomService/', RoomServiceViewSet.as_view()),
+    path('api/register/', UserRegistrationView.as_view(), name='register'),
+    path('api/login/', UserLoginView.as_view(), name='login'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact, FAQ, Facilities, FacilitiesRoom, Rooms, RoomService
-from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer, BanierePagesSerializer, ContactSerializer ,FooterGallerySerializer, FAQSerializer, FacilitiesSerializer, FacilitiesRoomSerializer, RoomsSerializer, RoomServiceSerializer
+from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer, BanierePagesSerializer, ContactSerializer ,FooterGallerySerializer, FAQSerializer, FacilitiesSerializer, FacilitiesRoomSerializer, RoomsSerializer, RoomServiceSerializer, UserRegistrationSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, viewsets, generics, pagination
@@ -8,9 +8,41 @@ from rest_framework.decorators import action
 from django.db.models import F
 import random
 from django.utils import timezone
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import update_last_login
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 # Create your views here.
+
+
+class UserRegistrationView(generics.CreateAPIView):
+    serializer_class = UserRegistrationSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({'message': 'User registered successfully'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class UserLoginView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email')
+        password = request.data.get('password')
+        user = authenticate(request, email=email, password=password)
+
+        if user is not None:
+            login(request, user)
+            refresh = RefreshToken.for_user(user)
+            update_last_login(None, user)
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            })
+        else:
+            return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 class ManagerView(viewsets.ModelViewSet):
     queryset = ManagerVideo.objects.all()

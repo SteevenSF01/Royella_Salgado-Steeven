@@ -1,10 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
 import useScrollPosition from "./useScrollPosition";
 import { FaBars } from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
+import { IoMdClose, IoIosLogIn, IoIosLogOut } from "react-icons/io";
 import { BiChevronDown, BiSun } from "react-icons/bi";
-import { IoMoonSharp } from "react-icons/io5";
+import { IoMoonSharp, IoCreateOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
+
 
 const Navbar = () => {
   // modal openar
@@ -141,13 +142,13 @@ const Navbar = () => {
               </span>
               <div className="absolute pt-5 lg:pt-8 z-20">
                 <ul className="shadow-2xl hidden group-hover:block rounded-sm bg-white text-black w-[200px] text-left dark:bg-normalBlack dark:text-white transition-all duration-500 text-sm py-4 ">
-                  {/* <div className=" px-5 group hover:bg-khaki hover:text-white">
+                  <div className=" px-5 group hover:bg-khaki hover:text-white">
                     <li className="hover:ml-3 duration-300  ">
                       <NavLink to="/room" className="block py-2">
                         Room
                       </NavLink>
                     </li>
-                  </div> */}
+                  </div>
                   <div className=" px-5 group hover:bg-khaki hover:text-white">
                     <li className="hover:ml-3 duration-300  ">
                       <NavLink to="/find_room" className="block py-2">
@@ -155,15 +156,6 @@ const Navbar = () => {
                       </NavLink>
                     </li>
                   </div>
-
-                  {/*Reste a voir s'il part ou non */}
-                  {/* <div className=" px-5 group hover:bg-khaki hover:text-white">
-                    <li className="hover:ml-3 duration-300  ">
-                      <NavLink to="/room_details" className="block py-2">
-                        Room Details
-                      </NavLink>
-                    </li>
-                  </div> */}
 
                 </ul>
               </div>
@@ -231,9 +223,12 @@ const Navbar = () => {
               Contact
             </NavLink>
           </ul>
-
           {/* large device visible button and search icon */}
           <div className="hidden lg:flex items-center">
+          <IoIosLogIn className="mr-2 text-white cursor-pointer" size={25} />
+            <Link to="/register">
+              <IoCreateOutline className="mr-2 text-white cursor-pointer pb-1" size={30} />
+            </Link>
             <span onClick={handleClick} className="mr-3 cursor-pointer group ">
               {isDarkMode ? (
                 <BiSun

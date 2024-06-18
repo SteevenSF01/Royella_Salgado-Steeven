@@ -17,7 +17,6 @@ const Offers = () => {
     };
     fetchOffers();
   }, []);
-  console.log(offers);
 
   const [sliderRef] = useKeenSlider({
     breakpoints: {
