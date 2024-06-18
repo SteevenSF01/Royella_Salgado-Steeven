@@ -1,13 +1,78 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royella</title>
+    <title>confirmation of registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #ffffff;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #A88A5Cff;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px 15px;
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        .footer p {
+            margin: 0;
+            font-size: 14px;
+            color: #666666;
+        }
+        .logo {
+            max-width: 100px;
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <p>Bonjour {{ user.first_name }},</p>
-    <p>Merci de vous être inscrit. Votre inscription a été réussie.</p>
+    <div class="container">
+        <div class="header">
+            <img src="data:image/png;base64, {{ base64_image }}" alt="Logo" class="logo">
+            <h1>Welcome to Royella</h1>
+        </div>
+        <div class="content">
+            <p>Dear {{ user.first_name }} {{ user.last_name }},</p>
+            <p>Welcome to Royella! We're thrilled to have you join our community.</p>
+            <br/> Your registration was successful, and we're excited to offer you access to all that Royella has to offer.</p>
+            <p>Explore our services and discover how Royella can enhance your experience. If you have any questions or need assistance, feel free to reach out. <br/><br/> Welcome aboard! 🎉</p>        
+        </div>
+        <div class="footer">
+            <p>© 2024 Royella. All rights reserved.</p>
+        </div>
+    </div>
 </body>
 </html>

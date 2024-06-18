@@ -15,6 +15,9 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your views here.
 
+def template(request):
+    return render(request, 'modelMail.html')
+
 # UserRegistration #
 class UserRegistrationView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
@@ -25,6 +28,8 @@ class UserRegistrationView(generics.CreateAPIView):
             user = serializer.save()
             return Response({'message': 'User registered successfully'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# UserLogin #
 class UserLoginView(APIView):
 
     def post(self, request, *args, **kwargs):

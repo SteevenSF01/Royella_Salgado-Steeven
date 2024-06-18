@@ -6,6 +6,8 @@ from django.contrib.auth import get_user_model
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
+import os
+import base64
 
 
 
@@ -28,14 +30,24 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             password=validated_data['password'],
             photo=validated_data.get('photo'),
         )
-        self.send_confirmation_email(user)
-        return user
+        # Generate base64 image for email
+        base64_image = self.get_base64_logo()
 
-    def send_confirmation_email(self, user):
+        # Send confirmation email
+        self.send_confirmation_email(user, base64_image)        
+        return user
+    
+    def get_base64_logo(self):
+        image_path = os.path.join(settings.BASE_DIR, 'static/images/inner-logo.png')   
+        with open(image_path, 'rb') as image_file:
+            base64_image = base64.b64encode(image_file.read()).decode('utf-8')
+        return base64_image
+
+    def send_confirmation_email(self, user, base64_image):
         subject = "Confirmation d'inscription"
         from_email = settings.EMAIL_HOST_USER
         to_email = [user.email]
-        context = {'user': user}
+        context = {'user': user, 'base64_image': base64_image}
         html_content = render_to_string('modelMail.html', context)
         
         email = EmailMultiAlternatives(subject, '', from_email, to_email)
