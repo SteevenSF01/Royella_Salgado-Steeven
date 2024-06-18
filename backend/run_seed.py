@@ -13,5 +13,5 @@ if __name__ == '__main__':
     # seed.runFAQ()
     # seed.runFacilities()
     # seed.runFacilitiesRoom()
-    # seed.runRooms()
-    seed.runRoomService()
+    seed.runRooms()
+    # seed.runRoomService()

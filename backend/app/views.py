@@ -3,7 +3,7 @@ from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages,
 from .serializers import ManagerVideoSerializer, EmployeSerializer, PosteEmployeSerializer, HeroHomeSerializer, BanierePagesSerializer, ContactSerializer ,FooterGallerySerializer, FAQSerializer, FacilitiesSerializer, FacilitiesRoomSerializer, RoomsSerializer, RoomServiceSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status, viewsets, generics
+from rest_framework import status, viewsets, generics, pagination
 from rest_framework.decorators import action
 from django.db.models import F
 import random
@@ -85,9 +85,18 @@ class FacilitiesRoomViewSet(viewsets.ModelViewSet):
     
 # Rooms #
 
+class RoomsPagination(pagination.PageNumberPagination):
+    # le nombre d'item a afficher par page
+    page_size = 6
+    # le nom de la variable de page
+    page_size_query_param = 'page_size'
+    # le nombre de page à afficher
+    max_page_size = 100
+
 class RoomsViewSet(viewsets.ModelViewSet):  
     queryset = Rooms.objects.all()  
-    serializer_class = RoomsSerializer 
+    serializer_class = RoomsSerializer
+    pagination_class = RoomsPagination
 
 # Définir une action supplémentaire pour la vue
     @action(detail=False, methods=['get'], url_path='random') 

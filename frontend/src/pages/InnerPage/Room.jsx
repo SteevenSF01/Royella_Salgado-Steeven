@@ -13,14 +13,30 @@ import axios from "axios";
 
 const Room = () => {
     const [roomsData, setRoomsData] = useState([]);
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get("/api/backoffice/rooms");
-            setRoomsData(response.data);
-        };
-        fetchData();
-    }, []);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
+    useEffect(() => {
+        const fetchData = async (page = 1) => {
+            const response = await axios.get(`/api/backoffice/rooms?page=${page}`);
+            setRoomsData(response.data.results);
+            // Count le nombres de chambres et divise par le nombre d'article qu'on veut afficher
+            setTotalPages(Math.ceil(response.data.count / 6));  
+        };
+        fetchData(currentPage);
+    }, [currentPage]);
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(prevPage => prevPage + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(prevPage => prevPage - 1);
+        }
+    };
     // facilities slider breckpoints
     const [sliderRef] = useKeenSlider({
         breakpoints: {
@@ -80,7 +96,7 @@ const Room = () => {
                     {/* Rooms Slider Container */}
 
                     <div className="mt-14 2xl:mt-[60px] grid items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-[30px]">
-                        {/* Room - 1 */}
+                        {/* Rooms */}
                         {roomsData &&
                             roomsData.map((room) => {
                                 return (
@@ -175,6 +191,25 @@ const Room = () => {
                                 );
                             })}
                     </div>
+                        <div className="hidden sm:flex mt-5 items-center lg:space-x-5  space-x-3">
+                        <button
+                            className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px] flex items-center justify-center border-[1px] border-gray  text-lightGray hover:bg-khaki hover:border-none group"
+                            onClick={handlePrevPage}
+                            disabled={currentPage === 1}
+                        >
+                            <BsChevronLeft className="w-5 h-5 text-gray  group-hover:text-white " />
+                        </button>
+                        <span className="flex items-center justify-center text-lightBlack dark:text-white">
+                            {currentPage} / {totalPages}
+                        </span>
+                        <button
+                            className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px] flex items-center justify-center border-[1px] border-gray  text-lightGray hover:bg-khaki hover:border-none group"
+                            onClick={handleNextPage}
+                            disabled={currentPage === totalPages}
+                        >
+                            <BsChevronRight className="w-5 h-5 text-gray  group-hover:text-white " />
+                        </button>
+                        </div>
                 </div>
             </div>
 
@@ -195,7 +230,7 @@ const Room = () => {
                                 RESOTE’S EXTRA FACILITIES FOR LUXURIOUS LIFE
                             </h1>
                         </div>
-                        <div className="hidden sm:flex items-center lg:space-x-5  space-x-3">
+                        {/* <div className="hidden sm:flex items-center lg:space-x-5  space-x-3">
                             <button
                                 className="lg:w-[50px] w-[30px] h-[30px] lg:h-[50px]  flex items-center justify-center border-[1px] border-gray  text-lightGray hover:bg-khaki hover:border-none group"
                                 title="Button disabled use swapping"
@@ -211,103 +246,9 @@ const Room = () => {
                             >
                                 <BsChevronRight className="w-5 h-5 text-gray   group-hover:text-white" />
                             </button>
-                        </div>
+                        </div> */}
                     </div>
                     <hr className="w-full h-[2px] text-gray bg-gray mt-10 " />
-
-                    {/* Clients Facilities  */}
-                    {/* <div className="mt-14 2xl:mt-[60px] grid grid-cols-6 gap-5 md:gap-[30px] ">
-            <div
-              className="col-span-6 sm:col-span-2 "
-              data-aos="zoom-in-up"
-              data-aos-duration="1000"
-            >
-              <img
-                src="/images/inner/faciliies-icon.png"
-                alt="facilities-icon"
-                className="w-10 h-10 md:w-20 md:h-20 xl:h-[100px] xl:w-[100px]"
-              />
-              <div className="my-5 2xl:my-[30px]">
-                <h2 className="text-white text-xl sm:text-2xl 2xl:text-3xl leading-7 md:leading-8 lg:leading-9 xl:leading-10 2xl:leading-[44px] font-semibold font-Garamond">
-                  SPA & Parlor Center
-                </h2>
-                <p className="text-sm sm:text-base font-Lora leading-[26px] text-lightGray">
-                  Rapidiously myocardinate cross-platform are model.
-                  Appropriately create interactive infrast Holisticly
-                  facilitate.
-                </p>
-              </div>
-              <Link
-                to={"/room_details"}
-                className="flex items-center text-lightGray text-base font-Garamond font-semibold group hover:text-khaki dark:hover:text-khaki"
-              >
-                VIEW DETAILS
-                <HiArrowLongRight className="w-6 h-5 text-khaki ml-2 group-hover:ml-3 transition-all duration-300" />
-              </Link>
-            </div>
-
-            <div
-              ref={sliderRef}
-              className="keen-slider col-span-6 sm:col-span-4"
-              data-aos="zoom-in-up"
-              data-aos-duration="1000"
-            >
-
-              <div className="keen-slider__slide number-slide1">
-                <div className="col-span-2 relative">
-                  <img
-                    src="/images/inner/facilities-1.jpg"
-                    className=""
-                    alt=""
-                  />
-                  <div className="inline-flex items-center justify-between bg-lightBlack  hover:bg-whiteSmoke dark:hover:bg-white transition-all duration-300 w-[90%] float-right absolute bottom-0 right-[20px] group">
-                    <p className="text-white text-lg sm:text-xl lg:text-[18px] xl:text-[22px]  group-hover:text-lightBlack leading-6 font-semibold font-Garamond px-5">
-                      Gym Training Ground
-                    </p>
-                    <button className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px]  flex items-center justify-center bg-khaki">
-                      <HiArrowLongRight className="w-5 h-5 text-white    " />
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="keen-slider__slide number-slide1">
-                <div className="col-span-2 relative">
-                  <img
-                    src="/images/inner/facilities-2.jpg"
-                    className=""
-                    alt=""
-                  />
-                  <div className="inline-flex items-center justify-between bg-lightBlack  hover:bg-whiteSmoke dark:hover:bg-white transition-all duration-300 w-[90%] float-right absolute bottom-0 right-[20px] group">
-                    <p className="text-white text-lg sm:text-xl lg:text-[18px] xl:text-[22px]  group-hover:text-lightBlack leading-6 font-semibold font-Garamond px-5">
-                      Gym Training Ground
-                    </p>
-                    <button className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px]  flex items-center justify-center bg-khaki">
-                      <HiArrowLongRight className="w-5 h-5 text-white    " />
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="keen-slider__slide number-slide1">
-                <div className="col-span-2 relative">
-                  <img
-                    src="/images/inner/facilities-3.jpg"
-                    className=""
-                    alt=""
-                  />
-                  <div className="inline-flex items-center justify-between bg-lightBlack  hover:bg-whiteSmoke dark:hover:bg-white transition-all duration-300 w-[90%] float-right absolute bottom-0 right-[20px] group">
-                    <p className="text-white text-lg sm:text-xl lg:text-[18px] xl:text-[22px]  group-hover:text-lightBlack leading-6 font-semibold font-Garamond px-5">
-                      Gym Training Ground
-                    </p>
-                    <button className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px]  flex items-center justify-center bg-khaki">
-                      <HiArrowLongRight className="w-5 h-5 text-white    " />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
                 </div>
             </div>
 

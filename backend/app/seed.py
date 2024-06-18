@@ -304,9 +304,8 @@ def runRooms():
     fake = Faker()
 
     with transaction.atomic():
-        for _ in range(6):
-            room_types = ['Deluxe', 'Double Suite',
-                          'Junior Suite', 'Family Suite', 'Beautiful Family']
+        for _ in range(25):
+            room_types = ['Deluxe', 'Double Suite', 'Junior Suite', 'Family Suite', 'Beautiful Family']
             room_type = random.choice(room_types)
 
             nom_lit_options = ['Queen', 'King', 'Double', 'Twin']
@@ -319,7 +318,7 @@ def runRooms():
             lit = random.randint(1, 2)
 
             prix = random.randint(400, 600)
-
+            # timedelta sert à mettre une date de fin grace à ce qu'on definit entre parenthèses, en additionnant la date de début
             date_in = fake.date_this_year()
             date_out = date_in + timedelta(days=random.randint(1, 10))
 
@@ -348,8 +347,20 @@ def runRooms():
                 "prom_start": prom_start,
                 "prom_end": prom_end
             }
-
             room = Rooms.objects.create(**room_data)
+            """ 
+            " ** " permet de passer en paramètre tant la propriété comme sa valeur
+            exemple
+            données = {
+                "nom": "Juan",
+                "age": 30,
+                "ville": "Madrid"
+            }  
+            au lieu d'écrire 
+            saluer(nom="Juan", age=30, ville="Madrid")
+            on peut écrire
+            saluer(**données)
+            """
 
             if room:
                 for amenity_id in amenities:
@@ -368,7 +379,7 @@ def runRoomService():
         {
             "nom": "Basic Comfort Package",
             "prix": 15,
-            "image":"images/rooms/roomService.jpg",
+            "image": "images/rooms/roomService.jpg",
             "desc1": "Bed and floor cleaning",
             "desc2": "Daily towel replacement",
             "desc3": "Complimentary breakfast",
@@ -377,7 +388,7 @@ def runRoomService():
         {
             "nom": "Deluxe Comfort Package",
             "prix": 20,
-            "image":"images/rooms/roomService.jpg",
+            "image": "images/rooms/roomService.jpg",
             "desc1":  "Full room cleaning",
             "desc2": "Daily towel replacement",
             "desc3": "Evening turndown service",
@@ -386,16 +397,15 @@ def runRoomService():
         {
             "nom": "Premium Comfort Package",
             "prix": 18,
-            "image":"images/rooms/roomService.jpg",
+            "image": "images/rooms/roomService.jpg",
             "desc1":  "Partial room cleaning",
             "desc2":  "Towel replacement every other day",
             "desc3":  "Complimentary snack basket",
             "desc4":  "Daily room check",
         }
     ]
-    
+
     for service in services:
         seeder.add_entity(RoomService, 1, service)
     pks = seeder.execute()
     print(pks)
-    
