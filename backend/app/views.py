@@ -127,7 +127,7 @@ class RoomsViewSet(viewsets.ModelViewSet):
         # Obtient une liste de toutes les chambres de promo disponibles
         all_promotional_rooms = list(promotional_rooms)
         
-        # Obtient 4 chambres de manière aléatoire
+        # Obtient 4 chambres de manière aléatoire, min 4 ou len s'il est plus petit
         random_promotional_rooms = random.sample(all_promotional_rooms, min(4, len(all_promotional_rooms)))
         
         serializer = self.get_serializer(random_promotional_rooms, many=True)  
