@@ -258,7 +258,7 @@ def runFacilities():
         seeder.add_entity(Facilities, 1, facility)
     pks = seeder.execute()
     print(pks)
-    
+
 
 def runFacilitiesRoom():
     seeder = Seed.seeder()
@@ -282,7 +282,7 @@ def runFacilitiesRoom():
             "nom": "Breakfast",
             "logo": "images/facilitiesRoom/breakfast-logo.svg",
             "image": "images/facilitiesRoom/breakfast.jpg",
-        }, 
+        },
         {
             "nom": "Swimming Pool",
             "logo": "images/facilitiesRoom/pool-logo.svg",
@@ -298,14 +298,15 @@ def runFacilitiesRoom():
         seeder.add_entity(FacilitiesRoom, 1, facilities_room)
     pks = seeder.execute()
     print(pks)
-    
-    
+
+
 def runRooms():
     fake = Faker()
 
     with transaction.atomic():
         for _ in range(6):
-            room_types = ['Deluxe', 'Double Suite', 'Junior Suite', 'Family Suite', 'Beautiful Family']
+            room_types = ['Deluxe', 'Double Suite',
+                          'Junior Suite', 'Family Suite', 'Beautiful Family']
             room_type = random.choice(room_types)
 
             nom_lit_options = ['Queen', 'King', 'Double', 'Twin']
@@ -359,4 +360,39 @@ def runRooms():
                         print(f"Amenity with id {amenity_id} does not exist.")
 
         print("Rooms created successfully.")
-        
+
+
+def runRoomService():
+    seeder = Seed.seeder()
+    services = [
+        {
+            "nom": "Basic Comfort Package",
+            "prix": 15,
+            "desc1": "Bed and floor cleaning",
+            "desc2": "Daily towel replacement",
+            "desc3": "Complimentary breakfast",
+            "desc4": "24/7 room service",
+        },
+        {
+            "nom": "Deluxe Comfort Package",
+            "prix": 20,
+            "desc1":  "Full room cleaning",
+            "desc2": "Daily towel replacement",
+            "desc3": "Evening turndown service",
+            "desc4": "Mini bar restock",
+        },
+        {
+            "nom": "Premium Comfort Package",
+            "prix": 18,
+            "desc1":  "Partial room cleaning",
+            "desc2":  "Towel replacement every other day",
+            "desc3":  "Complimentary snack basket",
+            "desc4":  "Daily room check",
+        }
+    ]
+    
+    for service in services:
+        seeder.add_entity(RoomService, 1, service)
+    pks = seeder.execute()
+    print(pks)
+    

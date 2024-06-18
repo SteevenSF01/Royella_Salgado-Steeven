@@ -20,7 +20,6 @@ const Room = () => {
         };
         fetchData();
     }, []);
-    console.log(roomsData);
 
     // facilities slider breckpoints
     const [sliderRef] = useKeenSlider({

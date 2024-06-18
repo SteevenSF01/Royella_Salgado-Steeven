@@ -112,3 +112,11 @@ class Rooms(models.Model):
     prom_start = models.DateField()
     prom_end = models.DateField()
     
+class RoomService(models.Model):
+    nom = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='images/rooms', null=True, blank=True)
+    prix = models.PositiveIntegerField()
+    desc1 = models.CharField(max_length=80)
+    desc2 = models.CharField(max_length=80)
+    desc3 = models.CharField(max_length=80)
+    desc4 = models.CharField(max_length=80)

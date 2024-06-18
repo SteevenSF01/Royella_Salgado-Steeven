@@ -1,4 +1,4 @@
-from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact, FAQ, Facilities, FacilitiesRoom, Rooms
+from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact, FAQ, Facilities, FacilitiesRoom, Rooms, RoomService
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 
@@ -100,3 +100,9 @@ class RoomsSerializer(serializers.ModelSerializer):
         room = super().update(instance, validated_data)
         room.amenities.set(amenities_ids)
         return room
+
+
+class RoomServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoomService
+        fields = '__all__'

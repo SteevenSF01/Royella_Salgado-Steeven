@@ -22,4 +22,5 @@ router.register('backoffice/rooms', RoomsViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/roomService/', RoomServiceViewSet.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
