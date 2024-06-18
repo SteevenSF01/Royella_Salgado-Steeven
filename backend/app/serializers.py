@@ -11,6 +11,7 @@ from django.conf import settings
 
 CustomUser = get_user_model()
 
+# Register #
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     photo = serializers.ImageField(required=False)
@@ -41,6 +42,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         email.attach_alternative(html_content, "text/html")
         email.send()
 
+# Employe #
 
 class PosteEmployeSerializer(serializers.ModelSerializer):
     class Meta:

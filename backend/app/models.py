@@ -51,6 +51,7 @@ class CustomUser(AbstractUser):
 class PosteEmploye(models.Model):
     poste = models.CharField(max_length=50)
 
+# Employe #
 class Employe(models.Model):
     nom = models.CharField(max_length=50)
     prenom = models.CharField(max_length=50)

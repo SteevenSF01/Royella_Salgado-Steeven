@@ -15,7 +15,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your views here.
 
-
+# UserRegistration #
 class UserRegistrationView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
 
@@ -43,11 +43,13 @@ class UserLoginView(APIView):
         else:
             return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
+# Manager #
 
 class ManagerView(viewsets.ModelViewSet):
     queryset = ManagerVideo.objects.all()
     serializer_class = ManagerVideoSerializer
 
+# PosteEmploye #
 
 class PosteEmployeView(viewsets.ModelViewSet):
     queryset = PosteEmploye.objects.all()
