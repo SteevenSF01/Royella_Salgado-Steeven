@@ -3,8 +3,20 @@ import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useStaten, useEffect } from "react";
+import axios from "axios";
 
 const HotelAndResort = () => {
+  // useState pour le nombre de chambres avec useEffect
+  const [rooms, setRooms] = useState('');
+  useEffect(() => {
+    const fetchRooms = async () => {
+      const res = await axios.get('/api/backoffice/rooms');
+      setRooms(res.data.count);
+    }
+    fetchRooms();
+  }, []);
+
   const [, setCurrentSlide] = useState(0);
   const [sliderRef] = useKeenSlider({
     breakpoints: {
@@ -35,7 +47,7 @@ const HotelAndResort = () => {
             <div className="keen-slider__slide number-slide1 ">
               <div className="">
                 <img
-                  src="/images/home-1/Hotel1.jpg"
+                  src="/images/inner/hotels/hotelhome1.jpg"
                   className="h-[85%] lg:h-[90%]"
                   alt="Hotel-slider-image"
                 />
@@ -44,8 +56,7 @@ const HotelAndResort = () => {
             <div className="keen-slider__slide number-slide1 ">
               <div className="">
                 <img
-                  src="/images/home-1/Hotel.png"
-                  className="h-[85%] md:h-[100%] lg:h-[90%]"
+                  src="/images/inner/hotels/hotelhome2.jpg"
                   alt="Hotel-slider-image"
                 />
               </div>
@@ -69,7 +80,7 @@ const HotelAndResort = () => {
             <div className="flex items-center mt-4 md:mt-3 lg:mt-4">
               <div>
                 <h1 className="text-4xl md:text-4xl lg:text-5xl xl:text-6xl  3xl:text-[70px] leading-[42px] text-khaki font-medium ">
-                  250 +
+                  {rooms} +
                 </h1>
                 <p className="text-sm sm:text-base md:text-sm lg:text-base leading-[26px] text-gray dark:text-lightGray font-normal font-Lora pt-5 xl:pt-7 md:w-[94px] lg:w-full">
                   Luxury Rooms

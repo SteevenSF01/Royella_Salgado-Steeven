@@ -183,15 +183,14 @@ const ServiceDetails = () => {
       </div>
 
       {/* RESTAURANT FOOD MENU */}
-      <div className="bg-whiteSmoke dark:bg-lightBlack py-20 2xl:py-[120px] ">
+      {/* <div className="bg-whiteSmoke dark:bg-lightBlack py-20 2xl:py-[120px] ">
         <div className="Container">
-          {/* food menu tab header */}
+
           <div
             className="text-center"
             data-aos="fade-up"
             data-aos-duration="1000"
           >
-            {/* Section logo */}
             <div className="flex items-center justify-center space-x-2">
               <hr className="w-[100px] h-[1px] bg-lightGray dark:bg-gray text-lightGray dark:text-gray" />
               <img
@@ -205,9 +204,8 @@ const ServiceDetails = () => {
               RESTAURANT FOOD MENU
             </h1>
           </div>
-          {/* food menu tab  */}
           <div className="mt-14 2xl:mt-[60px]">
-            {/* Tab Control Button */}
+
             <div
               className="grid grid-cols-2 sm:grid-cols-4 sm:flex items-center justify-center gap-3"
               data-aos="zoom-in-up"
@@ -258,7 +256,7 @@ const ServiceDetails = () => {
                 DINNER
               </button>
             </div>
-            {/* Tab Items. */}
+
             <div
               className="grid items-center justify-between grid-cols-1 lg:grid-cols-2 gap-5 2xl:gap-[30px] mt-5 md:mt-7 lg:mt-10 xl:mt-[45px]"
               data-aos="zoom-in-up"
@@ -284,7 +282,7 @@ const ServiceDetails = () => {
                           $ {item.price}
                         </h4>
                       </div>
-                      {/* bottom Border  */}
+
                       <div className="border-t-[1px] border-dashed border-lightGray dark:border-gray pb-4"></div>
                       <p className="text-gray dark:text-lightGray leading-6 font-normal font-Lora text-sm md:text-[15px]">
                         {item.description}
@@ -296,7 +294,7 @@ const ServiceDetails = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };

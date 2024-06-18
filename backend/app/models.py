@@ -85,6 +85,10 @@ class Facilities(models.Model):
     description = models.TextField(default='')
     photo = models.ImageField(upload_to='images/facilities', null=True, blank=True)
     order = models.PositiveIntegerField(unique=True)
+    rules = models.TextField(default='')
+    dress_code1 = models.CharField(max_length=150, default='')
+    dress_code2 = models.CharField(max_length=150, default='')
+    dress_code3 = models.CharField(max_length=150, default='')
     
 class FacilitiesRoom(models.Model):
     nom = models.CharField(max_length=50)
