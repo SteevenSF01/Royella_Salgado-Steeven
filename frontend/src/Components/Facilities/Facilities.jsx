@@ -74,7 +74,7 @@ const Facilities = () => {
                                                 {facilitie.nom}
                                             </h4>
                                             <h1 className="text-2xl md:text-3xl 2xl:text-[32px] leading-[26px] font-semibold text-lightBlack dark:text-white">
-                                                <Link to="/service_details">
+                                                <Link to={`/service_details/${facilitie.id}`}>
                                                     {" "}
                                                     {facilitie.sous_titre}
                                                 </Link>
@@ -83,8 +83,8 @@ const Facilities = () => {
                                             <p className="font-Lora text-sm sm:text-base text-gray dark:text-lightGray leading-[26px] font-normal my-10 lg:mt-[46px] lg:mb-[40px] before:absolute before:h-[30px] before:left-0 before:top-[-35px] before:bg-[#ddd] before:w-[1px] relative">
                                                 {facilitie.description}
                                             </p>
-                                            <Link to="/service_details">
-                                                <HiArrowLongRight
+                                            <Link to={`/service_details/${facilitie.id}`}>
+                                            <HiArrowLongRight
                                                     size={30}
                                                     className="text-gray hover:text-khaki"
                                                 />
@@ -106,8 +106,8 @@ const Facilities = () => {
                                                 {facilitie.nom}
                                             </h4>
                                             <h1 className="text-2xl md:text-3xl 2xl:text-[32px] leading-[26px] font-semibold text-lightBlack dark:text-white">
-                                                <Link to="/service_details">
-                                                    {" "}
+                                            <Link to={`/service_details/${facilitie.id}`}>
+                                            {" "}
                                                     {facilitie.sous_titre}
                                                 </Link>
                                             </h1>
@@ -115,8 +115,8 @@ const Facilities = () => {
                                             <p className="font-Lora relative text-sm sm:text-base text-gray dark:text-lightGray leading-[26px] font-normal my-10 lg:mt-[46px] lg:mb-[40px] before:absolute before:h-[30px] before:left-0 before:top-[-35px] before:bg-[#ddd] before:w-[1px]">
                                                 {facilitie.description}
                                             </p>
-                                            <Link to="/service_details">
-                                                <HiArrowLongRight
+                                            <Link to={`/service_details/${facilitie.id}`}>
+                                            <HiArrowLongRight
                                                     className="text-gray hover:text-khaki"
                                                     size={30}
                                                 />

@@ -1,8 +1,24 @@
 import { BsCheck2 } from "react-icons/bs";
 import BreadCrumb from "../../BreadCrumb/BreadCrumb";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const ServiceDetails = () => {
+  const { id } = useParams();
+  const [facilitie, setFacilitie] = useState([]);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await axios.get(`/api/backoffice/facilities/${id}`);
+        setFacilitie(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getData();
+  }, []);
+  console.log(facilitie);
   const [menu, setMenu] = useState([]);
   const [showItem, setShowItem] = useState([]);
   useEffect(() => {
@@ -27,7 +43,7 @@ const ServiceDetails = () => {
               data-aos="zoom-in-up"
               data-aos-duration="1000"
             >
-              <img src="/images/inner/service-details.jpg" alt="" />
+              <img src={facilitie.photo} alt={facilitie.nom} />
             </div>
             <div className="col-span-6 md:col-span-3 lg:col-span-2">
               <div className=" bg-whiteSmoke dark:bg-normalBlack px-7 py-8 md:px-5 md:py-10 lg:px-6 lg:py-11 2xl:px-10 2xl:py-[50px]  grid-flow-row-dense">
@@ -70,20 +86,12 @@ const ServiceDetails = () => {
 
           {/* Restaurants center */}
           <div className="pt-5 lg:pt-[35px]  pr-3">
-            <p className="text-base font-Lora text-khaki">FOODS</p>
+            <p className="text-base font-Lora text-khaki uppercase">{facilitie.nom}</p>
             <h2 className="py-2 sm:py-3 md:py-4 lg:py-[19px] 2xl:py-[25px] font-Garamond text-[22px] sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-[38px] 3xl:text-[40px] leading-6 lg:leading-[26px]  text-lightBlack dark:text-white font-semibold">
-              The Restaurant Center
+              {facilitie.sous_titre}
             </h2>
             <p className="text-sm lg:text-base leading-6 text-gray dark:text-lightGray font-normal font-Lora">
-              Rapidiously myocardinate cross-platform intellectual capital after
-              marketing model. Appropriately create interactive infrastructures
-              after maintainable are Holisticly facilitate stand-alone inframe
-              extend state of the art benefits via web-enabled value. Completely
-              fabricate extensible infomediaries rather than reliable
-              e-services. Dramatically whiteboard alternative Conveniently
-              fashion pandemic potentialities for team driven technologies.
-              Proactively orchestrate robust systems rather than user-centric
-              vortals. Distinctively seize top-line e-commerce with premier
+              {facilitie.description}
             </p>
 
             {/* Restaurant Rules */}
@@ -96,16 +104,10 @@ const ServiceDetails = () => {
                 className="pb-2 sm:pb-3 md:pb-4 lg:pb-[19px] 2xl:pb-6
                 font-Garamond text-[22px] sm:text-2xl md:text-3xl 2xl:text-[32px] leading-7 lg:leading-[26px] text-lightBlack dark:text-white font-semibold"
               >
-                Restaurant Rules
+                {facilitie.sous_titre} Rules
               </h2>
               <p className="text-sm lg:text-base leading-6 text-gray dark:text-lightGray font-normal font-Lora">
-                Professionally deliver fully researched scenarios with turnkey
-                communities. Competently unleash empowered applications without
-                seamless data. Uniquely under quality outsourcing before
-                transparent relationships. Efficiently enhance diverse
-                relationships whereas leveraged leverage existing just in time
-                architectures before economically sound systems. Conveniently
-                administrate
+                {facilitie.rules}
               </p>
             </div>
             {/* Dress Code Rules */}
@@ -128,52 +130,19 @@ const ServiceDetails = () => {
                 <li className="flex items-center">
                   <BsCheck2 size={16} className="text-khaki mr-2" />
                   <span className="text-sm lg:text-base leading-[26px] text-gray dark:text-lightGray font-normal font-Lora">
-                    Quickly generate bricks-and-clicks
+                    {facilitie.dress_code1}
                   </span>
                 </li>
                 <li className="flex items-center">
                   <BsCheck2 size={16} className="text-khaki mr-2" />
                   <span className="text-sm lg:text-base leading-[26px] text-gray dark:text-lightGray font-normal font-Lora">
-                    Interactively cultivate visionary platforms
+                  {facilitie.dress_code2}
                   </span>
                 </li>
                 <li className="flex items-center">
                   <BsCheck2 size={16} className="text-khaki mr-2" />
                   <span className="text-sm lg:text-base leading-[26px] text-gray dark:text-lightGray font-normal font-Lora">
-                    Energistically envisioneer resource
-                  </span>
-                </li>
-              </ul>
-            </div>
-            {/* Dress Code Rules */}
-            <div className="" data-aos="zoom-in-up" data-aos-duration="1000">
-              <h2
-                className="pb-2 sm:pb-3 md:pb-4 lg:pb-[19px] 2xl:pb-6
-                font-Garamond text-[22px] sm:text-2xl md:text-3xl 2xl:text-[32px] leading-7 lg:leading-[26px] text-lightBlack dark:text-white font-semibold"
-              >
-                Terrace
-              </h2>
-              <p className="text-sm lg:text-base leading-6 text-gray dark:text-lightGray font-normal font-Lora">
-                Open the drinks only maintain restaurent rules and regulations
-                below
-              </p>
-              <ul className="space-y-2 lg:space-y-3 mt-5 lg:mt-[30px]">
-                <li className="flex items-center">
-                  <BsCheck2 size={16} className="text-khaki mr-2" />
-                  <span className="text-sm lg:text-base leading-[26px] text-gray dark:text-lightGray font-normal font-Lora">
-                    Quickly generate bricks-and-clicks
-                  </span>
-                </li>
-                <li className="flex items-center">
-                  <BsCheck2 size={16} className="text-khaki mr-2" />
-                  <span className="text-sm lg:text-base leading-[26px] text-gray dark:text-lightGray font-normal font-Lora">
-                    Interactively cultivate visionary platforms
-                  </span>
-                </li>
-                <li className="flex items-center">
-                  <BsCheck2 size={16} className="text-khaki mr-2" />
-                  <span className="text-sm lg:text-base leading-[26px] text-gray dark:text-lightGray font-normal font-Lora">
-                    Energistically envisioneer resource
+                  {facilitie.dress_code3}
                   </span>
                 </li>
               </ul>
