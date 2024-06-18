@@ -368,6 +368,7 @@ def runRoomService():
         {
             "nom": "Basic Comfort Package",
             "prix": 15,
+            "image":"images/rooms/roomService.jpg",
             "desc1": "Bed and floor cleaning",
             "desc2": "Daily towel replacement",
             "desc3": "Complimentary breakfast",
@@ -376,6 +377,7 @@ def runRoomService():
         {
             "nom": "Deluxe Comfort Package",
             "prix": 20,
+            "image":"images/rooms/roomService.jpg",
             "desc1":  "Full room cleaning",
             "desc2": "Daily towel replacement",
             "desc3": "Evening turndown service",
@@ -384,6 +386,7 @@ def runRoomService():
         {
             "nom": "Premium Comfort Package",
             "prix": 18,
+            "image":"images/rooms/roomService.jpg",
             "desc1":  "Partial room cleaning",
             "desc2":  "Towel replacement every other day",
             "desc3":  "Complimentary snack basket",
