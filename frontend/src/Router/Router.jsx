@@ -60,7 +60,7 @@ const router = createBrowserRouter([
         element: <FindRoom />,
       },
       {
-        path: "/room_details",
+        path: "/room_details/:id",
         element: <RoomDetails />,
       },
       {

@@ -115,6 +115,7 @@ class Rooms(models.Model):
     amenities = models.ManyToManyField(FacilitiesRoom, blank=True)
     prom_start = models.DateField()
     prom_end = models.DateField()
+    pourcentage_prom = models.PositiveIntegerField(default=0)
     
 class RoomService(models.Model):
     nom = models.CharField(max_length=50)

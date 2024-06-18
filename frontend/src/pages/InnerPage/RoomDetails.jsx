@@ -1,19 +1,34 @@
 import { BsArrowLeft, BsArrowRight, BsCheck2 } from "react-icons/bs";
 import BreadCrumb from "../../BreadCrumb/BreadCrumb";
-import { useState } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const RoomDetails = () => {
+  const {id} = useParams();
+  const [room, setRoom] = useState({});
+  useEffect(() => {
+    const fetchRoom = async () => {
+      try{
+        const res = await axios.get(`/api/backoffice/rooms/${id}/`);
+        setRoom(res.data);
+      }catch(err){
+        console.log(err);
+      }
+    };
+    fetchRoom();
+  }, []);
   const [imageIndex, setImageIndex] = useState(0);
   const location = useLocation();
   const bookingsData = location.state && location.state;
 
   const navigate = useNavigate();
   const images = [
-    "/images/inner/room-details-1.jpg",
-    "/images/inner/room-details-2.jpg",
+    room.photo,
+    "/images/inner/bathroom.jpg",
   ];
 
   const prevBtn = () => {
@@ -101,20 +116,14 @@ const RoomDetails = () => {
               >
                 {bookingsData && bookingsData.title
                   ? bookingsData.title
-                  : "Delux Family Rooms"}
+                  : `${room.nom}`}
               </h2>
               <p
                 className="text-sm lg:text-base leading-6 text-gray dark:text-lightGray font-normal font-Lora"
                 data-aos="zoom-in-up"
                 data-aos-duration="1000"
               >
-                Rapidiously myocardinate cross-platform intellectual capital
-                after marketing model. Appropriately create interactive
-                infrastructures after maintainable are Holisticly facilitate
-                stand-alone inframe extend state of the art benefits via
-                web-enabled value. Completely fabricate extensible infomediaries
-                rather than reliable e-services. Dramatically whiteboard
-                alternative
+                {room.description}
               </p>
               <p
                 className="mt-5 2xl:mt-7 text-sm lg:text-base leading-6 text-gray dark:text-lightGray font-normal font-Lora"
@@ -342,56 +351,35 @@ const RoomDetails = () => {
               <div className="grid items-center ">
                 <div className="flex items-center py-5 border-b-[1px] border-lightGray dark:border-gray">
                   <img
-                    src="/images/inner/room-amenities-1.png"
-                    className="text-khaki mr-2 md:mr-3 xl:mr-[15px]"
+                    src="/images/inner/people.svg"
+                    className="text-khaki mr-2 md:mr-3 xl:mr-[15px] w-6"
                   />
                   <span className="text-sm lg:text-[15px] leading-[26px] text-gray dark:text-lightGray font-normal font-Lora">
                     2 - 5 Persons
                   </span>
                 </div>
+
+                {room.amenities && room.amenities.map((amenitie)=> {
+                  return(
+                    <div className="flex items-center py-5 border-b-[1px] border-lightGray dark:border-gray">
+                    <img
+                      src={amenitie.logo}
+                      className="text-khaki mr-2 md:mr-3 xl:mr-[15px] w-6"
+                    />
+                    <span className="text-sm lg:text-[15px] leading-[26px] text-gray dark:text-lightGray font-normal font-Lora">
+                      {amenitie.nom}
+                    </span>
+                  </div>
+                  )
+                })}
+
                 <div className="flex items-center py-5 border-b-[1px] border-lightGray dark:border-gray">
                   <img
-                    src="/images/inner/room-amenities-2.png"
-                    className="text-khaki mr-2 md:mr-3 xl:mr-[15px]"
+                    src="/images/inner/bed.svg"
+                    className="text-khaki mr-2 md:mr-3 xl:mr-[15px] w-6"
                   />
                   <span className="text-sm lg:text-[15px] leading-[26px] text-gray dark:text-lightGray font-normal font-Lora">
-                    Free WiFi Available
-                  </span>
-                </div>
-                <div className="flex items-center py-5 border-b-[1px] border-lightGray dark:border-gray">
-                  <img
-                    src="/images/inner/room-amenities-3.png"
-                    className="text-khaki mr-2 md:mr-3 xl:mr-[15px]"
-                  />
-                  <span className="text-sm lg:text-[15px] leading-[26px] text-gray dark:text-lightGray font-normal font-Lora">
-                    Swimming Pools
-                  </span>
-                </div>
-                <div className="flex items-center py-5 border-b-[1px] border-lightGray dark:border-gray">
-                  <img
-                    src="/images/inner/room-amenities-4.png"
-                    className="text-khaki mr-2 md:mr-3 xl:mr-[15px]"
-                  />
-                  <span className="text-sm lg:text-[15px] leading-[26px] text-gray dark:text-lightGray font-normal font-Lora">
-                    Breakfast
-                  </span>
-                </div>
-                <div className="flex items-center py-5 border-b-[1px] border-lightGray dark:border-gray">
-                  <img
-                    src="/images/inner/room-amenities-5.png"
-                    className="text-khaki mr-2 md:mr-3 xl:mr-[15px]"
-                  />
-                  <span className="text-sm lg:text-[15px] leading-[26px] text-gray dark:text-lightGray font-normal font-Lora">
-                    250 SQFT Rooms
-                  </span>
-                </div>
-                <div className="flex items-center py-5 ">
-                  <img
-                    src="/images/inner/room-amenities-6.png"
-                    className="text-khaki mr-2 md:mr-3 xl:mr-[15px]"
-                  />
-                  <span className="text-sm lg:text-[15px] leading-[26px] text-gray dark:text-lightGray font-normal font-Lora">
-                    Gym facilities
+                    {room.superficie} SQFT Rooms
                   </span>
                 </div>
               </div>

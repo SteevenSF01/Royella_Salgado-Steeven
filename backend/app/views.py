@@ -7,6 +7,7 @@ from rest_framework import status, viewsets, generics, pagination
 from rest_framework.decorators import action
 from django.db.models import F
 import random
+from django.utils import timezone
 
 
 # Create your views here.
@@ -112,7 +113,26 @@ class RoomsViewSet(viewsets.ModelViewSet):
         random_rooms = [self.queryset.all()[i] for i in random_indices] 
         # Convertir les objets Rooms sélectionnés en JSON à l'aide du sérialiseur
         serializer = self.get_serializer(random_rooms, many=True)  
+        return Response(serializer.data) 
+    
+
+    @action(detail=False, methods=['get'], url_path='promotions') 
+    def get_promotional_rooms(self, request):
+        # Pour la date actuelle
+        current_date = timezone.now().date()
+        
+        # Filtrer  les chambres de promo qui sont en cours
+        promotional_rooms = self.queryset.filter(prom_start__lte=current_date, prom_end__gte=current_date)
+        
+        # Obtient une liste de toutes les chambres de promo disponibles
+        all_promotional_rooms = list(promotional_rooms)
+        
+        # Obtient 4 chambres de manière aléatoire
+        random_promotional_rooms = random.sample(all_promotional_rooms, min(4, len(all_promotional_rooms)))
+        
+        serializer = self.get_serializer(random_promotional_rooms, many=True)  
         return Response(serializer.data)  
+    
 class RoomServiceViewSet(generics.ListAPIView):
     queryset = RoomService.objects.all()
     serializer_class = RoomServiceSerializer

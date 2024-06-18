@@ -2,10 +2,23 @@ import { Link } from "react-router-dom";
 import { useKeenSlider } from "keen-slider/react";
 import "../../Components4/Testimonial/testimonials.css";
 import "keen-slider/keen-slider.min.css";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 const Offers = () => {
+  const [offers, setOffers] = useState([]);
+
+  useEffect(() => {
+    const fetchOffers = async () => {
+      const res = await axios.get("/api/backoffice/rooms/promotions/");
+      setOffers(res.data);
+    };
+    fetchOffers();
+  }, []);
+  console.log(offers);
+
   const [sliderRef] = useKeenSlider({
     breakpoints: {
       "(min-width: 320px)": {
@@ -62,152 +75,50 @@ const Offers = () => {
         <hr className="text-[#e8e8e8] dark:text-[#383838] my-[40px]" />
         {/* offers carusal */}
         <div className="relative">
-          <div className="mt-14 2xl:mt-[60px] keen-slider " ref={sliderRef}>
+          <div className="mt-14 2xl:mt-[60px] keen-slider flex gap-4 " ref={sliderRef}>
             {/* slide - 1 */}
-            <div className="keen-slider__slide number-slide1 ">
-              {/* card one */}
-              <div
-                className="overflow-x-hidden group "
-                data-aos="fade-up"
-                data-aos-duration="1000"
-              >
-                <div className="relative">
-                  <img
-                    src="/images/home-1/offers-1.jpg"
-                    className="w-full h-full object-cover"
-                    alt=""
-                  />
-                </div>
-                <div className="font-Garamond border border-t-0 border-white dark:border-[#3f4040]">
-                  <div className="px-6 3xl:px-7 py-2 flex items-center justify-center text-white absolute top-[10px] left-[10px] border-[1px] border-white   group-hover:bg-khaki transition-all duration-300">
-                    <span className="text-[22px] leading-[26px] font-Garamond ">
-                      25% off
-                    </span>
-                  </div>
 
-                  <div className="bg-white dark:bg-lightBlack">
-                    <div className="py-[30px] text-center">
-                      <Link to="/room">
-                        <h2
-                          className="text-[24px] leading-[26px] font-semibold text-lightBlack dark:text-white hover:underline hover:text-khaki dark:hover:text-khaki transition-[0.4s] hover:underline-offset-2
-                        "
-                        >
-                          Delux Family Rooms
-                        </h2>
-                      </Link>
+            {offers && offers.map((offer)=> {
+              return(
+                <div className="keen-slider__slide number-slide1 ">
+                {/* card one */}
+                <div
+                  className="overflow-x-hidden group "
+                  data-aos="fade-up"
+                  data-aos-duration="1000"
+                >
+                  <div className="relative h-[250px]">
+                    <img
+                      src={offer.photo}
+                      className="w-full h-full object-cover"
+                      alt=""
+                    />
+                  </div>
+                  <div className="font-Garamond border border-t-0 border-white dark:border-[#3f4040]">
+                    <div className="px-6 3xl:px-7 py-2 flex items-center justify-center text-white absolute top-[10px] left-[10px] border-[1px] border-white   group-hover:bg-khaki transition-all duration-300">
+                      <span className="text-[22px] leading-[26px] font-Garamond ">
+                        {offer.pourcentage_prom}% off
+                      </span>
+                    </div>
+  
+                    <div className="bg-white dark:bg-lightBlack">
+                      <div className="py-[30px] text-center">
+                        <Link to={`/room_details/${offer.id}`}>
+                          <h2
+                            className="text-[24px] leading-[26px] font-semibold text-lightBlack dark:text-white hover:underline hover:text-khaki dark:hover:text-khaki transition-[0.4s] hover:underline-offset-2
+                          "
+                          >
+                            {offer.nom}
+                          </h2>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            {/* slide - 2 */}
-            <div className="keen-slider__slide number-slide1 ">
-              <div
-                className="overflow-x-hidden group "
-                data-aos="fade-up"
-                data-aos-duration="1000"
-              >
-                <div className="relative">
-                  <img
-                    src="/images/home-1/offers-2.jpg"
-                    className="w-full h-full object-cover"
-                    alt=""
-                  />
-                </div>
-                <div className="font-Garamond border border-t-0 border-white dark:border-[#3f4040]">
-                  <div className="px-6 3xl:px-7 py-2 flex items-center justify-center text-white absolute top-[10px] left-[10px] border-[1px] border-white   group-hover:bg-khaki transition-all duration-300">
-                    <span className="text-[22px] leading-[26px] font-Garamond ">
-                      24% off
-                    </span>
-                  </div>
+              )
+            })}
 
-                  <div className="bg-white dark:bg-lightBlack">
-                    <div className="py-[30px] text-center">
-                      <Link to="/room">
-                        <h2
-                          className="text-[24px] leading-[26px] font-semibold text-lightBlack dark:text-white hover:underline hover:text-khaki dark:hover:text-khaki transition-[0.4s] hover:underline-offset-2
-                        "
-                        >
-                          Double Suite Rooms
-                        </h2>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* slide - 3 */}
-            <div className="keen-slider__slide number-slide1 ">
-              <div
-                className="overflow-x-hidden group "
-                data-aos="fade-up"
-                data-aos-duration="1000"
-              >
-                <div className="relative">
-                  <img
-                    src="/images/home-1/offers-3.jpg"
-                    className="w-full h-full object-cover"
-                    alt=""
-                  />
-                </div>
-                <div className="font-Garamond border border-t-0 border-white dark:border-[#3f4040]">
-                  <div className="px-6 3xl:px-7 py-2 flex items-center justify-center text-white absolute top-[10px] left-[10px] border-[1px] border-white   group-hover:bg-khaki transition-all duration-300">
-                    <span className="text-[22px] leading-[26px] font-Garamond ">
-                      26% off
-                    </span>
-                  </div>
-
-                  <div className="bg-white dark:bg-lightBlack">
-                    <div className="py-[30px] text-center">
-                      <Link to="/room">
-                        <h2
-                          className="text-[24px] leading-[26px] font-semibold text-lightBlack dark:text-white hover:underline hover:text-khaki dark:hover:text-khaki transition-[0.4s] hover:underline-offset-2
-                        "
-                        >
-                          Suprior Bed Room
-                        </h2>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* slide - 4 */}
-            <div className="keen-slider__slide number-slide1 ">
-              <div
-                className="overflow-x-hidden group "
-                data-aos="fade-up"
-                data-aos-duration="1000"
-              >
-                <div className="relative">
-                  <img
-                    src="/images/home-1/offers-4.jpg"
-                    className="w-full h-full object-cover"
-                    alt=""
-                  />
-                </div>
-                <div className="font-Garamond border border-t-0 border-white dark:border-[#3f4040]">
-                  <div className="px-6 3xl:px-7 py-2 flex items-center justify-center text-white absolute top-[10px] left-[10px] border-[1px] border-white   group-hover:bg-khaki transition-all duration-300">
-                    <span className="text-[22px] leading-[26px] font-Garamond ">
-                      22% off
-                    </span>
-                  </div>
-
-                  <div className="bg-white dark:bg-lightBlack">
-                    <div className="py-[30px] text-center">
-                      <Link to="/room">
-                        <h2
-                          className="text-[24px] leading-[26px] font-semibold text-lightBlack dark:text-white hover:underline hover:text-khaki dark:hover:text-khaki transition-[0.4s] hover:underline-offset-2
-                        "
-                        >
-                          Junior Suite Room
-                        </h2>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
