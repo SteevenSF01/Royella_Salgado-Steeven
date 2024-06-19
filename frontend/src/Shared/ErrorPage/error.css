@@ -3,13 +3,16 @@
 /***********************************
 			/* 1. BODY */
 /***********************************/
-
-html,
+/* 
+/* html,
 body {
     height: 100%;
     overflow: hidden;
+} */ */
+.lampContainer{
+    height: 100vh;
+    overflow: hidden;
 }
-
 body {
     padding: 0;
     margin: 0;
@@ -101,7 +104,7 @@ tr,
 th,
 td,
 input {
-    border: 0;
+    /* border: 0; */
     outline: 0;
     font-size: 100%;
     vertical-align: baseline;
@@ -482,6 +485,7 @@ button {
 /* 2.1. END Section Error */
 
 /* 2.2. Social style */
+
 .error__social {
     position: absolute;
     top: 50%;
@@ -515,9 +519,11 @@ button {
 .e-social__link:hover {
     opacity: 0.7;
 }
+
 /* 2.2. END Social style */
 
 /* 2.3. Lamp */
+
 .lamp {
     position: absolute;
     left: 0px;
@@ -535,19 +541,19 @@ button {
 
 @keyframes move {
     0% {
-        transform: rotate(40deg);
+        transform: rotate(50deg);
     }
     50% {
-        transform: rotate(-40deg);
+        transform: rotate(-50deg);
     }
     100% {
-        transform: rotate(40deg);
+        transform: rotate(50deg);
     }
 }
 
 .cable {
     width: 8px;
-    height: 248px;
+    height: 158px;
     background-image: linear-gradient(rgb(32 148 218 / 70%), rgb(193 65 25)),
         linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
         linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
@@ -597,7 +603,7 @@ button {
 .light {
     width: 200px;
     height: 0px;
-    border-bottom: 900px solid #2cffff3d;
+    border-bottom: 1000px solid #2cffff3d;
     border-left: 50px solid transparent;
     border-right: 50px solid transparent;
     position: absolute;
@@ -608,6 +614,7 @@ button {
     z-index: 1;
     border-radius: 90px 90px 0px 0px;
 }
+
 /* 2.3. END Lamp */
 /***********************************
 			/* 2. END CONTENT */
@@ -616,6 +623,7 @@ button {
 /***********************************
 			/* 3. RESPONSIVE */
 /***********************************/
+
 .error {
     overflow: hidden;
     max-height: 100vh;

@@ -1,9 +1,10 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import useScrollPosition from "./useScrollPosition";
 import { FaBars } from "react-icons/fa";
 import { IoMdClose, IoIosLogIn, IoIosLogOut } from "react-icons/io";
 import { BiChevronDown, BiSun } from "react-icons/bi";
 import { IoMoonSharp, IoCreateOutline } from "react-icons/io5";
+import { FaRegUser } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../backoffice/pages/loginProvider/LoginProvider";
 import axios from "axios";
@@ -13,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 const Navbar = () => {
-
+  const navigate = useNavigate();
   const notifySuccess = () =>
     toast.success("Successfully disconnected", {
       position: "top-left",
@@ -262,7 +263,12 @@ const Navbar = () => {
           {/* large device visible button and search icon */}
           <div className="hidden lg:flex items-center">
             {authToken ? (
-              <IoIosLogOut className="mr-2 text-white cursor-pointer" size={25} onClick={logout} />
+              <>
+                <IoIosLogOut className="mr-2 text-white cursor-pointer" size={25} onClick={logout} />
+                <Link to={user.role === "ADMINISTRATEUR"? "/backoffice": "/"}>
+                  <FaRegUser className="mr-2 text-white cursor-pointer" size={20}  />
+                </Link>
+              </>
               )
                         :
                     (
