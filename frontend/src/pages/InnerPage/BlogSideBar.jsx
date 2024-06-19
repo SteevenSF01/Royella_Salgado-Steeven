@@ -1,7 +1,22 @@
 import { FaSearch } from "react-icons/fa";
 import { BiChevronsRight } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 const BlogSideBar = () => {
+  const [tags, setTags] = useState('');
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const res = await axios.get("/api/backoffice/tags");
+        setTags(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchTags();
+  }, []);
+
   return (
     <>
       {/* blog search bar*/}
@@ -166,31 +181,17 @@ const BlogSideBar = () => {
         </h2>
         <div className="pt-10 " data-aos="fade-up" data-aos-duration="1000">
           <div className="grid items-center grid-cols-2 md:grid-cols-1 2xl:grid-cols-2 gap-3 sm:gap-5  ">
-            <div className="px-2 sm:px-4 py-2 bg-white dark:bg-lightBlack hover:bg-khaki transition-all duration-300 group">
+
+          {tags && tags.map((tag) => {
+            return(
+            <div key={tag.id} className="px-2 sm:px-4 py-2 cursor-pointer bg-white dark:bg-lightBlack hover:bg-khaki transition-all duration-300 group">
               <h1 className="text-sm sm:text-base leading-6 lg:leading-[30px] font-Garamond text-[#101010] dark:text-white font-medium  group-hover:text-white">
-                Luxury Hotel
+                {tag.nom}
               </h1>
             </div>
-            <div className="px-2 sm:px-4 py-2 bg-white dark:bg-lightBlack hover:bg-khaki transition-all duration-300 group">
-              <h1 className="text-sm sm:text-base leading-6 lg:leading-[30px] font-Garamond text-[#101010] dark:text-white font-medium  group-hover:text-white">
-                Interior Design
-              </h1>
-            </div>
-            <div className="px-2 sm:px-4 py-2 bg-white dark:bg-lightBlack hover:bg-khaki transition-all duration-300 group">
-              <h1 className="text-sm sm:text-base leading-6 lg:leading-[30px] font-Garamond text-[#101010] dark:text-white font-medium  group-hover:text-white">
-                SPA Center
-              </h1>
-            </div>
-            <div className="px-2 sm:px-4 py-2 bg-white dark:bg-lightBlack hover:bg-khaki transition-all duration-300 group">
-              <h1 className="text-sm sm:text-base leading-6 lg:leading-[30px] font-Garamond text-[#101010] dark:text-white font-medium  group-hover:text-white">
-                Luxury Restaurant
-              </h1>
-            </div>
-            <div className="px-2 sm:px-4 py-2 bg-white dark:bg-lightBlack hover:bg-khaki transition-all duration-300 group">
-              <h1 className="text-sm sm:text-base leading-6 lg:leading-[30px] font-Garamond text-[#101010] dark:text-white font-medium  group-hover:text-white">
-                Luxury Hotel
-              </h1>
-            </div>
+            )
+          })}
+
           </div>
         </div>
       </div>

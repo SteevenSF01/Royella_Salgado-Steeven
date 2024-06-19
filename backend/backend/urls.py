@@ -18,6 +18,7 @@ router.register('backoffice/faq', FAQView)
 router.register('backoffice/facilities', FacilitiesViewSet)
 router.register('backoffice/facilitiesRoom', FacilitiesRoomViewSet)
 router.register('backoffice/rooms', RoomsViewSet)
+router.register('backoffice/tags', TagsViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

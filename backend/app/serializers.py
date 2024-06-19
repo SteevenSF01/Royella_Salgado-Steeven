@@ -1,4 +1,4 @@
-from .models import ManagerVideo, Employe, PosteEmploye, HeroHome, BanierePages, FooterGallery, Contact, FAQ, Facilities, FacilitiesRoom, Rooms, RoomService
+from .models import *
 from rest_framework import serializers
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.hashers import make_password
@@ -158,3 +158,10 @@ class RoomServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoomService
         fields = '__all__'
+        
+# Tags #
+
+class TagSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Tags
+		fields = '__all__'

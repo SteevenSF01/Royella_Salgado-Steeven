@@ -47,7 +47,14 @@ class CustomUser(AbstractUser):
     class Meta:
         verbose_name = 'user'
         verbose_name_plural = 'users'
+        
+# Tags #
+
+class Tags(models.Model):
+    nom = models.CharField(max_length=200)
+
     
+# PosteEmploye #
 class PosteEmploye(models.Model):
     poste = models.CharField(max_length=50)
 
