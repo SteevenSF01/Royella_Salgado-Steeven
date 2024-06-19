@@ -5,9 +5,47 @@ import { IoMdClose, IoIosLogIn, IoIosLogOut } from "react-icons/io";
 import { BiChevronDown, BiSun } from "react-icons/bi";
 import { IoMoonSharp, IoCreateOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../backoffice/pages/loginProvider/LoginProvider";
+import axios from "axios";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 
 const Navbar = () => {
+
+  const notifySuccess = () =>
+    toast.success("Successfully disconnected", {
+      position: "top-left",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Slide,
+    });
+
+  const { authToken, user } = useAuth();
+  console.log(authToken);
+  console.log(user);
+  const logout = () => {
+    localStorage.removeItem("access_token");
+    axios
+      .post("/api/logout/")
+      .then((res) => {
+        console.log(res.data);
+        notifySuccess();
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2500);
+      })
+      .catch((err) => console.log(err));
+  };
+  
+
+
   // modal openar
   const [isOpen, setIsOpen] = useState(false);
   // dark mode toggle bar
@@ -225,10 +263,20 @@ const Navbar = () => {
           </ul>
           {/* large device visible button and search icon */}
           <div className="hidden lg:flex items-center">
-          <IoIosLogIn className="mr-2 text-white cursor-pointer" size={25} />
-            <Link to="/register">
-              <IoCreateOutline className="mr-2 text-white cursor-pointer pb-1" size={30} />
-            </Link>
+            {authToken ? (
+              <IoIosLogOut className="mr-2 text-white cursor-pointer" size={25} onClick={logout} />
+              )
+                        :
+                    (
+              <>
+                  <Link to="/login">
+                      <IoIosLogIn className="mr-2 text-white cursor-pointer" size={25} />
+                  </Link>
+                  <Link to="/register">
+                    <IoCreateOutline className="mr-2 text-white cursor-pointer pb-1" size={30} />
+                  </Link> 
+              </>
+                    )}
             <span onClick={handleClick} className="mr-3 cursor-pointer group ">
               {isDarkMode ? (
                 <BiSun
@@ -250,6 +298,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      <ToastContainer/>
     </nav>
   );
 };

@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/backoffice/roomService/', RoomServiceViewSet.as_view()),
     path('api/register/', UserRegistrationView.as_view(), name='register'),
     path('api/template', template),
-    path('api/login/', login_view),
+    path('api/login/', connexion),
     path('api/logout/', deconnexion),
+    path('api/get_user/', get_user),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

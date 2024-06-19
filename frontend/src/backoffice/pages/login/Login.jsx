@@ -2,71 +2,68 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../loginProvider/LoginProvider';
+
 
 export default function Login() {
-  const navigate = useNavigate();
+  const { authToken } = useAuth();
+  console.log(authToken);
   const notifySuccess = () =>
-    toast.success("Login successful", {
-        position: "top-left",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Slide,
+    toast.success("Succesfully connected", {
+      position: "top-left",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Slide,
     });
 
   const notifyError = () =>
     toast.error("Error occurred during the login", {
-        position: "top-left",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Slide,
+      position: "top-left",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Slide,
     });
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-
-    try {
-      const response = await axios.post('/api/login/', {
-        email,
-        password
-      }, {
+  const login = async (e) => {
+    e.preventDefault()
+    try{
+      const response = await axios.post('/api/login/',{email,password},{
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json' 
         }
       });
-
-      const data = response.data;
-      localStorage.setItem('access_token', data.access_token);
-      localStorage.setItem('refresh_token', data.refresh_token);
+      const accesToken = response.data.access_token;
+      console.log(accesToken);
+      localStorage.setItem('access_token',accesToken);
       notifySuccess();
-      console.log('Login successful');
       setTimeout(() => {
-        navigate("/");
+        window.location.href = "/";
       }, 2500);
-    } catch (error) {
+    console.log(response.data);
+    } catch(error){
       notifyError();
-      console.error('Login failed', error);
+      console.error(error);
     }
-  };
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg">
         <h2 className="text-2xl font-bold text-center">Login</h2>
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form onSubmit={login} className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
             <input

@@ -12,6 +12,10 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response as JsonResponse
 from rest_framework.decorators import api_view
 from .models import CustomUser
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.core.exceptions import ObjectDoesNotExist
+import json
 
 
 # Create your views here.
@@ -33,37 +37,49 @@ class UserRegistrationView(generics.CreateAPIView):
 # UserLogin #
 
 @api_view(['POST'])
-def login_view(request):
-    data = request.data
-    email = data.get('email')
+def connexion(request):
+    data =json.loads(request.body)
+    username = data.get('email')
     password = data.get('password')
-
-    try:
-        user = CustomUser.objects.get(email=email)
-    except CustomUser.DoesNotExist:
-        user = None
-
+    user = authenticate(request, username=username, password= password)
     if user is not None:
-        if user.check_password(password):
-            login(request, user)
-            refresh = RefreshToken.for_user(user)
-            return JsonResponse({
-                'status': 'success',
-                'message': 'Connexion réussie',
-                'access_token': str(refresh.access_token),
-                'refresh_token': str(refresh)
-            })
-        else:
-            return JsonResponse({
-                'status': 'error',
-                'message': 'Mot de passe incorrect'
-            }, status=400)
+        login(request, user)
+        refresh = RefreshToken.for_user(user)
+        access_token = str(refresh.access_token)
+        return JsonResponse({'status': 'success', 'message': 'Connexion réussie', 'access_token': access_token, 'refresh_token': str(refresh)})
     else:
-        return JsonResponse({
-            'status': 'error',
-            'message': 'Utilisateur non trouvé'
-        }, status=400)
+        return JsonResponse({'status': 'error', 'message': 'Échec de la connexion'})
+
+#     data = request.data
+#     email = data.get('email')
+#     password = data.get('password')
+
+#     try:
+#         user = CustomUser.objects.get(email=email)
+#     except CustomUser.DoesNotExist:
+#         return Response({'status': 'error', 'message': 'Utilisateur non trouvé'}, status=400)
+
+#     if user.check_password(password):
+#         login(request, user)
+#         refresh = RefreshToken.for_user(user)
+#         return Response({
+#             'status': 'success',
+#             'message': 'Connexion réussie',
+#             'access_token': str(refresh.access_token),
+#             'refresh_token': str(refresh),
+#             'user': {
+#                     'id': user.id,
+#                     'first_name': user.first_name,
+#                     'last_name': user.last_name,
+#                     'email': user.email,
+#                     'role': user.role,
+#                     "image": user.photo
+#             }
+#         })
+#     else:
+#         return Response({'status': 'error', 'message': 'Mot de passe incorrect'}, status=400)       
         
+
 # Logout #
 
 @api_view(['POST'])
@@ -73,7 +89,26 @@ def deconnexion(request):
 
 # Get User #
 
-
+@api_view(['GET'])
+def get_user(request):
+    try:
+        auth = JWTAuthentication()
+        user, _ = auth.authenticate(request)
+        if not user:
+            raise AuthenticationFailed()
+    except AuthenticationFailed:
+        return JsonResponse({'error': 'Authentification invalide'}, status=401)
+    except ObjectDoesNotExist:
+        return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
+    mon_user = {
+        'email': user.email,
+        'id': user.id,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'role': user.role,
+        'photo': user.photo.url,
+    }
+    return JsonResponse({'user': mon_user})
 
 
 # Manager #
