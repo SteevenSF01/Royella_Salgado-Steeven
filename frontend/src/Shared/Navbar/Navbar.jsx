@@ -28,8 +28,6 @@ const Navbar = () => {
     });
 
   const { authToken, user } = useAuth();
-  console.log(authToken);
-  console.log(user);
   const logout = () => {
     localStorage.removeItem("access_token");
     axios

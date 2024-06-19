@@ -7,7 +7,6 @@ import { useAuth } from '../loginProvider/LoginProvider';
 
 export default function Login() {
   const { authToken } = useAuth();
-  console.log(authToken);
   const notifySuccess = () =>
     toast.success("Succesfully connected", {
       position: "top-left",

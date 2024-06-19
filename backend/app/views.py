@@ -238,3 +238,5 @@ class RoomsViewSet(viewsets.ModelViewSet):
 class RoomServiceViewSet(generics.ListAPIView):
     queryset = RoomService.objects.all()
     serializer_class = RoomServiceSerializer
+    
+    
