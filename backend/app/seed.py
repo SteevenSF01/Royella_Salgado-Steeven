@@ -3,6 +3,8 @@ from django.db import transaction
 import random
 from datetime import timedelta
 from faker import Faker
+from django.utils import timezone
+from django.contrib.auth import get_user_model
 from django_seeder import Seed
 # from django_seed import Seed
 from faker import Faker
@@ -447,6 +449,7 @@ def runTags():
     pks = seeder.execute()
     print(pks)
 
+
 def runCategories():
     seeder = Seed.seeder()
     categories = [
@@ -476,3 +479,118 @@ def runCategories():
     print(pks)
     
     
+# def run_blogs_seeder():
+#     seeder = Seed.seeder()
+#     seeder.add_entity(Blog, 10, {
+#         'titre': lambda x: seeder.faker.sentence(),
+#         'contenue': lambda x: seeder.faker.text(),
+#         'auteur': lambda x: random.choice(CustomUser.objects.all()),
+#         'categorie': lambda x: random.choice(Categories.objects.all()),
+#         'status': lambda x: random.choice(['draft', 'pending', 'approved', 'rejected']),
+#     })
+#     pks = seeder.execute()
+#     print("Blogs seeded: ", pks)
+
+#     for blog in Blog.objects.all():
+#         blog.tags.set(random.sample(list(Tags.objects.all()), k=random.randint(1, 3)))
+#         blog.save()
+
+# def run_comments_seeder():
+#     seeder = Seed.seeder()
+#     seeder.add_entity(Comment, 20, {
+#         'blog': lambda x: random.choice(Blog.objects.all()),
+#         'auteur': lambda x: random.choice(CustomUser.objects.all()),
+#         'contenue': lambda x: seeder.faker.text(),
+#     })
+#     pks = seeder.execute()
+#     print("Comments seeded: ", pks)
+
+# def run_blog_descriptions_seeder():
+#     seeder = Seed.seeder()
+#     seeder.add_entity(BlogDescription, 10, {
+#         'blog': lambda x: random.choice(Blog.objects.all()),
+#         'titre': lambda x: seeder.faker.sentence(),
+#         'contenue': lambda x: seeder.faker.text(),
+#     })
+#     pks = seeder.execute()
+#     print("Blog Descriptions seeded: ", pks)
+    
+# def run_all_blogs():
+#     run_blogs_seeder()
+#     run_comments_seeder()
+#     run_blog_descriptions_seeder()
+
+
+User = get_user_model()
+seeder = Seed.seeder()
+fake = Faker()
+
+def run_blogs_seeder():
+    categories = list(Categories.objects.all())
+    tags = list(Tags.objects.all())
+    users = list(CustomUser.objects.all())
+
+    if not categories or not tags or not users:
+        print("Asegúrate de tener categorías, tags y usuarios en la base de datos antes de ejecutar el seeder.")
+        return
+
+    seeder.add_entity(Blog, 10, {
+        'titre': lambda x: seeder.faker.sentence(),
+        'contenue': lambda x: seeder.faker.text(),
+        'auteur': lambda x: random.choice(users),
+        'categorie': lambda x: random.choice(categories),
+        'status': lambda x: random.choice(['draft', 'pending', 'approved', 'rejected']),
+        'created_at': lambda x: timezone.now(),
+        'updated_at': lambda x: timezone.now(),
+        'posted_on': lambda x: timezone.now(),
+    })
+    pks = seeder.execute()
+    print("Blogs seeded: ", pks)
+
+    for blog in Blog.objects.all():
+        for tag_id in random.sample([tag.pk for tag in tags], k=random.randint(1, 3)):
+            try:
+                tag = Tags.objects.get(pk=tag_id)
+                blog.tags.add(tag)
+            except Tags.DoesNotExist:
+                print(f"Tag with id {tag_id} does not exist.")
+        blog.save()
+
+def run_comments_seeder():
+    blogs = list(Blog.objects.all())
+    users = list(CustomUser.objects.all())
+
+    if not blogs or not users:
+        print("Asegúrate de tener blogs y usuarios en la base de datos antes de ejecutar el seeder.")
+        return
+
+    seeder.add_entity(Comment, 20, {
+        'blog': lambda x: random.choice(blogs),
+        'auteur': lambda x: random.choice(users),
+        'contenue': lambda x: seeder.faker.text(),
+        'created_at': lambda x: timezone.now(),
+    })
+    pks = seeder.execute()
+    print("Comments seeded: ", pks)
+
+def run_blog_descriptions_seeder():
+    blogs = list(Blog.objects.all())
+
+    if not blogs:
+        print("Asegúrate de tener blogs en la base de datos antes de ejecutar el seeder.")
+        return
+
+    seeder.add_entity(BlogDescription, 10, {
+        'blog': lambda x: random.choice(blogs),
+        'titre': lambda x: seeder.faker.sentence(),
+        'contenue': lambda x: seeder.faker.text(),
+        'image': lambda x: 'images/rooms/room/2.jpg',  
+    })
+    pks = seeder.execute()
+    print("Blog Descriptions seeded: ", pks)
+
+def run_all_blogs():
+    run_blogs_seeder()
+    run_comments_seeder()
+    run_blog_descriptions_seeder()
+

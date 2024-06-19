@@ -57,6 +57,39 @@ class Tags(models.Model):
 
 class Categories(models.Model):
     nom = models.CharField(max_length=200)
+    
+# Blog #
+
+class Blog(models.Model):
+    status_choix = (
+        ('draft', 'Draft'),
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    )
+    titre = models.CharField(max_length=200)
+    contenue = models.TextField()
+    image = models.ImageField(upload_to='images/blogs/')
+    auteur = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    posted_on = models.DateTimeField(auto_now_add=True)
+    categorie = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True)
+    tags = models.ManyToManyField(Tags , blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=20, choices=status_choix, default='draft')
+    
+class Comment(models.Model):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    auteur = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    contenue = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+class BlogDescription(models.Model):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    titre = models.CharField(max_length=200, null=True, blank=True)
+    contenue = models.TextField(null=True, blank=True)
+    image = models.ImageField(upload_to='images/blogs/', blank=True, null=True)    
+    
 
     
 # PosteEmploye #

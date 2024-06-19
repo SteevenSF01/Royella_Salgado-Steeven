@@ -249,3 +249,18 @@ class TagsViewSet(viewsets.ModelViewSet):
 class CategoriesViewSet(viewsets.ModelViewSet):
     queryset = Categories.objects.all()
     serializer_class = CategorySerializer
+    
+
+# Blogs #
+
+class BlogViewSet(viewsets.ModelViewSet):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+class BlogDescriptionViewSet(viewsets.ModelViewSet):
+    queryset = BlogDescription.objects.all()
+    serializer_class = BlogDescriptionSerializer
