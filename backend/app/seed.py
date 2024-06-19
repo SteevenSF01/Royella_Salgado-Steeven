@@ -410,6 +410,7 @@ def runRoomService():
     pks = seeder.execute()
     print(pks)
 
+
 def runTags():
     seeder = Seed.seeder()
     tags = [
@@ -417,7 +418,7 @@ def runTags():
             "nom":"Luxury Hotel"
         },
         {
-            "nom":"Interior Design"
+            "nom":"Health Club"
         },
         {
             "nom":"SPA Center"
@@ -445,3 +446,33 @@ def runTags():
         seeder.add_entity(Tags, 1, tag)
     pks = seeder.execute()
     print(pks)
+
+def runCategories():
+    seeder = Seed.seeder()
+    categories = [
+        {
+            "nom":"Luxury Hotels"
+        },
+        {
+            "nom":"Health Club"
+        },
+        {
+            "nom":"SPA Center"
+        },
+        {
+            "nom": "Restaurant"
+        },
+        {
+            "nom": "Industrial"
+        },
+        {
+            "nom": "Uncategories"
+        },
+
+    ]
+    for category in categories:
+        seeder.add_entity(Categories, 1, category)
+    pks = seeder.execute()
+    print(pks)
+    
+    

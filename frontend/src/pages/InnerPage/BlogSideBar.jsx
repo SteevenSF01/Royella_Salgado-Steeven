@@ -5,11 +5,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 const BlogSideBar = () => {
   const [tags, setTags] = useState('');
+  const [categories, setCategories] = useState('');
   useEffect(() => {
     const fetchTags = async () => {
       try {
         const res = await axios.get("/api/backoffice/tags");
         setTags(res.data);
+        const resCat = await axios.get("/api/backoffice/categories");
+        setCategories(resCat.data);
       } catch (error) {
         console.log(error);
       }
@@ -117,60 +120,19 @@ const BlogSideBar = () => {
         </h2>
         <div className="pt-10">
           <ul className=" " data-aos="fade-up" data-aos-duration="1000">
-            <li className="flex items-center group transition-all duration-300 border-b-[1px] cursor-pointer border-lightGray dark:border-gray pb-3 ">
-              <BiChevronsRight
-                size={16}
-                className="text-lightBlack dark:text-white group-hover:text-khaki mr-2"
-              />
-              <span className="text-sm xl:text-base 2xl:text-lg leading-[26px] text-lightBlack group-hover:text-khaki font-medium font-Garamond dark:text-white">
-                Luxury Hotels
-              </span>
-            </li>
-            <li className="flex items-center group transition-all duration-300 border-b-[1px] cursor-pointer border-lightGray dark:border-gray py-3">
-              <BiChevronsRight
-                size={16}
-                className="text-lightBlack dark:text-white group-hover:text-khaki mr-2"
-              />
-              <span className="text-sm xl:text-base 2xl:text-lg leading-[26px] text-lightBlack group-hover:text-khaki font-medium font-Garamond dark:text-white">
-                Restaurants
-              </span>
-            </li>
-            <li className="flex items-center group transition-all duration-300 border-b-[1px] cursor-pointer border-lightGray dark:border-gray py-3">
-              <BiChevronsRight
-                size={16}
-                className="text-lightBlack dark:text-white group-hover:text-khaki mr-2"
-              />
-              <span className="text-sm xl:text-base 2xl:text-lg leading-[26px] text-lightBlack group-hover:text-khaki font-medium font-Garamond dark:text-white">
-                SPA Center
-              </span>
-            </li>
-            <li className="flex items-center group transition-all duration-300 border-b-[1px] cursor-pointer border-lightGray dark:border-gray py-3">
-              <BiChevronsRight
-                size={16}
-                className="text-lightBlack dark:text-white group-hover:text-khaki mr-2"
-              />
-              <span className="text-sm xl:text-base 2xl:text-lg leading-[26px] text-lightBlack group-hover:text-khaki font-medium font-Garamond dark:text-white">
-                Health Club
-              </span>
-            </li>
-            <li className="flex items-center group transition-all duration-300 border-b-[1px] cursor-pointer border-lightGray dark:border-gray py-3">
-              <BiChevronsRight
-                size={16}
-                className="text-lightBlack dark:text-white group-hover:text-khaki mr-2"
-              />
-              <span className="text-sm xl:text-base 2xl:text-lg leading-[26px] text-lightBlack group-hover:text-khaki font-medium font-Garamond dark:text-white">
-                Industrial
-              </span>
-            </li>
-            <li className="flex items-center group transition-all duration-300 cursor-pointer pt-3">
-              <BiChevronsRight
-                size={16}
-                className="text-lightBlack dark:text-white group-hover:text-khaki mr-2"
-              />
-              <span className="text-sm xl:text-base 2xl:text-lg leading-[26px] text-lightBlack group-hover:text-khaki font-medium font-Garamond dark:text-white">
-                Uncategories
-              </span>
-            </li>
+            {categories && categories.map((category) => {
+              return (
+                <li key={category.id} className="flex items-center group transition-all duration-300 border-b-[1px] cursor-pointer border-lightGray dark:border-gray py-2 ">
+                  <BiChevronsRight
+                    size={16}
+                    className="text-lightBlack dark:text-white group-hover:text-khaki mr-2"
+                  />
+                  <span className="text-sm xl:text-base 2xl:text-lg leading-[26px] text-lightBlack group-hover:text-khaki font-medium font-Garamond dark:text-white">
+                    {category.nom}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

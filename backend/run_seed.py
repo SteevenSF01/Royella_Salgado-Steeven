@@ -15,4 +15,5 @@ if __name__ == '__main__':
     # seed.runFacilitiesRoom()
     # seed.runRooms()
     # seed.runRoomService()
-    seed.runTags()
+    # seed.runTags()
+    seed.runCategories()

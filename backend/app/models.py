@@ -52,6 +52,11 @@ class CustomUser(AbstractUser):
 
 class Tags(models.Model):
     nom = models.CharField(max_length=200)
+    
+# Categories #
+
+class Categories(models.Model):
+    nom = models.CharField(max_length=200)
 
     
 # PosteEmploye #
