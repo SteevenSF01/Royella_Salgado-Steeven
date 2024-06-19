@@ -70,10 +70,10 @@ export default function Register() {
                     },
                 }
             );
-            console.log("Registration successful.", data);
+            console.log("Registration successful.");
             notifySuccess();
             setTimeout(() => {
-                navigate("/");
+                navigate("/login");
             }, 2500);
         } catch (error) {
             notifyError();

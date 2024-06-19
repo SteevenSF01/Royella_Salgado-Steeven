@@ -71,6 +71,11 @@ def deconnexion(request):
     logout(request)
     return JsonResponse({'status': 'success', 'message': 'Utilisateur déconnecté'})
 
+# Get User #
+
+
+
+
 # Manager #
 
 class ManagerView(viewsets.ModelViewSet):

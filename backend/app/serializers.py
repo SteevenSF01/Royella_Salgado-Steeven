@@ -41,7 +41,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return base64_image
 
     def send_confirmation_email(self, user, base64_image):
-        subject = "Confirmation d'inscription"
+        subject = "Registration confirmation"
         from_email = settings.EMAIL_HOST_USER
         to_email = [user.email]
         context = {'user': user, 'base64_image': base64_image}
