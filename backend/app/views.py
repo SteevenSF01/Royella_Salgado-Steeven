@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from .models import *
+from django_filters import rest_framework as filters
 from .serializers import *
 from rest_framework.response import Response
 from rest_framework import status, viewsets, generics, pagination
 from rest_framework.decorators import action
-from django.db.models import F
+from django.db.models import F, Count
 import random
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
@@ -253,6 +254,12 @@ class CategoriesViewSet(viewsets.ModelViewSet):
 
 # Blogs #
 
+class BlogFilter(filters.FilterSet):
+    title = filters.CharFilter(field_name="titre", lookup_expr='icontains') 
+    class Meta:
+        model = Blog
+        fields = ['title']
+        
 class BlogPagination(pagination.PageNumberPagination):
     page_size = 6
     page_size_query_param = 'page_size'
@@ -262,6 +269,8 @@ class BlogViewSet(viewsets.ModelViewSet):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
     pagination_class = BlogPagination
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = BlogFilter
     
     # Définir une action supplémentaire pour la vue
     @action(detail=False, methods=['get'], url_path='random') 
@@ -278,6 +287,7 @@ class BlogViewSet(viewsets.ModelViewSet):
         # Convertir les objets Rooms sélectionnés en JSON à l'aide du sérialiseur
         serializer = self.get_serializer(random_blogs, many=True)  
         return Response(serializer.data) 
+    
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()

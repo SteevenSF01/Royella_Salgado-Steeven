@@ -9,33 +9,39 @@ import axios from "axios";
 const Blog = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [blogData, setBlogData] = useState([]);
+  const [filterTitle, setFilterTitle] = useState("")
 
   const formatDate = (date) => {
     return moment(date).format("MMMM D, YYYY");
   };
 
-  const [blogData, setBlogData] = useState([]);
   useEffect(() => {
-    const fetchData = async (page = 1) => {
-      const response = await axios.get(`/api/backoffice/blog?page=${page}`);
+    const fetchData = async (page = 1, title = "") => {
+      const response = await axios.get(`/api/backoffice/blog?page=${page}&title=${title}`);
       setBlogData(response.data.results);
       setTotalPages(Math.ceil(response.data.count / 6));  
     };
-    fetchData(currentPage);
-  }, [currentPage]);
+    fetchData(currentPage, filterTitle); 
+  }, [currentPage, filterTitle]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
         setCurrentPage(prevPage => prevPage + 1);
     }
-};
+  };
 
-const handlePrevPage = () => {
+  const handlePrevPage = () => {
     if (currentPage > 1) {
         setCurrentPage(prevPage => prevPage - 1);
     }
-};
-console.log(blogData);
+  };
+
+  const handleFilterChange = (e) => {
+    setFilterTitle(e.target.value); 
+    setCurrentPage(1);
+  };
+
   return (
     <div>
       <BreadCrumb title="Blog" />
@@ -43,11 +49,8 @@ console.log(blogData);
         <div className="Container grid grid-cols-6 md:grid-cols-7 lg:grid-cols-6 gap-5 ">
           <div className="col-span-6 md:col-span-4">
             <div className="grid items-center gap-5 2xl:gap-y-[30px] grid-cols-1 lg:grid-cols-2">
-              {/* Blog One */}
-
-              {blogData && blogData.map((blog)=>{
-                return(
-                  <div
+              {blogData && blogData.map((blog) => (
+                <div key={blog.id}
                   className="overflow-hidden 3xl:w-[410px] group"
                   data-aos="fade-up"
                   data-aos-duration="1000"
@@ -102,33 +105,30 @@ console.log(blogData);
                     </div>
                   </div>
                 </div>
-                )
-              })}
-
+              ))}
             </div>
             <div className="hidden sm:flex mt-5 items-center lg:space-x-5  space-x-3">
-                            <button
-                                className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px] flex items-center justify-center border-[1px] border-gray  text-lightGray hover:bg-khaki hover:border-none group"
-                                onClick={handlePrevPage}
-                                disabled={currentPage === 1}
-                            >
-                                <BsChevronLeft className="w-5 h-5 text-gray  group-hover:text-white " />
-                            </button>
-                            <span className="flex items-center justify-center text-lightBlack dark:text-white">
-                                {currentPage} / {totalPages}
-                            </span>
-                            <button
-                                className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px] flex items-center justify-center border-[1px] border-gray  text-lightGray hover:bg-khaki hover:border-none group"
-                                onClick={handleNextPage}
-                                disabled={currentPage === totalPages}
-                            >
-                                <BsChevronRight className="w-5 h-5 text-gray  group-hover:text-white " />
-                            </button>
-                        </div>
+              <button
+                className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px] flex items-center justify-center border-[1px] border-gray  text-lightGray hover:bg-khaki hover:border-none group"
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+              >
+                <BsChevronLeft className="w-5 h-5 text-gray  group-hover:text-white " />
+              </button>
+              <span className="flex items-center justify-center text-lightBlack dark:text-white">
+                {currentPage} / {totalPages}
+              </span>
+              <button
+                className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px] flex items-center justify-center border-[1px] border-gray  text-lightGray hover:bg-khaki hover:border-none group"
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+              >
+                <BsChevronRight className="w-5 h-5 text-gray  group-hover:text-white " />
+              </button>
+            </div>
           </div>
           <div className="col-span-6 md:col-span-3 lg:col-span-2">
-            {/* imported Blog Sidebar */}
-            <BlogSideBar />
+            <BlogSideBar filterTitle={filterTitle} handleFilterChange={handleFilterChange} />
           </div>
         </div>
       </div>

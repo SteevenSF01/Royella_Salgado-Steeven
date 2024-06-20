@@ -22,6 +22,7 @@ const BlogDetails = () => {
     });
   }, [user]);
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
