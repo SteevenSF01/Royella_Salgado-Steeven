@@ -37,7 +37,6 @@ const CreateBlog = () => {
     const { user } = useAuth();
     const [tags, setTags] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [allBlogs, setAllBlogs] = useState([]);
     const [formData, setFormData] = useState();
     useEffect(() => {
         setFormData({
@@ -49,7 +48,6 @@ const CreateBlog = () => {
             tags_id: [],
         })    
     }, [user]);
-    console.log(formData);
 
     useEffect(() => {
         if (user) {
@@ -67,16 +65,12 @@ const CreateBlog = () => {
                 setTags(res.data);
                 const resCategorie = await axios.get(`/api/backoffice/categories`);
                 setCategories(resCategorie.data);
-                const resBlogs = await axios.get(`/api/backoffice/blog/`);
-                setAllBlogs(resBlogs.data.results);
-
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
         fetchData();
     }, []);
-    console.log(allBlogs);
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         setFormData({

@@ -23,7 +23,6 @@ router.register('backoffice/categories', CategoriesViewSet)
 router.register('backoffice/blog', BlogViewSet)
 router.register('backoffice/comment', CommentViewSet)
 router.register('backoffice/blogDescription', BlogDescriptionViewSet)
-router.register('backoffice/create_blog', CreateBlogViewSet, basename='create-blog')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,4 +33,5 @@ urlpatterns = [
     path('api/login/', connexion),
     path('api/logout/', deconnexion),
     path('api/get_user/', get_user),
+    path('api/getintouch/', GetInTouchView.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

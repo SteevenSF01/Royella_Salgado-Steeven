@@ -266,7 +266,7 @@ class BlogPagination(pagination.PageNumberPagination):
     max_page_size = 100
 
 class BlogViewSet(viewsets.ModelViewSet):
-    queryset = Blog.objects.all()
+    queryset = Blog.objects.all().order_by('-posted_on')
     serializer_class = BlogSerializer
     pagination_class = BlogPagination
     filter_backends = (filters.DjangoFilterBackend,)
@@ -316,13 +316,8 @@ class BlogDescriptionViewSet(viewsets.ModelViewSet):
     queryset = BlogDescription.objects.all()
     serializer_class = BlogDescriptionSerializer
     
-class CreateBlogViewSet(viewsets.ModelViewSet):
-    queryset = Blog.objects.all()
-    serializer_class = CreateBlogSerializer
+# Get in touch #
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(auteur=request.user) 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class GetInTouchView(generics.ListCreateAPIView):
+    queryset = GetInTouch.objects.all()
+    serializer_class = GetInTouchSerializer

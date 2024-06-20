@@ -3,9 +3,71 @@ import BreadCrumb from "../../BreadCrumb/BreadCrumb";
 import { IoIosCall } from "react-icons/io";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Contact = () => {
+
+
+    const notifySuccess = () =>
+        toast.success("Message sent successfully", {
+            position: "top-left",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Slide,
+        });
+
+    const notifyError = () =>
+        toast.error("An error occurred while sending the message", {
+            position: "top-left",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Slide,
+        });
+
     const [data, setData] = useState([]);
+    const [formData, setFormData] = useState({
+        nom: "",
+        email: "",
+        contenue: "",
+    });
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post("/api/getintouch/", formData);
+            notifySuccess();
+            setFormData({
+                nom: "",
+                email: "",
+                contenue: "",
+            });
+            setTimeout(() => {
+                window.location.href = "/contact";
+            }, 2500);
+        } catch (error) {
+            console.error("Error sending message:", error);
+            notifyError();
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -111,74 +173,41 @@ const Contact = () => {
                                                     GET IN TOUCH
                                                 </h2>
                                                 <div className="grid items-center grid-cols-1 gap-2 mt-8">
-                                                    <input
-                                                        type="text"
-                                                        className="w-full h-12 md:h-13 lg:h-[59px] px-4 border border-gray dark:border-lightGray text-gray dark:text-lightGray outline-none  bg-transparent mt-4 focus:ring-0 placeholder:text-gray focus:border-gray dark:focus:border-lightGray focus:outline-none"
-                                                        placeholder="Your Name"
-                                                        required
-                                                    />
-                                                    <input
-                                                        type="email"
-                                                        className="w-full h-12 md:h-13 lg:h-[59px] px-4 border  border-gray dark:border-lightGray text-gray dark:text-lightGray outline-none  bg-transparent mt-4 focus:ring-0 placeholder:text-gray focus:border-gray dark:focus:border-lightGray focus:outline-none"
-                                                        placeholder="Enter E-mail"
-                                                        required
-                                                    />
-                                                    <select
-                                                        className="w-full h-12 md:h-13 lg:h-[59px] px-4 border border-gray dark:border-lightGray text-gray dark:text-lightGray outline-none  bg-transparent mt-4 focus:ring-0  focus:border-gray dark:focus:border-lightGray focus:outline-none"
-                                                        onFocus={(e) => {
-                                                            e.target.size = 6;
-                                                        }}
-                                                        onBlur={(e) => {
-                                                            e.target.size = 0;
-                                                        }}
-                                                        onChange={(e) => {
-                                                            e.target.size = 1;
-                                                            e.target.blur();
-                                                        }}
-                                                    >
-                                                        <option
-                                                            className="bg-khaki text-white px-3 py-3"
-                                                            value=""
-                                                            disabled
-                                                        >
-                                                            Select Subject
-                                                        </option>
-                                                        <option
-                                                            className="bg-whiteSmoke dark:bg-normalBlack text-lightBlack dark:text-white px-3 py-3"
-                                                            value="option1"
-                                                        >
-                                                            Subject One
-                                                        </option>
-                                                        <option
-                                                            className="bg-whiteSmoke dark:bg-normalBlack text-lightBlack dark:text-white px-3 py-3"
-                                                            value="option2"
-                                                        >
-                                                            Subject Two
-                                                        </option>
-                                                        <option
-                                                            className="bg-whiteSmoke dark:bg-normalBlack text-lightBlack dark:text-white px-3 py-3"
-                                                            value="option3"
-                                                        >
-                                                            Select Three
-                                                        </option>
-                                                        <option
-                                                            className="bg-whiteSmoke dark:bg-normalBlack text-lightBlack dark:text-white px-3 py-3"
-                                                            value="option4"
-                                                        >
-                                                            Select Four
-                                                        </option>
-                                                    </select>
-                                                    <textarea
-                                                        name=""
-                                                        id=""
-                                                        cols="30"
-                                                        rows="10"
-                                                        className="w-full h-[121px] px-4 border border-gray dark:border-lightGray text-gray dark:text-lightGray outline-none  bg-transparent mt-4 focus:ring-0 placeholder:text-gray resize-none focus:border-gray dark:focus:border-lightGray focus:outline-none"
-                                                        placeholder="Write Message:"
-                                                    ></textarea>
-                                                    <button className="w-full bg-khaki text-white text-center h-10 2xl:h-[55px] mt-5">
-                                                        SEND MESSAGE
-                                                    </button>
+                                                    <form onSubmit={handleSubmit}>
+                                                        <input
+                                                            type="text"
+                                                            className="w-full h-12 md:h-13 lg:h-[59px] px-4 border border-gray dark:border-lightGray text-gray dark:text-lightGray outline-none  bg-transparent mt-4 focus:ring-0 placeholder:text-gray focus:border-gray dark:focus:border-lightGray focus:outline-none"
+                                                            placeholder="Your Name"
+                                                            name="nom"
+                                                            value={formData.nom}
+                                                            onChange={handleChange}
+                                                            required
+                                                        />
+                                                        <input
+                                                            type="email"
+                                                            name="email"
+                                                            value={formData.email}
+                                                            className="w-full h-12 md:h-13 lg:h-[59px] px-4 border  border-gray dark:border-lightGray text-gray dark:text-lightGray outline-none  bg-transparent mt-4 focus:ring-0 placeholder:text-gray focus:border-gray dark:focus:border-lightGray focus:outline-none"
+                                                            placeholder="Enter E-mail"
+                                                            onChange={handleChange}
+                                                            required
+                                                        />
+                                                        <textarea
+                                                            id=""
+                                                            cols="30"
+                                                            rows="10"
+                                                            className="w-full h-[121px] px-4 border border-gray dark:border-lightGray text-gray dark:text-lightGray outline-none  bg-transparent mt-4 focus:ring-0 placeholder:text-gray resize-none focus:border-gray dark:focus:border-lightGray focus:outline-none"
+                                                            placeholder="Write Message:"
+                                                            onChange={handleChange}
+                                                            name="contenue"
+                                                            value={
+                                                                formData.contenue
+                                                            }
+                                                        ></textarea>
+                                                        <button className="w-full bg-khaki text-white text-center h-10 2xl:h-[55px] mt-5" type="submit">
+                                                            SEND MESSAGE
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>

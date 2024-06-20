@@ -206,38 +206,6 @@ class CommentSerializer(serializers.ModelSerializer):
         ]
 
 
-# class BlogSerializer(serializers.ModelSerializer):
-#     auteur = CustomUserSerializer(read_only=True)
-#     categorie = CategorySerializer(read_only=True)
-#     tags = TagSerializer(many=True, read_only=True)
-#     comments = CommentSerializer(many=True, read_only=True)
-#     blog_descriptions = BlogDescriptionSerializer(many=True, read_only=True)
-#     categorie_id = serializers.PrimaryKeyRelatedField(queryset=Categories.objects.all(), source='categorie', write_only=True)
-#     tags_id = serializers.PrimaryKeyRelatedField(many=True, queryset=Tags.objects.all(), source='tags', write_only=True)
-#     auteur_id = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all(), source='auteur', write_only=True)
-
-#     class Meta:
-#         model = Blog
-#         fields = [
-#             'id', 'titre', 'contenue', 'image', 'auteur', 'posted_on', 'categorie',
-#             'tags', 'comments', 'created_at', 'updated_at', 'status', 'blog_descriptions', 
-#             'categorie_id', 'tags_id', 'auteur_id'
-#         ]
-
-#     def create(self, validated_data):
-#         tags_data = validated_data.pop('tags')
-#         blog = Blog.objects.create(**validated_data)
-#         blog.tags.set(tags_data)
-#         return blog
-
-#     def update(self, instance, validated_data):
-#         tags_data = validated_data.pop('tags')
-#         instance = super().update(instance, validated_data)
-#         instance.tags.set(tags_data)
-#         return instance
-import logging
-logger = logging.getLogger(__name__)
-
 class BlogSerializer(serializers.ModelSerializer):
     auteur = CustomUserSerializer(read_only=True)
     categorie = CategorySerializer(read_only=True)
@@ -265,14 +233,15 @@ class BlogSerializer(serializers.ModelSerializer):
         blog.tags.set(tags_data)
         return blog    
 
-    def update(self, instance, validated_data):
-        tags_data = validated_data.pop('tags_id', [])
-        instance = super().update(instance, validated_data)
-        instance.tags.set(tags_data)
-        return instance
     
 class CreateBlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
         fields = ['titre', 'contenue', 'image', 'auteur', 'categorie', 'tags']
         
+# Get in touch #
+
+class GetInTouchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GetInTouch
+        fields = '__all__'

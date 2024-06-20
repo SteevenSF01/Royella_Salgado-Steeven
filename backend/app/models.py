@@ -192,3 +192,11 @@ class RoomService(models.Model):
     desc2 = models.CharField(max_length=80)
     desc3 = models.CharField(max_length=80)
     desc4 = models.CharField(max_length=80)
+
+
+# Get in touch #
+
+class GetInTouch(models.Model):
+    nom = models.CharField(max_length=50)
+    email = models.EmailField()
+    contenue = models.TextField()
