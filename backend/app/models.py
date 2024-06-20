@@ -48,15 +48,16 @@ class CustomUser(AbstractUser):
         verbose_name = 'user'
         verbose_name_plural = 'users'
         
+# Categories #
+
+class Categories(models.Model):
+    nom = models.CharField(max_length=200)
+    
 # Tags #
 
 class Tags(models.Model):
     nom = models.CharField(max_length=200)
     
-# Categories #
-
-class Categories(models.Model):
-    nom = models.CharField(max_length=200)
     
 # Blog #
 
@@ -73,7 +74,7 @@ class Blog(models.Model):
     auteur = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='blog')
     posted_on = models.DateTimeField(auto_now_add=True)
     categorie = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True)
-    tags = models.ManyToManyField(Tags , blank=True)
+    tags = models.ManyToManyField(Tags)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=20, choices=status_choix, default='draft')

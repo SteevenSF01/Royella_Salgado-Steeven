@@ -287,7 +287,7 @@ class BlogViewSet(viewsets.ModelViewSet):
         # Convertir les objets Rooms sélectionnés en JSON à l'aide du sérialiseur
         serializer = self.get_serializer(random_blogs, many=True)  
         return Response(serializer.data) 
-    
+        
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
@@ -315,3 +315,14 @@ class CommentViewSet(viewsets.ModelViewSet):
 class BlogDescriptionViewSet(viewsets.ModelViewSet):
     queryset = BlogDescription.objects.all()
     serializer_class = BlogDescriptionSerializer
+    
+class CreateBlogViewSet(viewsets.ModelViewSet):
+    queryset = Blog.objects.all()
+    serializer_class = CreateBlogSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(auteur=request.user) 
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
