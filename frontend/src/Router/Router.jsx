@@ -20,6 +20,7 @@ import Contact from "../Pages/InnerPage/Contact";
 import ErrorPage from "../Shared/ErrorPage/ErrorPage";
 import Register from "../backoffice/register/Register";
 import Login from "../backoffice/pages/login/Login";
+import CreateBlog from "../backoffice/pages/createBlog/CreateBlog";
 
 // Backoffice
 import PageBackoffice from "../backoffice/pageBackoffice";
@@ -100,7 +101,11 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
-      }
+      },
+      {
+        path: "/create_blog",
+        element: <CreateBlog />,
+      },
     ],
   },
   // Backoffice //

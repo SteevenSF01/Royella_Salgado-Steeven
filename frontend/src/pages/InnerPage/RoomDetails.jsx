@@ -83,7 +83,7 @@ const RoomDetails = () => {
               <img
                 src={images[imageIndex]}
                 alt=""
-                className="transition-all duration-500 delay-300"
+                className="transition-all duration-500 delay-300 w-full"
               />
               <div className="flex ">
                 <span

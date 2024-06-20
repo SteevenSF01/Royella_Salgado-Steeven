@@ -107,6 +107,9 @@ const Blog = () => {
                 </div>
               ))}
             </div>
+            <Link to="/create_blog">
+                <button className="bg-khaki hover:bg-[rgba(141,115,77,0.9)] text-white font-bold py-2 px-4 rounded mt-5">Create a new blog</button>
+            </Link>
             <div className="hidden sm:flex mt-5 items-center lg:space-x-5  space-x-3">
               <button
                 className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px] flex items-center justify-center border-[1px] border-gray  text-lightGray hover:bg-khaki hover:border-none group"

@@ -7,8 +7,40 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import { useAuth } from "../../backoffice/pages/loginProvider/LoginProvider";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const BlogDetails = () => {
+
+  const notifySuccess = () =>
+    toast.success("Comment added successfully", {
+        position: "top-left",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+    });
+
+const notifyError = () =>
+    toast.error("Error occured", {
+        position: "top-left",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+    });
+
+
+
   const { id } = useParams();
   const {user} = useAuth();
   const [dataBlog, setDataBlog] = useState([]);
@@ -55,7 +87,10 @@ const BlogDetails = () => {
       }catch(err){
         console.log(err);
       }
-      window.location.reload()
+      notifySuccess();
+      setTimeout(() => {
+        window.location.reload()
+      }, 2500);
     }
 
   const formatDate = (date) => {
@@ -157,8 +192,8 @@ const BlogDetails = () => {
                 data-aos-duration="1000"
               >
                 <div className="pb-2 sm:pb-3 md:pb-4 lg:pb-[19px] 2xl:pb-6 grid items-center grid-cols-1 sm:grid-cols-2 gap-5 2xl:gap-[30px]">
-                  <img src={dataBlog.image} alt={dataBlog.titre} />
-                  <img src="/images/inner/blog-details-3.jpg" alt="" />
+                  <img src={dataBlog.image} alt={dataBlog.titre} className="w-full h-[300px] "/>
+                  <img src="/images/inner/blog-details-3.jpg" alt="" className="w-full h-[300px] "/>
                 </div>
                 <p className="text-sm lg:text-base leading-6 text-gray dark:text-lightGray font-normal font-Lora">
                   Interactively visualize top-line internal or organic sources
@@ -229,6 +264,7 @@ const BlogDetails = () => {
                         className="p-5 w-[400px] line-clamp-1 hover:bg-whiteSmoke dark:hover:bg-normalBlack transition-all duration-300 border-[0.5px] border-lightGray dark:border-gray rounded-sm hover:border-whiteSmoke h-[130px] flex "
                         data-aos="fade-up"
                         data-aos-duration="1000"
+                        key={blog.id}
                       >
                         <Link to={`/blog_details/${blog.id}`} className="flex items-center">
                           <img
