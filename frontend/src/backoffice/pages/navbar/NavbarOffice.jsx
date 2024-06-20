@@ -68,18 +68,18 @@ const navListMenuItems = [
         link: '/backoffice/facilities',
         icon: SunIcon,
     },
-    {
-        title: "Services",
-        description: "Learn how we can help you achieve your goals.",
-        link: 'backoffice1',
-        icon: SunIcon,
-    },
     // {
-    //     title: "Support",
-    //     description: "Reach out to us for assistance or inquiries",
+    //     title: "Services",
+    //     description: "Learn how we can help you achieve your goals.",
     //     link: 'backoffice1',
-    //     icon: GlobeAmericasIcon,
+    //     icon: SunIcon,
     // },
+    {
+        title: "Get in touch",
+        description: "Reach out to us for assistance or inquiries",
+        link: '/backoffice/getintouch',
+        icon: GlobeAmericasIcon,
+    },
     // {
     //     title: "Contact",
     //     description: "Find the perfect solution for your needs.",

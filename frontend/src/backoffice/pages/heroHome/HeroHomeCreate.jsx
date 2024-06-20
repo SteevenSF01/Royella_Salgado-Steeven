@@ -62,7 +62,7 @@ export default function HeroHomeCreate() {
             console.log("Form submitted successfully:", res.data);
             notifySuccess();
             setTimeout(() => {
-                navigate("/backoffice/heroHome");
+                navigate("/backoffice");
             }, 2000);
         } catch (error) {
             console.error("Error submitting form:", error);
@@ -74,7 +74,7 @@ export default function HeroHomeCreate() {
         <>
             <button
                 className="bg-khaki hover:bg-[rgba(141,115,77,0.9)] text-white font-bold py-2 px-4 rounded self-start ms-20"
-                onClick={() => navigate("/backoffice/heroHome")}
+                onClick={() => navigate("/backoffice")}
             >
                 Retour
             </button>

@@ -60,9 +60,6 @@ const Contact = () => {
                 email: "",
                 contenue: "",
             });
-            setTimeout(() => {
-                window.location.href = "/contact";
-            }, 2500);
         } catch (error) {
             console.error("Error sending message:", error);
             notifyError();

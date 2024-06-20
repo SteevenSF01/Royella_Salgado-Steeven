@@ -195,8 +195,9 @@ class RoomService(models.Model):
 
 
 # Get in touch #
-
+from django.utils import timezone
 class GetInTouch(models.Model):
     nom = models.CharField(max_length=50)
     email = models.EmailField()
     contenue = models.TextField()
+    date_sent = models.DateTimeField(default=timezone.now)

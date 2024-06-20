@@ -82,7 +82,7 @@ export default function HeroHomeUpdate() {
             console.log("Form submitted successfully:", res.data);
             notifySuccess();
             setTimeout(() => {
-                navigate("/backoffice/heroHome");
+                navigate("/backoffice");
             }, 2500);
         } catch (error) {
             console.error("Error submitting form:", error);

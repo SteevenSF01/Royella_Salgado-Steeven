@@ -38,6 +38,8 @@ import Autocomplete from "../backoffice/pages/contact/Googlemaps";
 import FAQ from "../backoffice/pages/faq/FAQ";
 // Backoffice - Facilities
 import FacilitiesAll from "../backoffice/pages/facilities/FacilitiesAll";
+// Backoffice - Get in touch
+import Inbox from "../backoffice/pages/getInTouch/GetInTouch";
 
 // Starting React Router.
 const router = createBrowserRouter([
@@ -114,8 +116,9 @@ const router = createBrowserRouter([
     element: < PageBackoffice/>,
     children: [
       {
-        path: "/backoffice/heroHome",
+        path: "/backoffice",
         element: <HeroHome />,
+        index: true,
       },
       {
         path: "/backoffice/heroHome/create",
@@ -144,7 +147,11 @@ const router = createBrowserRouter([
       {
         path: "/backoffice/facilities",
         element: <FacilitiesAll />,
-      }
+      },
+      {
+        path: "/backoffice/getintouch",
+        element: <Inbox />,
+      },
     ]
   },
 ]);
