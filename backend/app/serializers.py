@@ -194,6 +194,7 @@ class BlogDescriptionSerializer(serializers.ModelSerializer):
         ]
 
 class CommentSerializer(serializers.ModelSerializer):
+    auteur = CustomUserSerializer(read_only=True)
     class Meta:
         model = Comment
         fields = [
@@ -212,5 +213,3 @@ class BlogSerializer(serializers.ModelSerializer):
             'id', 'titre', 'contenue', 'image', 'auteur', 'posted_on', 'categorie',
             'tags', 'comments', 'created_at', 'updated_at', 'status', 'blog_descriptions', 'comments'
         ]
-
-        

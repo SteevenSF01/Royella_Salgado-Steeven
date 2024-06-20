@@ -30,7 +30,6 @@ const About = () => {
         };
         fetchData();
     }, []);
-    console.log(managerData);
 
     function urlImage(url) {
       const urlParams = new URL(url).searchParams;

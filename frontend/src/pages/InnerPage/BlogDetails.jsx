@@ -5,24 +5,37 @@ import { BiChevronsRight } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import moment from "moment";
+import { first } from "lodash";
 
 const BlogDetails = () => {
   const { id } = useParams();
   const [dataBlog, setDataBlog] = useState([]);
+  const [randomBlogs, setRandomBlogs] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(`/api/backoffice/blog/${id}`);
         setDataBlog(res.data);
+
+        const resRandom = await axios.get(`/api/backoffice/blog/random/`);
+        setRandomBlogs(resRandom.data);
+
       } catch (err) {
         console.log(err);
       }
     };
     fetchData();
-  }, []);
+  }, [id]);
 
-  console.log(dataBlog);
+    const {comments} = dataBlog;
+    const firstComment = comments?.length > 0 ? comments[0] : null;
+    const commentsRestant = comments?.slice(1);
+
+  const formatDate = (date) => {
+    return moment(date).format("MMMM D, YYYY");
+  };
 
   const location = useLocation();
   const blogData = location.state && location.state;
@@ -45,7 +58,7 @@ const BlogDetails = () => {
             <div className="pt-5 lg:pt-[35px]  pr-3">
               <div data-aos="fade-up" data-aos-duration="1000">
                 <p className="text-base font-Garamond text-gray dark:text-lightGray">
-                  <span>August 10, 2023 </span> <span className="mx-2">/</span>
+                  <span>{formatDate(dataBlog.posted_on)}</span> <span className="mx-2">/</span>
                   <span> LUXURY HOTEL</span>
                 </p>
                 <h2 className="py-2 sm:py-3 md:py-4 lg:py-[19px] 2xl:py-[25px] font-Garamond text-[22px] sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-[38px] 3xl:text-[40px] leading-6 lg:leading-[26px]  text-lightBlack dark:text-white font-semibold">
@@ -111,6 +124,7 @@ const BlogDetails = () => {
                   </li>
                 </ul>
               </div>
+
               {/* Extra blog */}
               <div
                 className="pt-10 2xl:pt-[60px]"
@@ -147,12 +161,13 @@ const BlogDetails = () => {
                   <h5 className="text-lg text-[#101010] dark:text-white leading-[28px] font-semibold font-Garamond mr-2">
                     Tags :
                   </h5>
+                  {dataBlog && dataBlog.tags?.map((tag)=>{
+                    return(
                   <span className="text-sm border-[1px] border-lightGray dark:border-gray px-3 py-1 dark:text-white">
-                    SPA Center
-                  </span>
-                  <span className="text-sm border-[1px] border-lightGray dark:border-gray px-3 py-1 dark:text-white">
-                    Luxury
-                  </span>
+                    {tag.nom}
+                  </span>                      
+                    )
+                  })}
                 </div>
                 {/* social Link */}
                 <div className="flex items-center space-x-2 mt-3 lg:mt-0">
@@ -160,84 +175,62 @@ const BlogDetails = () => {
                     Share :
                   </h5>
                   <Link
-                    to="#"
+                    to="https://www.facebook.com/molengeek/?locale=es_LA"
                     className="text-sm  px-3 py-1 dark:text-white hover:text-khaki hover:underline underline-offset-4"
                   >
                     FB
                   </Link>
                   <Link
-                    to="#"
+                    to="https://x.com/i/flow/login?redirect_after_login=%2Fmolengeek"
                     className="text-sm  px-3 py-1 dark:text-white hover:text-khaki hover:underline underline-offset-4"
                   >
                     TW
                   </Link>
                   <Link
-                    to="#"
+                    to="https://be.linkedin.com/company/molengeek"
                     className="text-sm  px-3 py-1 dark:text-white hover:text-khaki hover:underline underline-offset-4"
                   >
                     LN
-                  </Link>
-                  <Link
-                    to="#"
-                    className="text-sm  px-3 py-1 dark:text-white hover:text-khaki hover:underline underline-offset-4"
-                  >
-                    PI
                   </Link>
                 </div>
               </div>
 
               {/* gaideline */}
-              <div className="lg:flex items-center gap-5  ">
-                <div
-                  className="p-5 hover:bg-whiteSmoke dark:hover:bg-normalBlack transition-all duration-300 border-[0.5px] border-lightGray dark:border-gray rounded-sm hover:border-whiteSmoke"
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                >
-                  <Link to="/blog_details" className="flex items-center">
-                    <img
-                      src="/images/inner/details-post-1.jpg"
-                      className=" mr-3 2xl:mr-5 "
-                      alt=""
-                    />
-                    <div className="text-left">
-                      <h4 className="text-base 2xl:text-lg leading-6 text-[#101010] dark:text-white font-medium font-Garamond hover:underline underline-offset-4">
-                        How to Book a Room Online Step by Step Guide
-                      </h4>
-                      <p className="text-sm md:text-[13px] 2xl:text-sm leading-[26px] font-Lora text-gray dark:text-lightGray font-normal">
-                        August 10, 2023
-                      </p>
-                    </div>
-                  </Link>
-                </div>
-                <div
-                  className="mt-5 lg:mt-0 p-5 hover:bg-whiteSmoke dark:hover:bg-normalBlack transition-all duration-300 border-[0.5px] border-lightGray dark:border-gray rounded-sm hover:border-whiteSmoke"
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                >
-                  <Link
-                    to="/blog_details"
-                    className="flex flex-row-reverse items-center"
-                  >
-                    <img
-                      src="/images/inner/details-post-2.jpg"
-                      className=" ml-3 2xl:ml-5 "
-                      alt=""
-                    />
-                    <div className="text-left">
-                      <h4 className="text-base 2xl:text-lg leading-6 text-[#101010] dark:text-white font-medium font-Garamond hover:underline underline-offset-4">
-                        Pre Booking Benifits for the Traveller on our Hotel
-                      </h4>
-                      <p className="text-sm md:text-[13px] 2xl:text-sm leading-[26px] font-Lora text-gray dark:text-lightGray font-normal">
-                        August 10, 2023
-                      </p>
-                    </div>
-                  </Link>
-                </div>
+              <div className="lg:flex items-center gap-5 justify-between">
+                  {
+                    randomBlogs && randomBlogs.map((blog)=>{
+                      return(
+                        <div
+                        className="p-5 w-[400px] line-clamp-1 hover:bg-whiteSmoke dark:hover:bg-normalBlack transition-all duration-300 border-[0.5px] border-lightGray dark:border-gray rounded-sm hover:border-whiteSmoke h-[130px] flex "
+                        data-aos="fade-up"
+                        data-aos-duration="1000"
+                      >
+                        <Link to={`/blog_details/${blog.id}`} className="flex items-center">
+                          <img
+                            src={blog.image}
+                            className=" mr-3 2xl:mr-5 w-20 "
+                            alt=""
+                          />
+                          <div className="text-left">
+                            <h4 className="text-base 2xl:text-lg leading-6 text-[#101010] dark:text-white font-medium font-Garamond hover:underline underline-offset-4">
+                              {blog.titre}
+                            </h4>
+                            <p className="text-sm md:text-[13px] 2xl:text-sm leading-[26px] font-Lora text-gray dark:text-lightGray font-normal">
+                              {formatDate(blog.posted_on)}
+                            </p>
+                          </div>
+                        </Link>
+                      </div>
+                      )
+                    })
+                  }
+
               </div>
+
               {/* Comment Section */}
               <div className="my-10 2xl:my-[60px] 3xl:my-[80px]">
                 <h3 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl 2xl:text-[32px] text-lightBlack dark:text-white font-semibold font-Garamond mb-5 2xl:mb-[30px]">
-                  ‘2’ Comments
+                  ‘{comments?.length}’ Comments
                 </h3>
                 <div>
                   <div
@@ -247,20 +240,19 @@ const BlogDetails = () => {
                   >
                     <div className="grid gap-3 sm:flex md:grid md:gap-5 lg:flex ">
                       <img
-                        src="/images/inner/blog-details-author-2.png"
-                        alt=""
+                        src={firstComment?.auteur.photo}
+                        alt={firstComment?.auteur.nom}
                         className="w-[70px]  h-[70px] "
                       />
-
                       <div className="ml-3 2xl:ml-4">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
                             <span className="text-base sm:text-lg lg:text-xl font-Garamond font-semibold leading-6 md:leading-7 text-lightBlack dark:text-white">
-                              Moris Barbar
+                              {firstComment?.auteur.first_name} {firstComment?.auteur.last_name}
                             </span>
                             <hr className="w-[10px] sm:w-[27px] h-[1px] text-lightBlack dark:text-white mx-1 sm:mx-2 " />
                             <span className="text-[13px] sm:text-[15px] font-Lora font-normal text-gray dark:text-lightGray">
-                              August 10, 2023
+                              {formatDate(firstComment?.posted_on)}
                             </span>
                           </div>
                           <span className="text-[13px] sm:text-[15px] font-Lora font-normal text-gray dark:text-lightGray cursor-pointer">
@@ -268,53 +260,53 @@ const BlogDetails = () => {
                           </span>
                         </div>
                         <p className="text-sm sm:text-[15px] font-Lora font-normal text-gray dark:text-lightGray mt-3 xl:mt-[15px]">
-                          Interactively visualize top-line internal or "organic"
-                          sources rather than top-line niche mark unleash 24/7
-                          opportunities after high standards in process
-                          improvements. Uniquely deploy methodologies with
-                          reliable information.{" "}
+                          {firstComment?.contenue}
                         </p>
                       </div>
+
                     </div>
+
                   </div>
                   {/* comment -2 */}
-                  <div
-                    className="border-[1px] border-lightGray dark:border-gray rounded-sm p-4 sm:p-5 md:p-6 2xl:p-[30px] ml-0 lg:ml-10 3xl:ml-14  mt-5"
-                    data-aos="fade-up"
-                    data-aos-duration="1000"
-                  >
-                    <div className="grid gap-3 sm:flex md:grid md:gap-5 lg:flex ">
-                      <img
-                        src="/images/inner/blog-details-author-1.png"
-                        alt=""
-                        className="w-[70px]  h-[70px] "
-                      />
-
-                      <div className="ml-3 2xl:ml-4">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <span className="text-base sm:text-lg lg:text-xl font-Garamond font-semibold leading-6 md:leading-7 text-lightBlack dark:text-white">
-                              Moris Barbar
-                            </span>
-                            <hr className="w-[10px] sm:w-[27px] h-[1px] text-lightBlack dark:text-white mx-1 sm:mx-2 " />
-                            <span className="text-[13px] sm:text-[15px] font-Lora font-normal text-gray dark:text-lightGray">
-                              August 10, 2023
-                            </span>
+                  {
+                    commentsRestant && commentsRestant.map((comment)=> {
+                      return(
+                        <div
+                        className="border-[1px] border-lightGray dark:border-gray rounded-sm p-4 sm:p-5 md:p-6 2xl:p-[30px] ml-0 lg:ml-10 3xl:ml-14  mt-5"
+                        data-aos="fade-up"
+                        data-aos-duration="1000"
+                      >
+                        <div className="grid gap-3 sm:flex md:grid md:gap-5 lg:flex ">
+                          <img
+                            src={comment.auteur.photo}
+                            alt={comment.auteur.nom}
+                            className="w-[70px]  h-[70px] "
+                          />    
+                          <div className="ml-3 2xl:ml-4">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center">
+                                <span className="text-base sm:text-lg lg:text-xl font-Garamond font-semibold leading-6 md:leading-7 text-lightBlack dark:text-white">
+                                  {comment.auteur.first_name} {comment.auteur.last_name}
+                                </span>
+                                <hr className="w-[10px] sm:w-[27px] h-[1px] text-lightBlack dark:text-white mx-1 sm:mx-2 " />
+                                <span className="text-[13px] sm:text-[15px] font-Lora font-normal text-gray dark:text-lightGray">
+                                  {formatDate(comment.posted_on)}
+                                </span>
+                              </div>
+                              <span className="text-[13px] sm:text-[15px] font-Lora font-normal text-gray dark:text-lightGray cursor-pointer">
+                                REPLY
+                              </span>
+                            </div>
+                            <p className="text-sm sm:text-[15px] font-Lora font-normal text-gray dark:text-lightGray mt-3 xl:mt-[15px]">
+                              {comment.contenue}
+                            </p>
                           </div>
-                          <span className="text-[13px] sm:text-[15px] font-Lora font-normal text-gray dark:text-lightGray cursor-pointer">
-                            REPLY
-                          </span>
                         </div>
-                        <p className="text-sm sm:text-[15px] font-Lora font-normal text-gray dark:text-lightGray mt-3 xl:mt-[15px]">
-                          Interactively visualize top-line internal or "organic"
-                          sources rather than top-line niche mark unleash 24/7
-                          opportunities after high standards in process
-                          improvements. Uniquely deploy methodologies with
-                          reliable information.{" "}
-                        </p>
                       </div>
-                    </div>
-                  </div>
+                      )
+                    })
+                  }
+
                 </div>
               </div>
               {/* Comment form */}
@@ -372,6 +364,7 @@ const BlogDetails = () => {
               </div>
             </div>
           </div>
+
           {/* Blog Sidebar */}
           <div className="col-span-6 md:col-span-3 lg:col-span-2">
             {/* imported Blog Sidebar */}
