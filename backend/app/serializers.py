@@ -185,35 +185,32 @@ class CategorySerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 # Blogs #
-
-class BlogSerializer(serializers.ModelSerializer):
-    auteur = CustomUserSerializer(read_only=True)
-    categorie = CategorySerializer(read_only=True)
-    tags = TagSerializer(many=True, read_only=True)
-    comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-
-    class Meta:
-        model = Blog
-        fields = [
-            'id', 'titre', 'contenue', 'image', 'auteur', 'posted_on', 'categorie',
-            'tags', 'comments', 'created_at', 'updated_at', 'status'
-        ]
-
-class CommentSerializer(serializers.ModelSerializer):
-    auteur = CustomUserSerializer(read_only=True)
-    blog = serializers.PrimaryKeyRelatedField(queryset=Blog.objects.all())
-
-    class Meta:
-        model = Comment
-        fields = [
-            'id', 'blog', 'auteur', 'contenue', 'created_at'
-        ]
-        
 class BlogDescriptionSerializer(serializers.ModelSerializer):
-    blog = BlogSerializer(read_only=True)
 
     class Meta:
         model = BlogDescription
         fields = [
             'id', 'blog', 'titre', 'contenue', 'image'
         ]
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = [
+            'id', 'blog', 'auteur', 'contenue', 'created_at'
+        ]
+class BlogSerializer(serializers.ModelSerializer):
+    auteur = CustomUserSerializer(read_only=True)
+    categorie = CategorySerializer(read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
+    blog_descriptions = BlogDescriptionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Blog
+        fields = [
+            'id', 'titre', 'contenue', 'image', 'auteur', 'posted_on', 'categorie',
+            'tags', 'comments', 'created_at', 'updated_at', 'status', 'blog_descriptions', 'comments'
+        ]
+
+        

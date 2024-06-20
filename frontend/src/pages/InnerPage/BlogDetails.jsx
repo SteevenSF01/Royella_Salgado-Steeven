@@ -2,8 +2,28 @@ import { Link, useLocation } from "react-router-dom";
 import BreadCrumb from "../../BreadCrumb/BreadCrumb";
 import BlogSideBar from "./BlogSideBar";
 import { BiChevronsRight } from "react-icons/bi";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const BlogDetails = () => {
+  const { id } = useParams();
+  const [dataBlog, setDataBlog] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/api/backoffice/blog/${id}`);
+        setDataBlog(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  console.log(dataBlog);
+
   const location = useLocation();
   const blogData = location.state && location.state;
 
@@ -13,12 +33,13 @@ const BlogDetails = () => {
       {/* Blog Details */}
       <div className="dark:bg-lightBlack py-20 2xl:py-[120px]">
         <div className="Container grid grid-cols-6 md:grid-cols-7 lg:grid-cols-6 gap-5 ">
-          <div className="col-span-6 md:col-span-4">
+          <div className="col-span-6 md:col-span-4 w-full">
             <img
-              src="/images/inner/blog-details.jpg"
-              alt=""
+              src={dataBlog.image}
+              alt={dataBlog.titre}
               data-aos="fade-up"
               data-aos-duration="1000"
+              className="w-full"
             />
             {/* Blog Details content */}
             <div className="pt-5 lg:pt-[35px]  pr-3">
@@ -30,16 +51,10 @@ const BlogDetails = () => {
                 <h2 className="py-2 sm:py-3 md:py-4 lg:py-[19px] 2xl:py-[25px] font-Garamond text-[22px] sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-[38px] 3xl:text-[40px] leading-6 lg:leading-[26px]  text-lightBlack dark:text-white font-semibold">
                   {blogData && blogData.title
                     ? blogData.title
-                    : "Luxury Hotel for Travelling Spot California, USA"}
+                    : dataBlog.titre}
                 </h2>
                 <p className="text-sm lg:text-base leading-6 text-gray dark:text-lightGray font-normal font-Lora">
-                  Rapidiously myocardinate cross-platform intellectual capital
-                  after marketing model. Appropriately create interactive
-                  infrastructures after maintainable are Holisticly facilitate
-                  stand-alone inframe extend state of the art benefits via
-                  web-enabled value. Completely fabricate extensible
-                  infomediaries rather than reliable e-services. Dramatically
-                  whiteboard alternative
+                  {dataBlog.description}
                 </p>
                 <p className="mt-5 2xl:mt-7 text-sm lg:text-base leading-6 text-gray dark:text-lightGray font-normal font-Lora">
                   Conveniently fashion pandemic potentialities for team driven
@@ -103,7 +118,7 @@ const BlogDetails = () => {
                 data-aos-duration="1000"
               >
                 <div className="pb-2 sm:pb-3 md:pb-4 lg:pb-[19px] 2xl:pb-6 grid items-center grid-cols-1 sm:grid-cols-2 gap-5 2xl:gap-[30px]">
-                  <img src="/images/inner/blog-details-2.jpg" alt="" />
+                  <img src={dataBlog.image} alt={dataBlog.titre} />
                   <img src="/images/inner/blog-details-3.jpg" alt="" />
                 </div>
                 <p className="text-sm lg:text-base leading-6 text-gray dark:text-lightGray font-normal font-Lora">

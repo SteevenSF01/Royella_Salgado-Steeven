@@ -79,13 +79,13 @@ class Blog(models.Model):
     status = models.CharField(max_length=20, choices=status_choix, default='draft')
     
 class Comment(models.Model):
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
     auteur = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     contenue = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     
 class BlogDescription(models.Model):
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='blog_descriptions')
     titre = models.CharField(max_length=200, null=True, blank=True)
     contenue = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='images/blogs/', blank=True, null=True)    

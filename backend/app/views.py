@@ -253,9 +253,15 @@ class CategoriesViewSet(viewsets.ModelViewSet):
 
 # Blogs #
 
+class BlogPagination(pagination.PageNumberPagination):
+    page_size = 6
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
 class BlogViewSet(viewsets.ModelViewSet):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
+    pagination_class = BlogPagination
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()

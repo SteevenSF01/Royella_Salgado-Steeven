@@ -192,23 +192,23 @@ const Room = () => {
                             })}
                     </div>
                         <div className="hidden sm:flex mt-5 items-center lg:space-x-5  space-x-3">
-                        <button
-                            className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px] flex items-center justify-center border-[1px] border-gray  text-lightGray hover:bg-khaki hover:border-none group"
-                            onClick={handlePrevPage}
-                            disabled={currentPage === 1}
-                        >
-                            <BsChevronLeft className="w-5 h-5 text-gray  group-hover:text-white " />
-                        </button>
-                        <span className="flex items-center justify-center text-lightBlack dark:text-white">
-                            {currentPage} / {totalPages}
-                        </span>
-                        <button
-                            className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px] flex items-center justify-center border-[1px] border-gray  text-lightGray hover:bg-khaki hover:border-none group"
-                            onClick={handleNextPage}
-                            disabled={currentPage === totalPages}
-                        >
-                            <BsChevronRight className="w-5 h-5 text-gray  group-hover:text-white " />
-                        </button>
+                            <button
+                                className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px] flex items-center justify-center border-[1px] border-gray  text-lightGray hover:bg-khaki hover:border-none group"
+                                onClick={handlePrevPage}
+                                disabled={currentPage === 1}
+                            >
+                                <BsChevronLeft className="w-5 h-5 text-gray  group-hover:text-white " />
+                            </button>
+                            <span className="flex items-center justify-center text-lightBlack dark:text-white">
+                                {currentPage} / {totalPages}
+                            </span>
+                            <button
+                                className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px] flex items-center justify-center border-[1px] border-gray  text-lightGray hover:bg-khaki hover:border-none group"
+                                onClick={handleNextPage}
+                                disabled={currentPage === totalPages}
+                            >
+                                <BsChevronRight className="w-5 h-5 text-gray  group-hover:text-white " />
+                            </button>
                         </div>
                 </div>
             </div>
