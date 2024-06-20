@@ -6,12 +6,21 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
-import { first } from "lodash";
+import { useAuth } from "../../backoffice/pages/loginProvider/LoginProvider";
 
 const BlogDetails = () => {
   const { id } = useParams();
+  const {user} = useAuth();
   const [dataBlog, setDataBlog] = useState([]);
   const [randomBlogs, setRandomBlogs] = useState('');
+  const [newComment, setNewComment] = useState({})
+  useEffect(() => {
+    setNewComment({
+      contenue: '',
+      auteur_id: user.id,
+      blog_id: parseInt(id)
+    });
+  }, [user]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +41,21 @@ const BlogDetails = () => {
     const {comments} = dataBlog;
     const firstComment = comments?.length > 0 ? comments[0] : null;
     const commentsRestant = comments?.slice(1);
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setNewComment({ ...newComment, [name]: value });
+    };
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try{
+        const res = await axios.post(`/api/backoffice/comment/add/`, newComment);
+      }catch(err){
+        console.log(err);
+      }
+      window.location.reload()
+    }
 
   const formatDate = (date) => {
     return moment(date).format("MMMM D, YYYY");
@@ -255,9 +279,6 @@ const BlogDetails = () => {
                               {formatDate(firstComment?.posted_on)}
                             </span>
                           </div>
-                          <span className="text-[13px] sm:text-[15px] font-Lora font-normal text-gray dark:text-lightGray cursor-pointer">
-                            REPLY
-                          </span>
                         </div>
                         <p className="text-sm sm:text-[15px] font-Lora font-normal text-gray dark:text-lightGray mt-3 xl:mt-[15px]">
                           {firstComment?.contenue}
@@ -293,9 +314,6 @@ const BlogDetails = () => {
                                   {formatDate(comment.posted_on)}
                                 </span>
                               </div>
-                              <span className="text-[13px] sm:text-[15px] font-Lora font-normal text-gray dark:text-lightGray cursor-pointer">
-                                REPLY
-                              </span>
                             </div>
                             <p className="text-sm sm:text-[15px] font-Lora font-normal text-gray dark:text-lightGray mt-3 xl:mt-[15px]">
                               {comment.contenue}
@@ -316,49 +334,22 @@ const BlogDetails = () => {
                 </h3>
                 <div>
                   <div className="flex sm:flex-row flex-col items-center  gap-5 mb-5">
-                    <input
-                      type="text"
-                      name=""
-                      className="w-full h-[50px] border-none outline-none focus:ring-0 placeholder:text-base placeholder:text-lightGray placeholder:leading-[38px] placeholder:font-Lora placeholder:font-normal px-5 dark:bg-normalBlack bg-whiteSmoke dark:text-white"
-                      placeholder="Your Name"
-                      id=""
-                    />
-                    <input
-                      type="email"
-                      name=""
-                      className="w-full h-[50px] border-none outline-none focus:ring-0 placeholder:text-base placeholder:text-lightGray placeholder:leading-[38px] placeholder:font-Lora placeholder:font-normal px-5 dark:bg-normalBlack bg-whiteSmoke dark:text-white"
-                      placeholder="Email Address"
-                      id=""
-                    />
                   </div>
                   <div className="grid items-center gap-5 mb-5 md:mb-0">
-                    <input
-                      type="text"
-                      name=""
-                      className="w-full h-[50px] border-none outline-none focus:ring-0 placeholder:text-base placeholder:text-lightGray placeholder:leading-[38px] placeholder:font-Lora placeholder:font-normal px-5 dark:bg-normalBlack bg-whiteSmoke dark:text-white"
-                      placeholder="Your Website"
-                      id=""
-                    />
 
+                  <form onSubmit={(e) => handleSubmit(e)}> 
                     <textarea
                       className="w-full h-[160px]  border-none outline-none focus:ring-0 placeholder:text-base placeholder:text-lightGray placeholder:leading-[38px] placeholder:font-Lora placeholder:font-normal px-5 dark:bg-normalBlack bg-whiteSmoke dark:text-white resize-none"
                       placeholder="Type Your Comment"
-                      name=""
+                      name="contenue"
                       id=""
                       cols="30"
+                      onChange={handleChange}
                     ></textarea>
                     <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        name=""
-                        id=""
-                        className="border-khaki text-khaki focus:ring-0 focus:outline-none focus:border-none"
-                      />
-                      <p className="text-[13px] sm:text-[15px] font-Lora font-normal text-gray dark:text-lightGray ml-2">
-                        Save your email info in the browser for next comments.
-                      </p>
                     </div>
-                    <button className="btn-primary">Submit Now</button>
+                    <button className="btn-primary" type="submit">Submit Now</button>
+                </form>
                   </div>
                 </div>
               </div>
@@ -377,3 +368,4 @@ const BlogDetails = () => {
 };
 
 export default BlogDetails;
+

@@ -194,12 +194,17 @@ class BlogDescriptionSerializer(serializers.ModelSerializer):
         ]
 
 class CommentSerializer(serializers.ModelSerializer):
+    blog = serializers.PrimaryKeyRelatedField(queryset=Blog.objects.all())
     auteur = CustomUserSerializer(read_only=True)
+    auteur_id = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all(), source='auteur', write_only=True)
+
     class Meta:
         model = Comment
         fields = [
-            'id', 'blog', 'auteur', 'contenue', 'created_at'
+            'id', 'blog', 'auteur', 'auteur_id', 'contenue', 'created_at'
         ]
+
+
 class BlogSerializer(serializers.ModelSerializer):
     auteur = CustomUserSerializer(read_only=True)
     categorie = CategorySerializer(read_only=True)

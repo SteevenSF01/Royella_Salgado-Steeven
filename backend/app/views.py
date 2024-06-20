@@ -283,6 +283,25 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
+    @action(detail=False, methods=['post'], url_path='add')
+    def add_comment(self, request):
+        blog_id = request.data.get('blog_id')
+        contenue = request.data.get('contenue')
+        auteur_id = request.data.get('auteur_id')
+
+        if not blog_id or not contenue or not auteur_id:
+            return Response({"detail": "Missing data"}, status=400)
+
+        try:
+            blog = Blog.objects.get(id=blog_id)
+        except Blog.DoesNotExist:
+            return Response({"detail": "Blog not found"}, status=404)
+
+        comment = Comment.objects.create(blog=blog, contenue=contenue, auteur_id=auteur_id)
+        serializer = self.get_serializer(comment)
+        return Response(serializer.data, status=201)
+
+
 class BlogDescriptionViewSet(viewsets.ModelViewSet):
     queryset = BlogDescription.objects.all()
     serializer_class = BlogDescriptionSerializer
