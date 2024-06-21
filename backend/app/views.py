@@ -24,6 +24,14 @@ import json
 def template(request):
     return render(request, 'modelMail.html')
 
+
+# CustomUser #
+
+class CustomUserView(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+
+
 # UserRegistration #
 class UserRegistrationView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer

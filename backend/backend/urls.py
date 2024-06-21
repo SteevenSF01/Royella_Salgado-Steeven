@@ -23,6 +23,7 @@ router.register('backoffice/categories', CategoriesViewSet)
 router.register('backoffice/blog', BlogViewSet)
 router.register('backoffice/comment', CommentViewSet)
 router.register('backoffice/blogDescription', BlogDescriptionViewSet)
+router.register('backoffice/users', CustomUserView) 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
