@@ -16,10 +16,13 @@ import FsLightbox from "fslightbox-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
+import { _ } from "lodash";
+
 
 const About = () => {
     const [managerData, setManagerData] = useState("");
     const [recentBlogs, setRecentBlogs] = useState([]);
+    const [testimonials, setTestimonials] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -30,6 +33,10 @@ const About = () => {
                 const resBlog = await axios.get("/api/backoffice/blog/");
                 const dataBlog = resBlog.data.results.slice(0, 3);
                 setRecentBlogs(dataBlog);
+
+                const resTestimonial = await axios.get("/api/backoffice/testimonials/");
+                const dataTestimonial = resTestimonial.data.slice(0, 3);
+                setTestimonials(dataTestimonial);
             } catch (error) {
                 console.error(error);
             }
@@ -222,7 +229,6 @@ const About = () => {
                         </div>
                     );
                 })}
-            //#region membres
             {/* Expert Members */}
             <div className="dark:bg-normalBlack py-20 2xl:py-[120px]">
                 <div className="Container">
@@ -394,144 +400,43 @@ const About = () => {
                         data-aos-duration="1000"
                     >
                         <div className="mt-[60px] keen-slider " ref={sliderRef}>
+
                             {/* slide - 1 */}
-                            <div className="keen-slider__slide number-slide1 group ">
-                                <div className="bg-white dark:bg-normalBlack group-hover:bg-khaki dark:hover:bg-khaki transition-all ease-in-out duration-500 p-[30px] relative before:absolute before:w-6 before:h-6 before:bg-white before:group-hover:bg-khaki  dark:before:bg-normalBlack before:rotate-45 before:left-[37px] before:-bottom-[13px] ">
-                                    <span className="flex items-center space-x-[5px] md:space-x-2 xl:space-x-3">
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
-                                        />
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
-                                        />
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
-                                        />
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
-                                        />
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
-                                        />
-                                    </span>
-                                    <p className="font-Lora text-sm lg:text-base leading-[26px] text-gray dark:text-lightGray group-hover:text-white  font-normal mt-7 ">
-                                        The owner and staff were extremely
-                                        helpful and kind and took time to ensure
-                                        that we had extra and places to visit.
-                                    </p>
-                                </div>
-                                <div className="flex items-center mt-10 lg:mt-[51px]">
-                                    <img
-                                        src="/images/home-4/testi-1.jpg"
-                                        alt=""
-                                    />
-                                    <div className="ml-5 md:ml-6">
-                                        <h4 className="text-lg sm:text-xl md:text-2xl leading-[28px] text-[#041341] dark:text-white font-medium font-Garamond ">
-                                            Marii Brown
-                                        </h4>
-                                        <p className="text-sm sm:text-base leading-7 font-Lora font-normal text-gray dark:text-lightGray ">
-                                            Rome, Italy
+                        {
+                            testimonials && testimonials.map((testimonial)=> {
+                                return(
+                                    <div className="keen-slider__slide number-slide1 group ">
+                                    <div className="bg-white dark:bg-normalBlack group-hover:bg-khaki dark:hover:bg-khaki transition-all ease-in-out duration-500 p-[30px] relative before:absolute before:w-6 before:h-6 before:bg-white before:group-hover:bg-khaki  dark:before:bg-normalBlack before:rotate-45 before:left-[37px] before:-bottom-[13px] ">
+                                        <span className="flex items-center space-x-[5px] md:space-x-2 xl:space-x-3">
+                                            {_.times(testimonial.etoiles, (i) => (
+                                                <FaStar
+                                                    className="text-khaki group-hover:text-white"
+                                                    size={18}
+                                                    key={i}
+                                                />
+                                            ))}
+                                        </span>
+                                        <p className="font-Lora text-sm lg:text-base leading-[26px] text-gray dark:text-lightGray group-hover:text-white  font-normal mt-7 ">
+                                            {testimonial.contenu}
                                         </p>
                                     </div>
-                                </div>
-                            </div>
-                            {/* slide - 2 */}
-                            <div className="keen-slider__slide number-slide1 group ">
-                                <div className="bg-white dark:bg-normalBlack group-hover:bg-khaki dark:hover:bg-khaki transition-all ease-in-out duration-500 p-[30px] relative before:absolute before:w-6 before:h-6 before:bg-white before:group-hover:bg-khaki  dark:before:bg-normalBlack before:rotate-45 before:left-[37px] before:-bottom-[13px] ">
-                                    <span className="flex items-center space-x-[5px] md:space-x-2 xl:space-x-3">
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
+                                    <div className="flex items-center mt-10 lg:mt-[51px]">
+                                        <img
+                                            src={testimonial.auteur.photo}
+                                            alt=""
+                                            className="w-[80px] h-[80px] rounded-full"
                                         />
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
-                                        />
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
-                                        />
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
-                                        />
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
-                                        />
-                                    </span>
-                                    <p className="font-Lora text-sm lg:text-base leading-[26px] text-gray dark:text-lightGray group-hover:text-white  font-normal mt-7 ">
-                                        The owner and staff were extremely
-                                        helpful and kind and took time to ensure
-                                        that we had extra and places to visit.
-                                    </p>
-                                </div>
-                                <div className="flex items-center mt-10 lg:mt-[51px]">
-                                    <img
-                                        src="/images/home-4/testi-2.jpg"
-                                        alt=""
-                                    />
-                                    <div className="ml-5 md:ml-6">
-                                        <h4 className="text-lg sm:text-xl md:text-2xl leading-[28px] text-[#041341] dark:text-white font-medium font-Garamond ">
-                                            John Doe
-                                        </h4>
-                                        <p className="text-sm sm:text-base leading-7 font-Lora font-normal text-gray dark:text-lightGray ">
-                                            Rome, Italy
-                                        </p>
+                                        <div className="ml-5 md:ml-6">
+                                            <h4 className="text-lg sm:text-xl md:text-2xl leading-[28px] text-[#041341] dark:text-white font-medium font-Garamond ">
+                                                {testimonial.auteur.first_name} {testimonial.auteur.last_name}
+                                            </h4>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            {/* slide - 3 */}
-                            <div className="keen-slider__slide number-slide1 group ">
-                                <div className="bg-white dark:bg-normalBlack group-hover:bg-khaki dark:hover:bg-khaki transition-all ease-in-out duration-500 p-[30px] relative before:absolute before:w-6 before:h-6 before:bg-white before:group-hover:bg-khaki  dark:before:bg-normalBlack before:rotate-45 before:left-[37px] before:-bottom-[13px] ">
-                                    <span className="flex items-center space-x-[5px] md:space-x-2 xl:space-x-3">
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
-                                        />
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
-                                        />
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
-                                        />
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
-                                        />
-                                        <FaStar
-                                            className="text-khaki group-hover:text-white"
-                                            size={18}
-                                        />
-                                    </span>
-                                    <p className="font-Lora text-sm lg:text-base leading-[26px] text-gray dark:text-lightGray group-hover:text-white  font-normal mt-7 ">
-                                        The owner and staff were extremely
-                                        helpful and kind and took time to ensure
-                                        that we had extra and places to visit.
-                                    </p>
-                                </div>
-                                <div className="flex items-center mt-10 lg:mt-[51px]">
-                                    <img
-                                        src="/images/home-4/testi-3.jpg"
-                                        alt=""
-                                    />
-                                    <div className="ml-5 md:ml-6">
-                                        <h4 className="text-lg sm:text-xl md:text-2xl leading-[28px] text-[#041341] dark:text-white font-medium font-Garamond ">
-                                            Ina Aldrich
-                                        </h4>
-                                        <p className="text-sm sm:text-base leading-7 font-Lora font-normal text-gray dark:text-lightGray ">
-                                            Rome, Italy
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                                )
+                            })
+                        }
+
                         </div>
                     </div>
                 </div>
