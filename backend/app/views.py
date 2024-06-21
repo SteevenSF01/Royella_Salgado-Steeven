@@ -27,7 +27,7 @@ def template(request):
 
 # CustomUser #
 
-class CustomUserView(viewsets.ModelViewSet):
+class CustomUserView(viewsets.ModelViewSet):    
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
@@ -329,3 +329,9 @@ class BlogDescriptionViewSet(viewsets.ModelViewSet):
 class GetInTouchView(generics.ListCreateAPIView):
     queryset = GetInTouch.objects.all()
     serializer_class = GetInTouchSerializer
+    
+# Testimonials #
+
+class TestimonialsViewSet(viewsets.ModelViewSet):
+    queryset = Testimonial.objects.all()
+    serializer_class = TestimonialSerializer

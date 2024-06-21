@@ -245,3 +245,11 @@ class GetInTouchSerializer(serializers.ModelSerializer):
     class Meta:
         model = GetInTouch
         fields = '__all__'
+        
+# Testimonials #
+
+class TestimonialSerializer(serializers.ModelSerializer):
+    auteur = CustomUserSerializer(read_only=True)
+    class Meta:
+        model = Testimonial
+        fields = '__all__'

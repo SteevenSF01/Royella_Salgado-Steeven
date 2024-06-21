@@ -1,10 +1,26 @@
 import { FaStar } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "../../Components4/Testimonial/testimonials.css";
 import "keen-slider/keen-slider.min.css";
+import { _ } from "lodash";
+import axios from "axios";
 
 const Testimonial = () => {
+  const [testimonials, setTestimonials] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/backoffice/testimonials');
+        const latestPosts = _.orderBy(response.data.slice(0, 2), ['date'], ['desc']);
+        setTestimonials(latestPosts);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+console.log(testimonials);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded] = useState(false);
   const [sliderRef, instanceRef] = useKeenSlider({
@@ -124,188 +140,60 @@ const Testimonial = () => {
           ref={sliderRef}
         >
           {/* slider one */}
-          <div className="keen-slider__slide number-slide1 hidden sm:block">
-            <div
-              className="py-[10px] pt-10 hidden sm:block"
-              data-aos="fade-up"
-              data-aos-duration="1000"
-            >
-              <div className="bg-white dark:bg-normalBlack p-5 md:p-10 relative before:absolute before:w-[85%]  before:h-[10px] before:bg-khaki before:mx-auto before:-top-[10px] before:left-0 before:right-0 after:absolute after:w-[85%] after:h-[10px] after:bg-khaki after:mx-auto after:-bottom-[10px] after:left-0 after:right-0 hidden sm:block">
-                {/* quote icon */}
-                <img
-                  src="/images/home-1/testi-quote.png"
-                  alt=""
-                  className="absolute  right-3 xl:right-10 -top-8"
-                />
-
-                {/* rating icon */}
-                <ul className="flex items-center text-khaki space-x-[4px]">
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                </ul>
-                <p className="font-Lora text-sm sm:text-base leading-[26px] text-gray dark:text-lightGray font-normal xl:text-lg mt-[30px] italic mb-[45px] before:absolute before:h-[30px] before:left-0 before:bottom-[-36px] before:bg-khaki before:w-[1px] relative">
-                  “Professionally repurpose flexible testing procedures via
-                  molla in customer service. Dynamically reconceptualize
-                  value-added the systems before manufactured products.
-                  Enthusiastically envisioneer emerging best”
-                </p>
-                <span className="w-[1px] h-[25px] bg-[#ddd]"></span>
-
-                <div className="flex items-center space-x-6 ">
-                  <img
-                    src="/images/home-1/testi-author-2.png"
-                    className="w-[65px] h-[65px]"
-                    alt=""
-                  />
-
-                  <div className="">
-                    <h4 className="text-base lg:text-[22px] leading-[26px] text-lightBlack dark:text-white font-semibold font-Garamond">
-                      Marina Trange
-                    </h4>
-                    <p className="pt-1 text-sm md:text-base leading-[26px] font-normal text-gray dark:text-lightGray flex items-center">
-                      <span className="w-5 h-[1px] inline-block text-khaki bg-khaki mr-2"></span>
-                      Manger
+          {
+            testimonials && testimonials.map((testimonial)=> {
+              return(
+                <div className="keen-slider__slide number-slide1 hidden sm:block">
+                <div
+                  className="py-[10px] pt-10 hidden sm:block"
+                  data-aos="fade-up"
+                  data-aos-duration="1000"
+                >
+                  <div className="bg-white dark:bg-normalBlack p-5 md:p-10 relative before:absolute before:w-[85%]  before:h-[10px] before:bg-khaki before:mx-auto before:-top-[10px] before:left-0 before:right-0 after:absolute after:w-[85%] after:h-[10px] after:bg-khaki after:mx-auto after:-bottom-[10px] after:left-0 after:right-0 hidden sm:block">
+                    {/* quote icon */}
+                    <img
+                      src={"/images/home-1/testi-quote.png"}
+                      alt=""
+                      className="absolute  right-3 xl:right-10 -top-8"
+                    />
+    
+                    {/* rating icon */}
+                    <ul className="flex items-center text-khaki space-x-[4px]">
+                      { _.times(testimonial.etoiles, (i)=> (
+                        <li key={i}>
+                          <FaStar size={"16px"} />
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="font-Lora text-sm sm:text-base leading-[26px] text-gray dark:text-lightGray font-normal xl:text-lg mt-[30px] italic mb-[45px] before:absolute before:h-[30px] before:left-0 before:bottom-[-36px] before:bg-khaki before:w-[1px] relative">
+                      “{testimonial.contenu}”
                     </p>
+                    <span className="w-[1px] h-[25px] bg-[#ddd]"></span>
+    
+                    <div className="flex items-center space-x-6 ">
+                      <img
+                        src={testimonial.auteur.photo}
+                        className="w-[65px] h-[65px]"
+                        alt=""
+                      />
+    
+                      <div className="">
+                        <h4 className="text-base lg:text-[22px] leading-[26px] text-lightBlack dark:text-white font-semibold font-Garamond">
+                          {testimonial.auteur.first_name} {testimonial.auteur.last_name}
+                        </h4>
+                        <p className="pt-1 text-sm md:text-base leading-[26px] font-normal text-gray dark:text-lightGray flex items-center">
+                          <span className="w-5 h-[1px] inline-block text-khaki bg-khaki mr-2"></span>
+                          {testimonial.auteur.role}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          {/* slider two */}
-          <div className="keen-slider__slide number-slide1 hidden sm:block">
-            <div
-              className="py-[10px] pt-10 hidden sm:block"
-              data-aos="fade-up"
-              data-aos-duration="1000"
-            >
-              <div className="bg-white dark:bg-normalBlack p-5 md:p-10 relative before:absolute before:w-[85%]  before:h-[10px] before:bg-khaki before:mx-auto before:-top-[10px] before:left-0 before:right-0 after:absolute after:w-[85%] after:h-[10px] after:bg-khaki after:mx-auto after:-bottom-[10px] after:left-0 after:right-0 hidden sm:block">
-                {/* quote icon */}
-                <img
-                  src="/images/home-1/testi-quote.png"
-                  alt=""
-                  className="absolute  right-3 xl:right-10 -top-8"
-                />
+              )
+            })
+          }
 
-                {/* rating icon */}
-                <ul className="flex items-center text-khaki space-x-[4px]">
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                </ul>
-                <p className="font-Lora text-sm sm:text-base leading-[26px] text-gray dark:text-lightGray font-normal xl:text-lg mt-[30px] italic mb-[45px] before:absolute before:h-[30px] before:left-0 before:bottom-[-36px] before:bg-khaki before:w-[1px] relative">
-                  “Professionally repurpose flexible testing procedures via
-                  molla in customer service. Dynamically reconceptualize
-                  value-added the systems before manufactured products.
-                  Enthusiastically envisioneer emerging best”
-                </p>
-                <span className="w-[1px] h-[25px] bg-[#ddd]"></span>
-
-                <div className="flex items-center space-x-6 ">
-                  <img
-                    src="/images/home-1/call-do-action-img.png"
-                    className="w-[65px] h-[65px]"
-                    alt=""
-                  />
-
-                  <div className="">
-                    <h4 className="text-base lg:text-[22px] leading-[26px] text-lightBlack dark:text-white font-semibold font-Garamond">
-                      John D. Alexon
-                    </h4>
-                    <p className="pt-1 text-sm md:text-base leading-[26px] font-normal text-gray dark:text-lightGray flex items-center">
-                      <span className="w-5 h-[1px] inline-block text-khaki bg-khaki mr-2"></span>
-                      Manger
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* slider three */}
-          <div className="keen-slider__slide number-slide1 hidden sm:block">
-            <div
-              className="py-[10px] pt-10 hidden sm:block"
-              data-aos="fade-up"
-              data-aos-duration="1000"
-            >
-              <div className="bg-white dark:bg-normalBlack p-5 md:p-10 relative before:absolute before:w-[85%]  before:h-[10px] before:bg-khaki before:mx-auto before:-top-[10px] before:left-0 before:right-0 after:absolute after:w-[85%] after:h-[10px] after:bg-khaki after:mx-auto after:-bottom-[10px] after:left-0 after:right-0 hidden sm:block">
-                {/* quote icon */}
-                <img
-                  src="/images/home-1/testi-quote.png"
-                  alt=""
-                  className="absolute  right-3 xl:right-10 -top-8"
-                />
-
-                {/* rating icon */}
-                <ul className="flex items-center text-khaki space-x-[4px]">
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                  <li>
-                    <FaStar size={"16px"} />
-                  </li>
-                </ul>
-                <p className="font-Lora text-sm sm:text-base leading-[26px] text-gray dark:text-lightGray font-normal xl:text-lg mt-[30px] italic mb-[45px] before:absolute before:h-[30px] before:left-0 before:bottom-[-36px] before:bg-khaki before:w-[1px] relative">
-                  “Professionally repurpose flexible testing procedures via
-                  molla in customer service. Dynamically reconceptualize
-                  value-added the systems before manufactured products.
-                  Enthusiastically envisioneer emerging best”
-                </p>
-                <span className="w-[1px] h-[25px] bg-[#ddd]"></span>
-
-                <div className="flex items-center space-x-6 ">
-                  <img
-                    src="/images/home-1/testi-author.png"
-                    className="w-[65px] h-[65px]"
-                    alt=""
-                  />
-
-                  <div className="">
-                    <h4 className="text-base lg:text-[22px] leading-[26px] text-lightBlack dark:text-white font-semibold font-Garamond">
-                      Brandon Mack
-                    </h4>
-                    <p className="pt-1 text-sm md:text-base leading-[26px] font-normal text-gray dark:text-lightGray flex items-center">
-                      <span className="w-5 h-[1px] inline-block text-khaki bg-khaki mr-2"></span>
-                      Manger
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
         {/* slide changer */}
         <div className="mx-auto  ">

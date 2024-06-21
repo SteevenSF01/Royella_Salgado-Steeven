@@ -7,6 +7,10 @@ import { BsArrowRight } from "react-icons/bs";
 import { MdEmail, MdOutlineShareLocation } from "react-icons/md";
 import { IoIosCall } from "react-icons/io";
 import axios from "axios";
+import { _ } from "lodash";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const FindRoom = () => {
     //  room info
@@ -20,19 +24,78 @@ const FindRoom = () => {
     const [selectedInDate, setSelectedInDate] = useState("");
     const [selectedOutDate, setSelectedOutDate] = useState("");
     const [contactInfo, setContactInfo] = useState(null);
+    const [rooms, setRooms] = useState([]);
+
+    const [formData, setFormData] = useState({
+        nom: "",
+        email: "",
+        contenue: "",
+    });
+
+    const notifySuccess = () =>
+        toast.success("Message sent successfully", {
+            position: "top-left",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Slide,
+        });
+
+    const notifyError = () =>
+        toast.error("An error occurred while sending the message", {
+            position: "top-left",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Slide,
+        });
+
+        const handleChange = (e) => {
+            setFormData({
+                ...formData,
+                [e.target.name]: e.target.value,
+            });
+        };
+    
+        const handleSubmit = async (e) => {
+            e.preventDefault();
+            try {
+                await axios.post("/api/getintouch/", formData);
+                notifySuccess();
+                setFormData({
+                    nom: "",
+                    email: "",
+                    contenue: "",
+                });
+            } catch (error) {
+                console.error("Error sending message:", error);
+                notifyError();
+            }
+        };
 
     useEffect(() => {
         const getContactInfo = async () => {
             try {
                 const res = await axios.get(`/api/backoffice/contact/1/`);
                 setContactInfo(res.data);
+
+                const resRooms = await axios.get(`/api/backoffice/rooms/`);
+                const threeRooms = resRooms.data.results.slice(0, 3);
+                setRooms(threeRooms);
             } catch (err) {
                 console.log(err);
             }
         };
         getContactInfo();
     }, []);
-
     const handleCheckInDate = (e) => {
         let newDate = e.target.value;
         setSelectedInDate(newDate);
@@ -237,233 +300,80 @@ const FindRoom = () => {
                 {/* Room Details */}
                 <div className="mt-14 2xl:mt-[60px] grid items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 xl:gap-[30px] Container">
                     {/* Room - 1 */}
-                    <div data-aos="zoom-in-up" data-aos-duration="1000">
-                        <div className="overflow-x-hidden 3xl:w-[410px] group relative">
-                            <div className="relative">
-                                <div className="overflow-hidden">
-                                    <img
-                                        src="/images/home-1/room-1.jpg "
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
-                                        alt=""
-                                    />
-                                </div>
-                                <Link to={"/room_details"}>
-                                    <button className="flex items-center justify-center text-[15px] leading-[38px] bg-lightBlack absolute bottom-0 -left-40 px-5 text-white  group-hover:left-0 transition-all duration-300 hover:bg-khaki">
-                                        View Details{" "}
-                                        <BsArrowRight className="w-4 h-4 ml-2  text-white" />{" "}
-                                    </button>
-                                </Link>
-                            </div>
-                            <div className="font-Garamond">
-                                <div className="px-5 3xl:px-6 py-2 inline-flex bg-khaki text-sm  items-center justify-center text-white  absolute top-[10px] right-[10px] font-Lora font-normal leading-[26px]">
-                                    <span className="">$560</span>
-                                    <span className="mx-2">|</span>
-                                    <span>Night</span>
-                                </div>
-
-                                <div className=" border-[1px] border-[#e8e8e8] dark:border-[#424242] border-t-0">
-                                    <div className="py-6 px-[30px]">
-                                        <h4 className="text-sm leading-[26px] text-khaki uppercase font-semibold">
-                                            Luxury Room
-                                        </h4>
-                                        <Link to="/room_details">
-                                            <h2 className="text-2xl lg:text-[28px] leading-[26px] font-semibold text-lightBlack dark:text-white py-4">
-                                                Double Suite Rooms
-                                            </h2>
+                    {
+                        rooms && rooms.map((room)=>{
+                            return(
+                                <div data-aos="zoom-in-up" data-aos-duration="1000">
+                                <div className="overflow-x-hidden 3xl:w-[410px] group relative">
+                                    <div className="relative">
+                                        <div className="overflow-hidden h-[300px] ">
+                                            <img
+                                                src={room.photo}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
+                                                alt=""
+                                            />
+                                        </div>
+                                        <Link to={`/room_details/${room.id}`}>
+                                            <button className="flex items-center justify-center text-[15px] leading-[38px] bg-lightBlack absolute bottom-0 -left-40 px-5 text-white  group-hover:left-0 transition-all duration-300 hover:bg-khaki">
+                                                View Details{" "}
+                                                <BsArrowRight className="w-4 h-4 ml-2  text-white" />{" "}
+                                            </button>
                                         </Link>
-                                        <p className="text-sm font-normal text-gray  dark:text-lightGray font-Lora">
-                                            1500 SQ.FT/Rooms
-                                        </p>
                                     </div>
-                                    <div className="  border-t-[1px] border-[#e8e8e8] dark:border-[#424242] py-5">
-                                        <div className="px-[30px] flex items-center justify-between">
-                                            <div className="">
-                                                <span className="font-Lora text-base flex items-center ">
-                                                    <img
-                                                        src="/images/home-1/room-bottom-icon.png"
-                                                        alt=""
-                                                    />
-                                                    <span className="ml-[10px] text-gray dark:text-lightGray">
-                                                        2 King Bed
-                                                    </span>
-                                                </span>
+                                    <div className="font-Garamond">
+                                        <div className="px-5 3xl:px-6 py-2 inline-flex bg-khaki text-sm  items-center justify-center text-white  absolute top-[10px] right-[10px] font-Lora font-normal leading-[26px]">
+                                            <span className="">${room.prix}</span>
+                                            <span className="mx-2">|</span>
+                                            <span>Night</span>
+                                        </div>
+        
+                                        <div className=" border-[1px] border-[#e8e8e8] dark:border-[#424242] border-t-0">
+                                            <div className="py-6 px-[30px]">
+                                                <h4 className="text-sm leading-[26px] text-khaki uppercase font-semibold">
+                                                    Luxury Room
+                                                </h4>
+                                                <Link to="/room_details">
+                                                    <h2 className="text-2xl lg:text-[28px] leading-[26px] font-semibold text-lightBlack dark:text-white py-4">
+                                                        {room.nom}
+                                                    </h2>
+                                                </Link>
+                                                <p className="text-sm font-normal text-gray  dark:text-lightGray font-Lora">
+                                                    {room.superficie} SQ.FT/Rooms
+                                                </p>
                                             </div>
-                                            <span className="w-[1px] h-[25px] bg-[#ddd] dark:bg-gray"></span>
-                                            <ul className="flex items-center text-khaki space-x-[5px]">
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                            </ul>
+                                            <div className="  border-t-[1px] border-[#e8e8e8] dark:border-[#424242] py-5">
+                                                <div className="px-[30px] flex items-center justify-between">
+                                                    <div className="">
+                                                        <span className="font-Lora text-base flex items-center ">
+                                                            <img
+                                                                src="/images/home-1/room-bottom-icon.png"
+                                                                alt=""
+                                                            />
+                                                            <span className="ml-[10px] text-gray dark:text-lightGray">
+                                                                {room.lit} {room.nom_lit} Bed
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                    <span className="w-[1px] h-[25px] bg-[#ddd] dark:bg-gray"></span>
+                                                    <ul className="flex items-center text-khaki space-x-[5px]">
+                                                        {_.times(room.etoiles,(i)=>{
+                                                            return(
+                                                                <li key={i}>
+                                                                    <FaStar />
+                                                                </li>
+                                                            )
+                                                        })}
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div data-aos="zoom-in-up" data-aos-duration="1000">
-                        {/* Room - 2 */}
-                        <div className="overflow-x-hidden 3xl:w-[410px] group relative">
-                            <div className="relative">
-                                <div className="overflow-hidden">
-                                    <img
-                                        src="/images/home-1/room-2.jpg "
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
-                                        alt=""
-                                    />
-                                </div>
-                                <Link to={"/room_details"}>
-                                    <button className="flex items-center justify-center text-[15px] leading-[38px] bg-lightBlack absolute bottom-0 -left-40 px-5 text-white  group-hover:left-0 transition-all duration-300 hover:bg-khaki">
-                                        View Details{" "}
-                                        <BsArrowRight className="w-4 h-4 ml-2  text-white" />{" "}
-                                    </button>
-                                </Link>
-                            </div>
-                            <div className="font-Garamond">
-                                <div className="px-5 3xl:px-6 py-2 inline-flex bg-khaki text-sm  items-center justify-center font-Lora font-normal leading-[26px] text-white  absolute top-[10px] right-[10px] ">
-                                    <span className="">$560</span>
-                                    <span className="mx-2">|</span>
-                                    <span>Night</span>
-                                </div>
+                            )
+                        })
+                    }
 
-                                <div className=" border-[1px] border-[#e8e8e8] dark:border-[#424242] border-t-0">
-                                    <div className="py-6 px-[30px]">
-                                        <h4 className="text-sm leading-[26px] text-khaki uppercase font-semibold">
-                                            Luxury Room
-                                        </h4>
-                                        <Link to="/room_details">
-                                            <h2 className="text-2xl lg:text-[28px] leading-[26px] font-semibold text-lightBlack dark:text-white py-4">
-                                                Delux Family Rooms
-                                            </h2>
-                                        </Link>
-                                        <p className="text-sm font-normal text-gray  dark:text-lightGray font-Lora">
-                                            1500 SQ.FT/Rooms
-                                        </p>
-                                    </div>
-                                    <div className="  border-t-[1px] border-[#e8e8e8] dark:border-[#424242] py-5">
-                                        <div className="px-[30px] flex items-center justify-between">
-                                            <div className="">
-                                                <span className="font-Lora text-base flex items-center ">
-                                                    <img
-                                                        src="/images/home-1/room-bottom-icon.png"
-                                                        alt=""
-                                                    />
-                                                    <span className="ml-[10px] text-gray dark:text-lightGray">
-                                                        2 King Bed
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <span className="w-[1px] h-[25px] bg-[#ddd] dark:bg-gray"></span>
-                                            <ul className="flex items-center text-khaki space-x-[5px]">
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div data-aos="zoom-in-up" data-aos-duration="1000">
-                        {/* Room - 3 */}
-                        <div className="overflow-x-hidden 3xl:w-[410px] group relative">
-                            <div className="relative">
-                                <div className="overflow-hidden">
-                                    <img
-                                        src="/images/home-1/room-3.jpg "
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
-                                        alt=""
-                                    />
-                                </div>
-                                <Link to={"/room_details"}>
-                                    <button className="flex items-center justify-center text-[15px] leading-[38px] bg-lightBlack absolute bottom-0 -left-40 px-5 text-white  group-hover:left-0 transition-all duration-300 hover:bg-khaki">
-                                        View Details{" "}
-                                        <BsArrowRight className="w-4 h-4 ml-2  text-white" />{" "}
-                                    </button>
-                                </Link>
-                            </div>
-                            <div className="font-Garamond">
-                                <div className="px-5 3xl:px-6 py-2 inline-flex bg-khaki text-sm  items-center justify-center font-Lora font-normal leading-[26px] text-white  absolute top-[10px] right-[10px] ">
-                                    <span className="">$560</span>
-                                    <span className="mx-2">|</span>
-                                    <span>Night</span>
-                                </div>
-
-                                <div className=" border-[1px] border-[#e8e8e8] dark:border-[#424242] border-t-0">
-                                    <div className="py-6 px-[30px]">
-                                        <h4 className="text-sm leading-[26px] text-khaki uppercase font-semibold">
-                                            Luxury Room
-                                        </h4>
-                                        <Link to="/room_details">
-                                            <h2 className="text-2xl lg:text-[28px] leading-[26px] font-semibold text-lightBlack dark:text-white py-4">
-                                                Suprior Bed Rooms
-                                            </h2>
-                                        </Link>
-                                        <p className="text-sm font-normal text-gray  dark:text-lightGray font-Lora">
-                                            1500 SQ.FT/Rooms
-                                        </p>
-                                    </div>
-                                    <div className="  border-t-[1px] border-[#e8e8e8] dark:border-[#424242] py-5">
-                                        <div className="px-[30px] flex items-center justify-between">
-                                            <div className="">
-                                                <span className="font-Lora text-base flex items-center ">
-                                                    <img
-                                                        src="/images/home-1/room-bottom-icon.png"
-                                                        alt=""
-                                                    />
-                                                    <span className="ml-[10px] text-gray dark:text-lightGray">
-                                                        2 King Bed
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <span className="w-[1px] h-[25px] bg-[#ddd] dark:bg-gray"></span>
-                                            <ul className="flex items-center text-khaki space-x-[5px]">
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                                <li>
-                                                    <FaStar />
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             {/* Contact form */}
@@ -548,73 +458,37 @@ const FindRoom = () => {
                                     <h2 className="font-Garamond text-[22px] sm:text-2xl md:text-[28px] leading-7 md:leading-8 lg:leading-9 xl:leading-10 2xl:leading-[44px] text-white font-semibold text-center">
                                         GET IN TOUCH
                                     </h2>
-                                    <form className="grid items-center grid-cols-1 gap-2 mt-8">
+                                    <form className="grid items-center grid-cols-1 gap-2 mt-8" onSubmit={handleSubmit}>
                                         <input
                                             type="text"
+                                            name="nom"
                                             className="w-full h-12 md:h-13 lg:h-[59px] px-4 border border-gray dark:border-lightGray  outline-none  bg-transparent mt-4 focus:ring-0 placeholder:text-gray focus:outline-none focus:border-lightGray text-lightGray"
                                             placeholder="Your Name"
                                             required
+                                            value={formData.nom}
+                                            onChange={handleChange}
+
                                         />
                                         <input
                                             type="email"
+                                            name="email"
                                             className="w-full h-12 md:h-13 lg:h-[59px] px-4 border  border-gray dark:border-lightGray  outline-none  bg-transparent mt-4 focus:ring-0 placeholder:text-gray focus:outline-none focus:border-lightGray text-lightGray"
                                             placeholder="Enter E-mail"
                                             required
+                                            onChange={handleChange}
+                                            value={formData.email}
                                         />
-                                        <select
-                                            className="w-full h-12 md:h-13 lg:h-[59px] px-4 border border-gray dark:border-lightGray  outline-none  bg-transparent mt-4 focus:ring-0 focus:outline-none focus:border-lightGray  text-lightGray"
-                                            onFocus={(e) => {
-                                                e.target.size = 6;
-                                            }}
-                                            onBlur={(e) => {
-                                                e.target.size = 0;
-                                            }}
-                                            onChange={(e) => {
-                                                e.target.size = 1;
-                                                e.target.blur();
-                                            }}
-                                        >
-                                            <option
-                                                className="bg-khaki text-white px-3 py-3"
-                                                value=""
-                                                disabled
-                                            >
-                                                Select Subject
-                                            </option>
-                                            <option
-                                                className="bg-whiteSmoke dark:bg-normalBlack text-lightBlack dark:text-white px-3 py-3"
-                                                value="option1"
-                                            >
-                                                Subject One
-                                            </option>
-                                            <option
-                                                className="bg-whiteSmoke dark:bg-normalBlack text-lightBlack dark:text-white px-3 py-3"
-                                                value="option2"
-                                            >
-                                                Subject Two
-                                            </option>
-                                            <option
-                                                className="bg-whiteSmoke dark:bg-normalBlack text-lightBlack dark:text-white px-3 py-3"
-                                                value="option3"
-                                            >
-                                                Select Three
-                                            </option>
-                                            <option
-                                                className="bg-whiteSmoke dark:bg-normalBlack text-lightBlack dark:text-white px-3 py-3"
-                                                value="option4"
-                                            >
-                                                Select Four
-                                            </option>
-                                        </select>
                                         <textarea
-                                            name=""
+                                            name="contenue"
                                             id=""
                                             cols="30"
                                             rows="10"
                                             className="w-full h-[121px] px-4 border border-gray dark:border-lightGray  outline-none  bg-transparent mt-4 focus:ring-0 placeholder:text-gray focus:outline-none focus:border-lightGray  text-lightGray resize-none"
                                             placeholder="Write Message:"
+                                            onChange={handleChange}
+                                            value={formData.contenue}
                                         ></textarea>
-                                        <button className="w-full bg-khaki text-white text-center h-10 2xl:h-[55px] mt-5 hover-animBg after:bg-normalBlack dark:after:bg-lightBlack after:rounded-none">
+                                        <button className="w-full bg-khaki text-white text-center h-10 2xl:h-[55px] mt-5 hover-animBg after:bg-normalBlack dark:after:bg-lightBlack after:rounded-none" type="submit">
                                             SEND MESSAGE
                                         </button>
                                     </form>
