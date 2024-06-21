@@ -479,48 +479,6 @@ def runCategories():
     print(pks)
     
     
-# def run_blogs_seeder():
-#     seeder = Seed.seeder()
-#     seeder.add_entity(Blog, 10, {
-#         'titre': lambda x: seeder.faker.sentence(),
-#         'contenue': lambda x: seeder.faker.text(),
-#         'auteur': lambda x: random.choice(CustomUser.objects.all()),
-#         'categorie': lambda x: random.choice(Categories.objects.all()),
-#         'status': lambda x: random.choice(['draft', 'pending', 'approved', 'rejected']),
-#     })
-#     pks = seeder.execute()
-#     print("Blogs seeded: ", pks)
-
-#     for blog in Blog.objects.all():
-#         blog.tags.set(random.sample(list(Tags.objects.all()), k=random.randint(1, 3)))
-#         blog.save()
-
-# def run_comments_seeder():
-#     seeder = Seed.seeder()
-#     seeder.add_entity(Comment, 20, {
-#         'blog': lambda x: random.choice(Blog.objects.all()),
-#         'auteur': lambda x: random.choice(CustomUser.objects.all()),
-#         'contenue': lambda x: seeder.faker.text(),
-#     })
-#     pks = seeder.execute()
-#     print("Comments seeded: ", pks)
-
-# def run_blog_descriptions_seeder():
-#     seeder = Seed.seeder()
-#     seeder.add_entity(BlogDescription, 10, {
-#         'blog': lambda x: random.choice(Blog.objects.all()),
-#         'titre': lambda x: seeder.faker.sentence(),
-#         'contenue': lambda x: seeder.faker.text(),
-#     })
-#     pks = seeder.execute()
-#     print("Blog Descriptions seeded: ", pks)
-    
-# def run_all_blogs():
-#     run_blogs_seeder()
-#     run_comments_seeder()
-#     run_blog_descriptions_seeder()
-
-
 User = get_user_model()
 seeder = Seed.seeder()
 fake = Faker()
@@ -594,3 +552,47 @@ def run_all_blogs():
     run_comments_seeder()
     run_blog_descriptions_seeder()
 
+def runTestimonials():
+    seeder = Seed.seeder()
+    users = list(CustomUser.objects.all())
+    testimonials = [
+        {
+            "auteur": lambda x: random.choice(users),
+            "etoiles": 5,
+            "contenu": "Carried nothing on am warrant towards. Polite in of in oh needed itself silent course. Assistance travelling so especially do prosperous appearance mr no celebrated. Wanted easily in my called formed suffer. Songs hoped sense as taken ye mirth at. Believe fat how six drawing pursuit minutes far. Same do seen head am part it dear open to. Whatever may scarcely judgment had.",
+        },
+        {
+            "auteur": lambda x: random.choice(users),
+            "etoiles": 3,
+            "contenu": "Carried nothing on am warrant towards. Polite in of in oh needed itself silent course. Assistance travelling so especially do prosperous appearance mr no celebrated. Wanted easily in my called formed suffer. Songs hoped sense as taken ye mirth at. Believe fat how six drawing pursuit minutes far. Same do seen head am part it dear open to. Whatever may scarcely judgment had.",
+        },
+        {
+            "auteur": lambda x: random.choice(users),
+            "etoiles": 4,
+            "contenu": "Prepared is me marianne pleasure likewise debating. Wonder an unable except better stairs do ye admire. His and eat secure sex called esteem praise. So moreover as speedily differed branched ignorant. Tall are her knew poor now does then. Procured to contempt oh he raptures amounted occasion. One boy assure income spirit lovers set.",
+        },
+        {
+            "auteur": lambda x: random.choice(users),
+            "etoiles": 4,
+            "contenu": "Carried nothing on am warrant towards. Polite in of in oh needed itself silent course. Assistance travelling so especially do prosperous appearance mr no celebrated. Wanted easily in my called formed suffer. Songs hoped sense as taken ye mirth at. Believe fat how six drawing pursuit minutes far. Same do seen head am part it dear open to. Whatever may scarcely judgment had.",
+        },
+        {
+            "auteur": lambda x: random.choice(users),
+            "etoiles": 4,
+            "contenu": "Civility vicinity graceful is it at. Improve up at to on mention perhaps raising. Way building not get formerly her peculiar. Up uncommonly prosperous sentiments simplicity acceptance to so. Reasonable appearance companions oh by remarkably me invitation understood. Pursuit elderly ask perhaps all",
+        },
+        {
+            "auteur": lambda x: random.choice(users),
+            "etoiles": 4,
+            "contenu": "Carried nothing on am warrant towards. Polite in of in oh needed itself silent course. Assistance travelling so especially do prosperous appearance mr no celebrated. Wanted easily in my called formed suffer. Songs hoped sense as taken ye mirth at. Believe fat how six drawing pursuit minutes far. Same do seen head am part it dear open to. Whatever may scarcely judgment had.",
+        },
+        {
+            "auteur": lambda x: random.choice(users),
+            "etoiles": 4,
+            "contenu": "Admiration we surrounded possession frequently he. Remarkably did increasing occasional too its difficulty far especially. Known tiled but sorry joy balls. Bed sudden manner indeed fat now feebly. Face do with in need of wife paid that be. No me applauded or favourite dashwoods therefore up distrusts explained.",
+        },
+    ]
+    for testimonial in testimonials:
+        seeder.add_entity(Testimonial, 1, testimonial)
+    pks = seeder.execute()
+    print("Testimonials seeded: ", pks)

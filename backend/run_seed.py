@@ -17,4 +17,5 @@ if __name__ == '__main__':
     # seed.runRoomService()
     # seed.runTags()
     # seed.runCategories()
-    seed.run_all_blogs()
+    # seed.run_all_blogs()
+    seed.runTestimonials()

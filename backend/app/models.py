@@ -201,3 +201,11 @@ class GetInTouch(models.Model):
     email = models.EmailField()
     contenue = models.TextField()
     date_sent = models.DateTimeField(default=timezone.now)
+
+# Testimonials #
+
+class Testimonial(models.Model):
+    date = models.DateTimeField(default=timezone.now)
+    auteur = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='testimonials')
+    etoiles = models.PositiveIntegerField()
+    contenu = models.TextField()

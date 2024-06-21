@@ -46,7 +46,7 @@ const Testimonial = () => {
             <hr className="w-[100px] h-[1px]  text-[#473f39] " />
           </div>
           <h1 className="text-xl sm:text-2xl md:text-3xl 2xl:text-[38px] leading-[42px] 2xl:leading-[52px] text-white mt-[20px] mb-[16px] font-Garamond font-semibold uppercase">
-            Ustomer’s TestimonialL
+            Customer’s TestimonialL
           </h1>
           <p className="font-Lora leading-7 lg:leading-[26px] text-white font-normal text-sm sm:text-base">
             Proactively morph optimal infomediaries rather than accurate
