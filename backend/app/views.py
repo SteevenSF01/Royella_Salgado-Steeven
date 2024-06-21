@@ -262,11 +262,15 @@ class CategoriesViewSet(viewsets.ModelViewSet):
 
 # Blogs #
 
+
 class BlogFilter(filters.FilterSet):
-    title = filters.CharFilter(field_name="titre", lookup_expr='icontains') 
+    title = filters.CharFilter(field_name="titre", lookup_expr='icontains')
+    categorie = filters.NumberFilter(field_name="categorie__id")
+
     class Meta:
         model = Blog
-        fields = ['title']
+        fields = ['title', 'categorie']
+
         
 class BlogPagination(pagination.PageNumberPagination):
     page_size = 6

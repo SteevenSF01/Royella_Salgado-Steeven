@@ -5,20 +5,19 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
 
-const BlogSideBar = ({ filterTitle, handleFilterChange }) => {
+const BlogSideBar = ({ filterTitle, handleFilterChange, handleCategoryChange }) => {
     const [tags, setTags] = useState([]);
-    const [allBlogs, setAllBlogs] = useState([]);
     const [popularPosts, setPopularPosts] = useState([]);
+    const [allBlogs, setAllBlogs] = useState([]);
     const [categories, setCategories] = useState([]);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const resTags = await axios.get("/api/backoffice/tags");
                 setTags(resTags.data);
 
-                const resCategories = await axios.get(
-                    "/api/backoffice/categories"
-                );
+                const resCategories = await axios.get("/api/backoffice/categories");
                 setCategories(resCategories.data);
 
                 const resBlogs = await axios.get("/api/backoffice/blog");
@@ -29,6 +28,7 @@ const BlogSideBar = ({ filterTitle, handleFilterChange }) => {
                     .sort((a, b) => b.comments.length - a.comments.length)
                     .slice(0, 3);
                 setPopularPosts(popular);
+
             } catch (error) {
                 console.log(error);
             }
@@ -36,32 +36,23 @@ const BlogSideBar = ({ filterTitle, handleFilterChange }) => {
 
         fetchData();
     }, []);
-
     const formatDate = (date) => {
         return moment(date).format("MMMM D, YYYY");
     };
 
     return (
         <>
-            {/* blog search bar*/}
+            {/* Blog Search Bar */}
             <div className="bg-whiteSmoke dark:bg-normalBlack items-center w-full p-4 sm:p-8 2xl:p-10 focus:shadow-xl rounded-md">
-                <form
-                    className="flex items-center space-x-2 md:space-x-5 relative"
-                    data-aos="fade-up"
-                    data-aos-duration="1000"
-                >
+                <form className="flex items-center space-x-2 md:space-x-5 relative" data-aos="fade-up" data-aos-duration="1000">
                     <input
                         placeholder="Search Here"
                         type="text"
                         value={filterTitle}
                         onChange={handleFilterChange}
-                        className=" px-5 py-[5px] w-full h-12 md:h-14 text-base
-                  border-none outline-none rounded-md text-gray dark:text-lightGray focus:border-none placeholder:text-[#515151] focus:ring-0 focus:outline-none dark:bg-lightBlack"
+                        className=" px-5 py-[5px] w-full h-12 md:h-14 text-base border-none outline-none rounded-md text-gray dark:text-lightGray focus:border-none placeholder:text-[#515151] focus:ring-0 focus:outline-none dark:bg-lightBlack"
                     />
-                    <Link
-                        to="#"
-                        className="absolute top-5 right-4 text-lightGray dark:text-gray"
-                    >
+                    <Link to="#" className="absolute top-5 right-4 text-lightGray dark:text-gray">
                         <FaSearch className="w-4 h-4 " />
                     </Link>
                 </form>
@@ -99,28 +90,21 @@ const BlogSideBar = ({ filterTitle, handleFilterChange }) => {
                         ))}
                 </div>
             </div>
-
             {/* Categories */}
             <div className="bg-whiteSmoke dark:bg-normalBlack w-full p-4 sm:p-8 2xl:p-10 mt-5 2xl:mt-[30px] rounded-md ">
                 <h2 className="text-lg sm:text-xl md:text-[22px] lg:text-2xl leading-6 md:leading-7 lg:leading-[30px] text-lightBlack dark:text-white relative before:w-[50px] before:h-[1px] before:bg-lightBlack dark:before:bg-white before:absolute before:left-0 before:top-9 font-Garamond font-semibold">
                     Categories
                 </h2>
                 <div className="pt-10">
-                    <ul
-                        className=" "
-                        data-aos="fade-up"
-                        data-aos-duration="1000"
-                    >
+                    <ul className=" " data-aos="fade-up" data-aos-duration="1000">
                         {categories &&
                             categories.map((category) => (
                                 <li
                                     key={category.id}
                                     className="flex items-center group transition-all duration-300 border-b-[1px] cursor-pointer border-lightGray dark:border-gray py-2 "
+                                    onClick={() => handleCategoryChange(category.id)}
                                 >
-                                    <BiChevronsRight
-                                        size={16}
-                                        className="text-lightBlack dark:text-white group-hover:text-khaki mr-2"
-                                    />
+                                    <BiChevronsRight size={16} className="text-lightBlack dark:text-white group-hover:text-khaki mr-2" />
                                     <span className="text-sm xl:text-base 2xl:text-lg leading-[26px] text-lightBlack group-hover:text-khaki font-medium font-Garamond dark:text-white">
                                         {category.nom}
                                     </span>
@@ -133,13 +117,9 @@ const BlogSideBar = ({ filterTitle, handleFilterChange }) => {
             {/* Tags */}
             <div className="bg-whiteSmoke dark:bg-normalBlack w-full p-4 sm:p-8 2xl:p-10 mt-5 2xl:mt-[30px] rounded-md ">
                 <h2 className="text-lg sm:text-xl md:text-[22px] lg:text-2xl leading-6 md:leading-7 lg:leading-[30px] text-lightBlack dark:text-white relative before:w-[50px] before:h-[1px] before:bg-lightBlack dark:before:bg-white before:absolute before:left-0 before:top-9 font-Garamond font-semibold">
-                    Tag
+                    Tags
                 </h2>
-                <div
-                    className="pt-10 "
-                    data-aos="fade-up"
-                    data-aos-duration="1000"
-                >
+                <div className="pt-10 " data-aos="fade-up" data-aos-duration="1000">
                     <div className="grid items-center grid-cols-2 md:grid-cols-1 2xl:grid-cols-2 gap-3 sm:gap-5  ">
                         {tags &&
                             tags.map((tag) => (
