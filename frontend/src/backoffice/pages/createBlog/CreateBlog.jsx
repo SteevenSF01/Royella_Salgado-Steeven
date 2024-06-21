@@ -4,7 +4,6 @@ import axios from "axios";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const CreateBlog = () => {
 
     const notifySuccess = () =>
@@ -33,7 +32,6 @@ const CreateBlog = () => {
             transition: Slide,
         });
 
-
     const { user } = useAuth();
     const [tags, setTags] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -46,7 +44,7 @@ const CreateBlog = () => {
             auteur_id: user.id,
             categorie_id: "",
             tags_id: [],
-        })    
+        })
     }, [user]);
 
     useEffect(() => {
@@ -88,7 +86,7 @@ const CreateBlog = () => {
                 ? [...prevState.tags_id, tagId]
                 : prevState.tags_id.filter((id) => id !== tagId),
         }));
-    };    
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -101,7 +99,7 @@ const CreateBlog = () => {
         formData.tags_id.forEach((tag) => {
             submitData.append("tags_id", tag);
         });
-    
+
         try {
             const res = await axios.post("/api/backoffice/blog/", submitData, {
                 headers: {
@@ -118,8 +116,6 @@ const CreateBlog = () => {
             notifyError();
         }
     };
-    
-    
 
     return (
         <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg my-48">

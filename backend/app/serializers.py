@@ -10,7 +10,6 @@ import os
 import base64
 
 
-
 CustomUser = get_user_model()
 
 # Custom User #
@@ -43,11 +42,12 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         )
         base64_image = self.get_base64_logo()
 
-        self.send_confirmation_email(user, base64_image)        
+        self.send_confirmation_email(user, base64_image)
         return user
-    
+
     def get_base64_logo(self):
-        image_path = os.path.join(settings.BASE_DIR, 'static/images/inner-logo.png')   
+        image_path = os.path.join(
+            settings.BASE_DIR, 'static/images/inner-logo.png')
         with open(image_path, 'rb') as image_file:
             base64_image = base64.b64encode(image_file.read()).decode('utf-8')
         return base64_image
@@ -58,11 +58,11 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         to_email = [user.email]
         context = {'user': user, 'base64_image': base64_image}
         html_content = render_to_string('modelMail.html', context)
-        
+
         email = EmailMultiAlternatives(subject, '', from_email, to_email)
         email.attach_alternative(html_content, "text/html")
         email.send()
-        
+
 
 # Employe #
 
@@ -70,14 +70,21 @@ class PosteEmployeSerializer(serializers.ModelSerializer):
     class Meta:
         model = PosteEmploye
         fields = ['id', 'poste']
+
+
 class EmployeSerializer(serializers.ModelSerializer):
     poste = PosteEmployeSerializer(read_only=True)
+
     class Meta:
         model = Employe
         fields = ['id', 'nom', 'prenom', 'photo', 'poste', 'email']
+
+
 class ManagerVideoSerializer(serializers.ModelSerializer):
     employe = EmployeSerializer(read_only=True)
-    employe_id = serializers.PrimaryKeyRelatedField(queryset=Employe.objects.all(), source='employe')
+    employe_id = serializers.PrimaryKeyRelatedField(
+        queryset=Employe.objects.all(), source='employe')
+
     class Meta:
         model = ManagerVideo
         fields = '__all__'
@@ -91,22 +98,26 @@ class HeroHomeSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         if 'photo' not in validated_data:
-            validated_data['photo'] = instance.photo 
+            validated_data['photo'] = instance.photo
         return super().update(instance, validated_data)
+
 
 class BanierePagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = BanierePages
         fields = '__all__'
+
     def update(self, instance, validated_data):
         if 'image' not in validated_data:
             validated_data['image'] = instance.image
         return super().update(instance, validated_data)
 
+
 class FooterGallerySerializer(serializers.ModelSerializer):
     class Meta:
         model = FooterGallery
         fields = '__all__'
+
     def update(self, instance, validated_data):
         if 'image' not in validated_data:
             validated_data['image'] = instance.image
@@ -114,78 +125,80 @@ class FooterGallerySerializer(serializers.ModelSerializer):
 
 # Google maps + contact #
 
+
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
         fields = '__all__'
-    
+
 # FAQ #
+
 
 class FAQSerializer(serializers.ModelSerializer):
     class Meta:
         model = FAQ
         fields = '__all__'
-    
+
 # Facilities #
+
 
 class FacilitiesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Facilities
         fields = '__all__'
 
+
 class FacilitiesRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = FacilitiesRoom
         fields = '__all__'
-        
+
 # Rooms #
+
 
 class RoomsSerializer(serializers.ModelSerializer):
     amenities = FacilitiesRoomSerializer(many=True, read_only=True)
-    amenities_ids = serializers.PrimaryKeyRelatedField(
-        many=True, 
-        queryset=FacilitiesRoom.objects.all(), 
-        write_only=True
+    facilitiesroom_id = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=FacilitiesRoom.objects.all(),
+        write_only=True,
+        source = 'amenities',
     )
-    
+
     class Meta:
         model = Rooms
-        fields = '__all__'
-        extra_fields = ['amenities_ids']
-    
+        fields = ['nom', 'description', 'photo', 'etoiles', 'nom_lit', 'prix', 'max_adultes', 'lit', 'max_enfants', 'superficie', "amenities",'facilitiesroom_id']
+
     def create(self, validated_data):
-        amenities_ids = validated_data.pop('amenities_ids', [])
-        room = super().create(validated_data)
-        room.amenities.set(amenities_ids)
+        amenities = validated_data.pop('amenities', [])
+        room = Rooms.objects.create(**validated_data)
+        room.amenities.set(amenities)
         return room
-
-    def update(self, instance, validated_data):
-        amenities_ids = validated_data.pop('amenities_ids', [])
-        room = super().update(instance, validated_data)
-        room.amenities.set(amenities_ids)
-        return room
-
-
+    
 class RoomServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoomService
         fields = '__all__'
-        
+
 # Tags #
 
+
 class TagSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Tags
-		fields = '__all__'
+    class Meta:
+        model = Tags
+        fields = '__all__'
 
 # Categories #
 
+
 class CategorySerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Categories
-		fields = '__all__'
+    class Meta:
+        model = Categories
+        fields = '__all__'
 
 # Blogs #
+
+
 class BlogDescriptionSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -194,10 +207,12 @@ class BlogDescriptionSerializer(serializers.ModelSerializer):
             'id', 'blog', 'titre', 'contenue', 'image'
         ]
 
+
 class CommentSerializer(serializers.ModelSerializer):
     blog = serializers.PrimaryKeyRelatedField(queryset=Blog.objects.all())
     auteur = CustomUserSerializer(read_only=True)
-    auteur_id = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all(), source='auteur', write_only=True)
+    auteur_id = serializers.PrimaryKeyRelatedField(
+        queryset=CustomUser.objects.all(), source='auteur', write_only=True)
 
     class Meta:
         model = Comment
@@ -223,7 +238,7 @@ class BlogSerializer(serializers.ModelSerializer):
         model = Blog
         fields = [
             'id', 'titre', 'contenue', 'image', 'auteur', 'posted_on', 'categorie',
-            'tags', 'comments', 'created_at', 'updated_at', 'status', 'blog_descriptions', 
+            'tags', 'comments', 'created_at', 'updated_at', 'status', 'blog_descriptions',
             'categorie_id', 'tags_id', 'auteur_id'
         ]
 
@@ -231,25 +246,28 @@ class BlogSerializer(serializers.ModelSerializer):
         tags_data = validated_data.pop('tags', [])
         blog = Blog.objects.create(**validated_data)
         blog.tags.set(tags_data)
-        return blog    
+        return blog
 
-    
+
 class CreateBlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
         fields = ['titre', 'contenue', 'image', 'auteur', 'categorie', 'tags']
-        
+
 # Get in touch #
+
 
 class GetInTouchSerializer(serializers.ModelSerializer):
     class Meta:
         model = GetInTouch
         fields = '__all__'
-        
+
 # Testimonials #
+
 
 class TestimonialSerializer(serializers.ModelSerializer):
     auteur = CustomUserSerializer(read_only=True)
+
     class Meta:
         model = Testimonial
         fields = '__all__'

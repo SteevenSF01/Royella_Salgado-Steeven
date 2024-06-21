@@ -40,6 +40,8 @@ import FAQ from "../backoffice/pages/faq/FAQ";
 import FacilitiesAll from "../backoffice/pages/facilities/FacilitiesAll";
 // Backoffice - Get in touch
 import Inbox from "../backoffice/pages/getInTouch/GetInTouch";
+// Backoffice - Rooms
+import CreateRoom from "../backoffice/pages/room/CreateRoom";
 
 // Starting React Router.
 const router = createBrowserRouter([
@@ -152,6 +154,10 @@ const router = createBrowserRouter([
         path: "/backoffice/getintouch",
         element: <Inbox />,
       },
+      {
+        path: "/backoffice/rooms",
+        element: <CreateRoom />,
+      }
     ]
   },
 ]);
