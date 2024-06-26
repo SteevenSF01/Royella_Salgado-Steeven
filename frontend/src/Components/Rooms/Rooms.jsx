@@ -27,11 +27,11 @@ const Rooms = () => {
   }, [])
   
 
-  const [open, setOpen] = useState(false);
-  const [guestOpen, setGuestOpen] = useState(false);
-  const [room, setRoom] = useState(1);
-  const [adult, setAdult] = useState(1);
-  const [children, setChildren] = useState(0);
+  // const [open, setOpen] = useState(false);
+  // const [guestOpen, setGuestOpen] = useState(false);
+  // const [room, setRoom] = useState(1);
+  // const [adult, setAdult] = useState(1);
+  // const [children, setChildren] = useState(0);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded] = useState(false);
 
@@ -59,7 +59,8 @@ const Rooms = () => {
 
   return (
     <div className="bg-whiteSmoke dark:bg-lightBlack">
-      <div className="relative z-[1] ">
+
+      {/* <div className="relative z-[1] ">
         <div
           className="Container-Hero bg-lightBlack dark:bg-normalBlack  grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-5 items-center justify-center font-Lora py-3 lg:py-4 xl:py-5 2xl:py-6 border-t-[3px] border-t-khaki mt-[-75px]  left-0 right-0 z-[1]"
           data-aos="fade-down"
@@ -206,7 +207,9 @@ const Rooms = () => {
             </button>
           </Link>
         </div>
-      </div>
+      </div> */}
+
+
       {/* Rooms section heading */}
       <div className=" py-20 2xl:py-[120px] w-full bg-[url('/images/home-1/section-shape2.png')] bg-no-repeat bg-top bg-opacity-[0.07]">
         <div className="Container ">

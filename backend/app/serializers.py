@@ -179,9 +179,16 @@ class RoomServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoomService
         fields = '__all__'
+        
+        
+# Reservation #
+
+class ReservationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reservation
+        fields = '__all__'
 
 # Tags #
-
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:

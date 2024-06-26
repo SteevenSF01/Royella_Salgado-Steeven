@@ -122,6 +122,7 @@ const FindRoom = () => {
                     CHECK Availability
                 </h1>
                 {/* Date and rome info */}
+                
                 <div
                     className="Container bg-white dark:bg-lightBlack  grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-5 items-center justify-center font-Lora py-3 lg:py-4 xl:py-5 2xl:py-6 border-t-[3px] border-t-khaki  px-5 md:px-7 2xl:px-10"
                     data-aos="zoom-in-up"
@@ -297,6 +298,8 @@ const FindRoom = () => {
                         </button>
                     </Link>
                 </div>
+
+
                 {/* Room Details */}
                 <div className="mt-14 2xl:mt-[60px] grid items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 xl:gap-[30px] Container">
                     {/* Room - 1 */}

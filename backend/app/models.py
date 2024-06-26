@@ -192,6 +192,16 @@ class RoomService(models.Model):
     desc2 = models.CharField(max_length=80)
     desc3 = models.CharField(max_length=80)
     desc4 = models.CharField(max_length=80)
+    
+# Reservation #
+class Reservation(models.Model):
+    client = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    room = models.ForeignKey(Rooms, on_delete=models.CASCADE)
+    adultes = models.PositiveIntegerField()
+    enfants = models.PositiveIntegerField()
+    date_in = models.DateField()
+    date_out = models.DateField()
+    prix_total = models.PositiveIntegerField(default=0)
 
 
 # Get in touch #

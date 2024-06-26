@@ -151,6 +151,23 @@ class FooterGalleryView(viewsets.ModelViewSet):
     queryset = FooterGallery.objects.all()
     serializer_class = FooterGallerySerializer
     
+        # Définir une action supplémentaire pour la vue
+    @action(detail=False, methods=['get'], url_path='random') 
+    # la methode pour l'action
+    def random_rooms(self, request):  
+        # Pour obtenir le nombre total d'objet 'room'
+        count = self.queryset.count()  
+        if count == 0: 
+            return Response({"detail": "No blogs available"}, status=404)
+        # Ensemble est limitée à un maximum de 2 ou au nombre total de chambres disponibles, selon le plus petit des deux.
+        random_indices = random.sample(range(count), min(6, count))  
+        # Sélectionner les objets Rooms correspondant aux indices aléatoires générés
+        random_blogs = [self.queryset.all()[i] for i in random_indices] 
+        # Convertir les objets Rooms sélectionnés en JSON à l'aide du sérialiseur
+        serializer = self.get_serializer(random_blogs, many=True)  
+        return Response(serializer.data) 
+
+    
 # Google maps + contact #
 
 class ContactListCreate(viewsets.ModelViewSet):
@@ -248,6 +265,12 @@ class RoomServiceViewSet(generics.ListAPIView):
     queryset = RoomService.objects.all()
     serializer_class = RoomServiceSerializer
     
+# Reservation #
+
+class ReservationViewSet(viewsets.ModelViewSet):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+    
 
 # tags #
 class TagsViewSet(viewsets.ModelViewSet):
@@ -266,11 +289,9 @@ class CategoriesViewSet(viewsets.ModelViewSet):
 class BlogFilter(filters.FilterSet):
     title = filters.CharFilter(field_name="titre", lookup_expr='icontains')
     categorie = filters.NumberFilter(field_name="categorie__id")
-
     class Meta:
         model = Blog
         fields = ['title', 'categorie']
-
         
 class BlogPagination(pagination.PageNumberPagination):
     page_size = 6

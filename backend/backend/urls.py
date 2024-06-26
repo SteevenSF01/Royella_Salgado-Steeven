@@ -25,6 +25,7 @@ router.register('backoffice/comment', CommentViewSet)
 router.register('backoffice/blogDescription', BlogDescriptionViewSet)
 router.register('backoffice/users', CustomUserView) 
 router.register('backoffice/testimonials', TestimonialsViewSet)
+router.register('backoffice/reservation', ReservationViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -13,9 +13,8 @@ const Footer = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get("/api/backoffice/footerGallery/");
-                const firstSixImages = res.data.slice(0, 6);
-                setFooterImages(firstSixImages);
+                const res = await axios.get("/api/backoffice/footerGallery/random");
+                setFooterImages(res.data);
 
                 const resContact = await axios.get(
                     "/api/backoffice/contact/"
