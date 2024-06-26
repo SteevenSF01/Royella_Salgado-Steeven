@@ -12,11 +12,14 @@ const RoomDetails = () => {
   const { dateIn, dateOut, adultes, enfants } = useAuth();
   const {id} = useParams();
   const [room, setRoom] = useState({});
+  const [totalJours, setTotalJours] = useState(0);
+
   useEffect(() => {
     const fetchRoom = async () => {
       try{
         const res = await axios.get(`/api/backoffice/rooms/${id}/`);
         setRoom(res.data);
+        setTotalJours(calculerJoursTotal(dateIn, dateOut));
       }catch(err){
         console.log(err);
       }
@@ -26,7 +29,7 @@ const RoomDetails = () => {
   const [imageIndex, setImageIndex] = useState(0);
   const location = useLocation();
   const bookingsData = location.state && location.state;
-
+  console.log(totalJours);
   const navigate = useNavigate();
   const images = [
     room.photo,
@@ -68,6 +71,16 @@ const RoomDetails = () => {
       }
     });
   };
+
+  const calculerJoursTotal = (date1, date2) => {
+    const date1Js = new Date(date1);
+    const date2Js = new Date(date2);
+    const diffDays = Math.round(
+        Math.abs(date1Js.getTime() - date2Js.getTime()) / (1000 * 3600 * 24)
+    );
+    return diffDays;
+};
+
   return (
     <section className="">
       <BreadCrumb title="room details" />
