@@ -6,8 +6,10 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../backoffice/pages/loginProvider/LoginProvider";
 
 const RoomDetails = () => {
+  const { dateIn, dateOut, adultes, enfants } = useAuth();
   const {id} = useParams();
   const [room, setRoom] = useState({});
   useEffect(() => {
@@ -254,6 +256,8 @@ const RoomDetails = () => {
           </div>
           {/*  */}
           <div className="col-span-6 md:col-span-3 lg:col-span-2">
+
+
             {/* booking details sidebar */}
             <div>
               <div className=" bg-whiteSmoke dark:bg-normalBlack px-7 py-8 md:px-8 md:py-10 lg:px-9 lg:py-11 2xl:px-10 2xl:pt-[45px] 2xl:pb-[30px] grid-flow-row-dense">
@@ -269,11 +273,7 @@ const RoomDetails = () => {
                     <p className="text-sm md:text-[15px] leading-[26px] font-Lora font-medium text-lightBlack dark:text-white">
                       Check In -{" "}
                       <span className="text-khaki">
-                        {bookingsData && bookingsData.selectedInDate
-                          ? new Date(bookingsData.selectedInDate)
-                              .toDateString()
-                              .slice(4)
-                          : new Date().toDateString().slice(4)}
+                        {dateIn}
                       </span>
                     </p>
                   </div>
@@ -281,15 +281,7 @@ const RoomDetails = () => {
                     <p className="text-sm md:text-[15px] leading-[26px] font-Lora font-medium text-lightBlack dark:text-white">
                       Check Out -{" "}
                       <span className="text-khaki">
-                        {bookingsData && bookingsData.selectedOutDate
-                          ? new Date(bookingsData.selectedOutDate)
-                              .toDateString()
-                              .slice(4)
-                          : new Date(
-                              new Date().setDate(new Date().getDate() + 3)
-                            )
-                              .toDateString()
-                              .slice(4)}
+                        {dateOut}
                       </span>{" "}
                     </p>
                   </div>
@@ -297,10 +289,7 @@ const RoomDetails = () => {
                     <p className="text-sm md:text-[15px] leading-[26px] font-Lora font-medium text-lightBlack dark:text-white">
                       Adult -{" "}
                       <span className="text-khaki">
-                        0
-                        {bookingsData && bookingsData.adult
-                          ? bookingsData.adult
-                          : "2"}
+                        {adultes}
                       </span>{" "}
                     </p>
                   </div>
@@ -308,21 +297,7 @@ const RoomDetails = () => {
                     <p className="text-sm md:text-[15px] leading-[26px] font-Lora font-medium text-lightBlack dark:text-white">
                       Children -{" "}
                       <span className="text-khaki">
-                        0
-                        {bookingsData && bookingsData.children
-                          ? bookingsData.children
-                          : "1"}
-                      </span>{" "}
-                    </p>
-                  </div>
-                  <div className="bg-white dark:bg-lightBlack h-10 lg:h-[50px] 2xl:h-[56px] grid items-center justify-start px-3 sm:px-5 2xl:px-6">
-                    <p className="text-sm md:text-[15px] leading-[26px] font-Lora font-medium text-lightBlack dark:text-white">
-                      Rooms -{" "}
-                      <span className="text-khaki">
-                        0
-                        {bookingsData && bookingsData.room
-                          ? bookingsData.room
-                          : "1"}
+                        {enfants}
                       </span>{" "}
                     </p>
                   </div>

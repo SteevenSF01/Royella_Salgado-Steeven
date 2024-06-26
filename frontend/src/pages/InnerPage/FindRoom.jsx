@@ -7,9 +7,11 @@ import { BsArrowRight } from "react-icons/bs";
 import { MdEmail, MdOutlineShareLocation } from "react-icons/md";
 import { IoIosCall } from "react-icons/io";
 import axios from "axios";
-import { _ } from "lodash";
+import { _, set } from "lodash";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../../backoffice/pages/loginProvider/LoginProvider";
+
 
 const FindRoom = () => {
     //  room info
@@ -25,6 +27,8 @@ const FindRoom = () => {
     const [contactInfo, setContactInfo] = useState(null);
     const [rooms, setRooms] = useState([]);
     const [availableRooms, setAvailableRooms] = useState([]);
+    const { setDateIn, setDateOut, setAdultes, setEnfants } = useAuth();
+
 
     const [formData, setFormData] = useState({
         nom: "",
@@ -74,6 +78,10 @@ const FindRoom = () => {
                     })
                     .then((response) => {
                         setAvailableRooms(response.data);
+                        setDateIn(selectedInDate);
+                        setDateOut(selectedOutDate);
+                        setAdultes(adult);
+                        setEnfants(children);
                     })
             } catch (error) {
                 console.error(
@@ -139,9 +147,6 @@ const FindRoom = () => {
         adult,
         children,
     };
-    console.log('availableRooms', availableRooms)
-    console.log('selectedInDate', selectedInDate)
-    console.log('selectedOutDate', selectedOutDate)
     return (
         <section>
             <BreadCrumb title="Find Room" />
@@ -153,7 +158,7 @@ const FindRoom = () => {
                 {/* Date and rome info */}
 
                 <div
-                    className="Container bg-white dark:bg-lightBlack  grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-5 items-center justify-center font-Lora py-3 lg:py-4 xl:py-5 2xl:py-6 border-t-[3px] border-t-khaki  px-5 md:px-7 2xl:px-10"
+                    className="Container bg-white dark:bg-lightBlack  grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 items-center justify-center font-Lora py-3 lg:py-4 xl:py-5 2xl:py-6 border-t-[3px] border-t-khaki  px-5 md:px-7 2xl:px-10"
                     data-aos="zoom-in-up"
                     data-aos-duration="1000"
                 >
@@ -183,58 +188,6 @@ const FindRoom = () => {
                                 value={selectedOutDate}
                                 onChange={handleCheckOutDate}
                             />
-                        </div>
-                    </div>
-                    <div className="p-3">
-                        <div
-                            className={` px-3 py-2 w-full block transition-all duration-300 group relative `}
-                            to="#"
-                        >
-                            <span
-                                className="flex items-center justify-between text-sm text-gray dark:text-lightGray cursor-pointer"
-                                onClick={() => setOpen(!open)}
-                                title="click hear to open and close rooms extender"
-                            >
-                                Rooms
-                                <BiChevronDown className="" />
-                            </span>
-                            <div className="text-sm pt-[6px] lightBlack dark:text-white">
-                                {room} Room
-                            </div>
-                            <div className="absolute pt-5  z-20">
-                                <div
-                                    className={`shadow-2xl ${
-                                        open ? "" : "hidden"
-                                    } rounded-sm bg-white text-black w-60 text-left dark:bg-normalBlack dark:text-white transition-all duration-500 text-sm py-4 `}
-                                >
-                                    <div className="py-2 px-5 group cursor-pointer">
-                                        <li className="flex items-center justify-between">
-                                            <div className="text-lightBlack dark:text-white">
-                                                {room} Room
-                                            </div>
-                                            <div className="flex items-center space-x-2">
-                                                <button
-                                                    className="w-5 h-5 md:w-6 md:h-6 bg-khaki text-white"
-                                                    onClick={() =>
-                                                        setRoom(room + 1)
-                                                    }
-                                                >
-                                                    +
-                                                </button>
-                                                <button
-                                                    className="w-5 h-5 md:w-6 md:h-6 bg-khaki text-white"
-                                                    onClick={() =>
-                                                        setRoom(room - 1)
-                                                    }
-                                                    disabled={room <= 1}
-                                                >
-                                                    -
-                                                </button>
-                                            </div>
-                                        </li>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
 

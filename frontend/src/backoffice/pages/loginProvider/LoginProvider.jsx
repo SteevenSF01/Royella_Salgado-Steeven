@@ -8,6 +8,10 @@ export const AuthProvider = ({ children }) => {
         localStorage.getItem("access_token")
     );
     const [user, setUser] = useState({});
+    const [dateIn, setDateIn] = useState(null);
+    const [dateOut, setDateOut] = useState(null);
+    const [adultes, setAdultes] = useState(null);
+    const [enfants, setEnfants] = useState(null);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -31,7 +35,7 @@ export const AuthProvider = ({ children }) => {
         fetchUser();
     }, [authToken]);
 
-    const value = { authToken, setAuthToken, user, setUser };
+    const value = { authToken, setAuthToken, user, setUser, dateIn, setDateIn, dateOut, setDateOut, adultes, setAdultes, enfants, setEnfants };
 
     return (
         <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
