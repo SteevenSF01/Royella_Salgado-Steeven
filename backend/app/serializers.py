@@ -184,6 +184,15 @@ class RoomServiceSerializer(serializers.ModelSerializer):
 # Reservation #
 
 class ReservationSerializer(serializers.ModelSerializer):
+    client = serializers.PrimaryKeyRelatedField(
+        queryset=CustomUser.objects.all(),
+        write_only=True 
+    )
+    room = serializers.PrimaryKeyRelatedField(
+        queryset=Rooms.objects.all(),
+        write_only=True 
+    )
+
     class Meta:
         model = Reservation
         fields = '__all__'

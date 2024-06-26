@@ -1,36 +1,89 @@
 import { BsArrowLeft, BsArrowRight, BsCheck2 } from "react-icons/bs";
 import BreadCrumb from "../../BreadCrumb/BreadCrumb";
 import { FiLogOut } from "react-icons/fi";
-import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../backoffice/pages/loginProvider/LoginProvider";
+import { ToastContainer, toast, Slide } from "react-toastify";
+
 
 const RoomDetails = () => {
-  const { dateIn, dateOut, adultes, enfants } = useAuth();
-  const {id} = useParams();
-  const [room, setRoom] = useState({});
-  const [totalJours, setTotalJours] = useState(0);
 
-  useEffect(() => {
-    const fetchRoom = async () => {
-      try{
-        const res = await axios.get(`/api/backoffice/rooms/${id}/`);
-        setRoom(res.data);
-        setTotalJours(calculerJoursTotal(dateIn, dateOut));
-      }catch(err){
-        console.log(err);
+  const notifySuccess = () =>
+    toast.success("Successfully booked", {
+        position: "top-left",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+    });
+
+const notifyError = () =>
+    toast.error(`An error occurred`, {
+        position: "top-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+    });
+
+const navigate = useNavigate();
+const { dateIn, dateOut, adultes, enfants, user } = useAuth();
+const { id } = useParams();
+const [room, setRoom] = useState({});
+const [totalJours, setTotalJours] = useState(0);
+const [formData, setFormData] = useState({
+  client: user.id,
+  room: parseInt(id),
+  date_in: dateIn,
+  date_out: dateOut,
+  adultes: adultes,
+  enfants: enfants,
+  prix_total: 0,
+});
+
+useEffect(() => {
+  const fetchRoom = async () => {
+    try {
+      const res = await axios.get(`/api/backoffice/rooms/${id}/`);
+      setRoom(res.data);
+      const jours = calculerJoursTotal(dateIn, dateOut); 
+      setTotalJours(jours); 
+      
+      if (jours && res.data.prix) {
+        const prixTotal = (jours * res.data.prix).toFixed(2);
+        setFormData({
+          client: user.id,
+          room: parseInt(id),
+          date_in: dateIn,
+          date_out: dateOut,
+          adultes: adultes,
+          enfants: enfants,
+          prix_total: prixTotal,
+        });
       }
-    };
-    fetchRoom();
-  }, []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  fetchRoom();
+}, [dateIn, dateOut, id, user.id, adultes, enfants]);
+
+
   const [imageIndex, setImageIndex] = useState(0);
   const location = useLocation();
   const bookingsData = location.state && location.state;
-  console.log(totalJours);
-  const navigate = useNavigate();
   const images = [
     room.photo,
     "/images/inner/bathroom.jpg",
@@ -79,6 +132,20 @@ const RoomDetails = () => {
         Math.abs(date1Js.getTime() - date2Js.getTime()) / (1000 * 3600 * 24)
     );
     return diffDays;
+};
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+  try {
+    axios.post('/api/backoffice/reservation/', formData);
+    notifySuccess();
+    setTimeout(() => {
+      navigate("/");
+    }, 2000);
+  } catch (error) {
+    console.error(error);
+    notifyError();
+  }
 };
 
   return (
@@ -320,7 +387,8 @@ const RoomDetails = () => {
               <div className="py-5">
                 <button
                   className="bg-khaki w-full h-10 2xl:h-[50px] text-white font-Lora font-semibold px-5 hover-animBg after:rounded-none after:bg-normalBlack"
-                  onClick={() => setAlert()}
+                  onClick={handleSubmit}
+                  // onClick={() => setAlert()}
                 >
                   Confirm Booking
                 </button>
@@ -375,6 +443,7 @@ const RoomDetails = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 };
