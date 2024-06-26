@@ -259,6 +259,20 @@ const Navbar = () => {
             >
               Contact
             </NavLink>
+            { authToken ? 
+            (            <NavLink
+              className={`${({ isActive, isPending }) =>
+                isPending
+                  ? "pending"
+                  : isActive
+                  ? "active"
+                  : ""} text-lightBlack lg:text-white dark:text-white lg:border-b-0 px-3 py-2 w-full block transition-all duration-300`}
+              to="/reservation"
+            >
+              Reservation
+            </NavLink>)
+            :
+            null}
           </ul>
           {/* large device visible button and search icon */}
           <div className="hidden lg:flex items-center">

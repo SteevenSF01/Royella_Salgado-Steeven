@@ -3,7 +3,7 @@ from .models import *
 from django_filters import rest_framework as filters
 from .serializers import *
 from rest_framework.response import Response
-from rest_framework import status, viewsets, generics, pagination
+from rest_framework import status, viewsets, generics, pagination, permissions
 from rest_framework.decorators import action
 from django.db.models import F, Count,Q
 import random
@@ -20,20 +20,19 @@ import json
 import datetime
 
 
-# Create your views here.
 
 def template(request):
     return render(request, 'modelMail.html')
 
 
-# CustomUser #
+#region CustomUser #
 
 class CustomUserView(viewsets.ModelViewSet):    
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
 
-# UserRegistration #
+#region UserRegistration #
 class UserRegistrationView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
 
@@ -44,7 +43,7 @@ class UserRegistrationView(generics.CreateAPIView):
             return Response({'message': 'User registered successfully'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-# UserLogin #
+#region UserLogin #
 
 @api_view(['POST'])
 def connexion(request):
@@ -90,14 +89,14 @@ def connexion(request):
 #         return Response({'status': 'error', 'message': 'Mot de passe incorrect'}, status=400)       
         
 
-# Logout #
+#region Logout #
 
 @api_view(['POST'])
 def deconnexion(request):
     logout(request)
     return JsonResponse({'status': 'success', 'message': 'Utilisateur déconnecté'})
 
-# Get User #
+#region Get User #
 
 @api_view(['GET'])
 def get_user(request):
@@ -121,13 +120,13 @@ def get_user(request):
     return JsonResponse({'user': mon_user})
 
 
-# Manager #
+#region Manager #
 
 class ManagerView(viewsets.ModelViewSet):
     queryset = ManagerVideo.objects.all()
     serializer_class = ManagerVideoSerializer
 
-# PosteEmploye #
+#region PosteEmploye #
 
 class PosteEmployeView(viewsets.ModelViewSet):
     queryset = PosteEmploye.objects.all()
@@ -139,7 +138,7 @@ class EmployeView(viewsets.ModelViewSet):
     serializer_class = EmployeSerializer
 
 
-# Baniere du home et des autres pages + footer gallery #
+#region Baniere du home et des autres pages + footer gallery #
 class HeroHomeView(viewsets.ModelViewSet):
     queryset = HeroHome.objects.all()
     serializer_class = HeroHomeSerializer
@@ -169,19 +168,19 @@ class FooterGalleryView(viewsets.ModelViewSet):
         return Response(serializer.data) 
 
     
-# Google maps + contact #
+#region Google maps + contact #
 
 class ContactListCreate(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
     
-# FAQ #
+#region FAQ #
 
 class FAQView(viewsets.ModelViewSet):
     queryset = FAQ.objects.all()
     serializer_class = FAQSerializer
     
-# Facilities #
+#region Facilities #
 class FacilitiesViewSet(viewsets.ModelViewSet):
     queryset = Facilities.objects.all()
     serializer_class = FacilitiesSerializer
@@ -213,7 +212,7 @@ class FacilitiesRoomViewSet(viewsets.ModelViewSet):
     queryset = FacilitiesRoom.objects.all()
     serializer_class = FacilitiesRoomSerializer
     
-# Rooms #
+#region Rooms #
 
 class RoomsPagination(pagination.PageNumberPagination):
     # le nombre d'item a afficher par page
@@ -298,25 +297,30 @@ class RoomServiceViewSet(generics.ListAPIView):
     queryset = RoomService.objects.all()
     serializer_class = RoomServiceSerializer
     
-# Reservation #
+#region Reservation #
 
 class ReservationViewSet(viewsets.ModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get_queryset(self):
+        user = self.request.user.id
+        return Reservation.objects.filter(client=user)
     
 
-# tags #
+#region tags #
 class TagsViewSet(viewsets.ModelViewSet):
     queryset = Tags.objects.all()
     serializer_class = TagSerializer
 
-# Categories #
+#region Categories #
 class CategoriesViewSet(viewsets.ModelViewSet):
     queryset = Categories.objects.all()
     serializer_class = CategorySerializer
     
 
-# Blogs #
+#region Blogs #
 
 
 class BlogFilter(filters.FilterSet):
@@ -382,13 +386,13 @@ class BlogDescriptionViewSet(viewsets.ModelViewSet):
     queryset = BlogDescription.objects.all()
     serializer_class = BlogDescriptionSerializer
     
-# Get in touch #
+#region Get in touch #
 
 class GetInTouchView(generics.ListCreateAPIView):
     queryset = GetInTouch.objects.all()
     serializer_class = GetInTouchSerializer
     
-# Testimonials #
+#region Testimonials #
 
 class TestimonialsViewSet(viewsets.ModelViewSet):
     queryset = Testimonial.objects.all()

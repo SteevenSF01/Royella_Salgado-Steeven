@@ -41,6 +41,8 @@ import FacilitiesAll from "../backoffice/pages/facilities/FacilitiesAll";
 import Inbox from "../backoffice/pages/getInTouch/GetInTouch";
 // Backoffice - Rooms
 import CreateRoom from "../backoffice/pages/room/CreateRoom";
+// Reservation
+import Reservation from "../backoffice/pages/reservation/Reservation";
 
 import ProtectedRoute from "../backoffice/pages/protectedRoute/ProtectedRoute";
 
@@ -111,6 +113,10 @@ const router = createBrowserRouter([
                 path: "/create_blog",
                 element: <CreateBlog />,
             },
+            {
+                path: "/reservation",
+                element: <Reservation />,
+            }
         ],
     },
     // Backoffice //

@@ -12,7 +12,7 @@ import base64
 
 CustomUser = get_user_model()
 
-# Custom User #
+#region Custom User #
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -23,7 +23,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         ]
 
 
-# Register #
+#region Register #
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     photo = serializers.ImageField(required=False)
@@ -64,7 +64,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         email.send()
 
 
-# Employe #
+#region Employe #
 
 class PosteEmployeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -90,7 +90,7 @@ class ManagerVideoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# Baniere du home et des autres pages + footer gallery #
+#region Baniere du home et des autres pages + footer gallery #
 class HeroHomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeroHome
@@ -123,7 +123,7 @@ class FooterGallerySerializer(serializers.ModelSerializer):
             validated_data['image'] = instance.image
         return super().update(instance, validated_data)
 
-# Google maps + contact #
+#region Google maps + contact #
 
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -131,7 +131,7 @@ class ContactSerializer(serializers.ModelSerializer):
         model = Contact
         fields = '__all__'
 
-# FAQ #
+#region FAQ #
 
 
 class FAQSerializer(serializers.ModelSerializer):
@@ -139,7 +139,7 @@ class FAQSerializer(serializers.ModelSerializer):
         model = FAQ
         fields = '__all__'
 
-# Facilities #
+#region Facilities #
 
 
 class FacilitiesSerializer(serializers.ModelSerializer):
@@ -153,7 +153,7 @@ class FacilitiesRoomSerializer(serializers.ModelSerializer):
         model = FacilitiesRoom
         fields = '__all__'
 
-# Rooms #
+#region Rooms #
 
 
 class RoomsSerializer(serializers.ModelSerializer):
@@ -181,7 +181,7 @@ class RoomServiceSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
         
-# Reservation #
+#region Reservation #
 
 class ReservationSerializer(serializers.ModelSerializer):
     client = serializers.PrimaryKeyRelatedField(
@@ -196,15 +196,36 @@ class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
         fields = '__all__'
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        
+        client = CustomUser.objects.get(id=instance.client.id)
+        room = Rooms.objects.get(id=instance.room.id)
 
-# Tags #
+        representation['client'] = {
+            'id': client.id,
+            'email': client.email,
+            'photo': client.photo.url,
+            'first_name': client.first_name,
+            'last_name': client.last_name,
+        }
+        representation['room'] = {
+            'id': room.id,
+            'nom': room.nom,
+            'prix': room.prix,
+            'photo': room.photo.url,
+        }
+
+        return representation
+
+#region Tags #
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tags
         fields = '__all__'
 
-# Categories #
+#region Categories #
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -212,7 +233,7 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Categories
         fields = '__all__'
 
-# Blogs #
+#region  Blogs #
 
 
 class BlogDescriptionSerializer(serializers.ModelSerializer):
@@ -270,7 +291,7 @@ class CreateBlogSerializer(serializers.ModelSerializer):
         model = Blog
         fields = ['titre', 'contenue', 'image', 'auteur', 'categorie', 'tags']
 
-# Get in touch #
+#region Get in touch #
 
 
 class GetInTouchSerializer(serializers.ModelSerializer):
@@ -278,7 +299,7 @@ class GetInTouchSerializer(serializers.ModelSerializer):
         model = GetInTouch
         fields = '__all__'
 
-# Testimonials #
+#region Testimonials #
 
 
 class TestimonialSerializer(serializers.ModelSerializer):

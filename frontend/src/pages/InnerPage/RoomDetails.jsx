@@ -38,10 +38,9 @@ const notifyError = () =>
     });
 
 const navigate = useNavigate();
-const { dateIn, dateOut, adultes, enfants, user } = useAuth();
+const { dateIn, dateOut, adultes, enfants, user, authToken } = useAuth();
 const { id } = useParams();
 const [room, setRoom] = useState({});
-const [totalJours, setTotalJours] = useState(0);
 const [formData, setFormData] = useState({
   client: user.id,
   room: parseInt(id),
@@ -58,7 +57,6 @@ useEffect(() => {
       const res = await axios.get(`/api/backoffice/rooms/${id}/`);
       setRoom(res.data);
       const jours = calculerJoursTotal(dateIn, dateOut); 
-      setTotalJours(jours); 
       
       if (jours && res.data.prix) {
         const prixTotal = (jours * res.data.prix).toFixed(2);
@@ -134,20 +132,28 @@ useEffect(() => {
     return diffDays;
 };
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  try {
-    axios.post('/api/backoffice/reservation/', formData);
-    notifySuccess();
-    setTimeout(() => {
-      navigate("/");
-    }, 2000);
-  } catch (error) {
-    console.error(error);
-    notifyError();
-  }
-};
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        '/api/backoffice/reservation/',
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      console.log("Reservation created:", response.data);
+      notifySuccess();
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    } catch (error) {
+      console.error("Error creating reservation:", error);
+      notifyError();
+    }
+  };
   return (
     <section className="">
       <BreadCrumb title="room details" />
