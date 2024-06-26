@@ -167,7 +167,7 @@ class RoomsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Rooms
-        fields = ['nom', 'description', 'photo', 'etoiles', 'nom_lit', 'prix', 'max_adultes', 'lit', 'max_enfants', 'superficie', "amenities",'facilitiesroom_id']
+        fields = ['id','nom', 'description', 'photo', 'etoiles', 'nom_lit', 'prix', 'max_adultes', 'lit', 'max_enfants', 'superficie', "amenities",'facilitiesroom_id']
 
     def create(self, validated_data):
         amenities = validated_data.pop('amenities', [])

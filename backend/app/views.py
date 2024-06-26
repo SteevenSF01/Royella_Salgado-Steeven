@@ -5,7 +5,7 @@ from .serializers import *
 from rest_framework.response import Response
 from rest_framework import status, viewsets, generics, pagination
 from rest_framework.decorators import action
-from django.db.models import F, Count
+from django.db.models import F, Count,Q
 import random
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
@@ -17,6 +17,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.core.exceptions import ObjectDoesNotExist
 import json
+import datetime
 
 
 # Create your views here.
@@ -223,7 +224,7 @@ class RoomsPagination(pagination.PageNumberPagination):
     max_page_size = 100
 
 class RoomsViewSet(viewsets.ModelViewSet):  
-    queryset = Rooms.objects.all()  
+    queryset = Rooms.objects.all().order_by('-etoiles')
     serializer_class = RoomsSerializer
     pagination_class = RoomsPagination
 
@@ -260,6 +261,38 @@ class RoomsViewSet(viewsets.ModelViewSet):
         
         serializer = self.get_serializer(random_promotional_rooms, many=True)  
         return Response(serializer.data)  
+    
+    @action(detail=False, methods=['get'], url_path='available')
+    def get_available_rooms(self, request):
+        date_in = request.query_params.get('date_in')
+        date_out = request.query_params.get('date_out')
+
+        if not all([date_in, date_out]):
+            return Response({"detail": "Parametres manquants"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            check_in_date = datetime.datetime.strptime(date_in, '%Y-%m-%d').date()
+            check_out_date = datetime.datetime.strptime(date_out, '%Y-%m-%d').date()
+        except ValueError:
+            return Response({"detail": "Format de date invalide"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if check_in_date >= check_out_date:
+            return Response({"detail": "Check-out doit etre apres le check-in"}, status=status.HTTP_400_BAD_REQUEST)
+
+        reserved_rooms = self.queryset.filter(
+            date_in__lte=check_out_date,
+            date_out__gte=check_in_date,
+        )
+
+        if not reserved_rooms.exists():
+            available_rooms = self.queryset.all()
+        else:
+            available_rooms = self.queryset.filter(
+                Q(date_in__gt=check_out_date) | Q(date_out__lt=check_in_date)
+            )
+
+        serializer = self.get_serializer(available_rooms, many=True)
+        return Response(serializer.data)
     
 class RoomServiceViewSet(generics.ListAPIView):
     queryset = RoomService.objects.all()
