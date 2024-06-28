@@ -5,6 +5,7 @@ from .serializers import *
 from rest_framework.response import Response
 from rest_framework import status, viewsets, generics, pagination, permissions
 from rest_framework.decorators import action
+# Utiliser F pour comparer des valeurs entre différents champs du même model ou pour mettre à jour un champ en fonction de la valeur d'un autre champ, sans avoir à charger les données dans l'application
 from django.db.models import F, Count,Q
 import random
 from django.utils import timezone
@@ -159,7 +160,8 @@ class FooterGalleryView(viewsets.ModelViewSet):
         count = self.queryset.count()  
         if count == 0: 
             return Response({"detail": "No blogs available"}, status=404)
-        # Ensemble est limitée à un maximum de 2 ou au nombre total de chambres disponibles, selon le plus petit des deux.
+        # Sample prends 2 arguments, l'itérateur et le nombre d'éléments à prendre
+        # range crée un itérateur qui va de 0 à count-1 et choisit aléatoirement les indices qui est dans min (6, count) en prenant le plus petit des deux, soite count ou 6
         random_indices = random.sample(range(count), min(6, count))  
         # Sélectionner les objets Rooms correspondant aux indices aléatoires générés
         random_blogs = [self.queryset.all()[i] for i in random_indices] 
@@ -185,29 +187,6 @@ class FacilitiesViewSet(viewsets.ModelViewSet):
     queryset = Facilities.objects.all()
     serializer_class = FacilitiesSerializer
 
-    def reorder_facilities(self, request):
-        facility_id = request.data.get('facility_id')
-        new_order = request.data.get('new_order')
-
-        try:
-            # On récupére 2 id pour faire un interchangement
-            facility_to_move = Facilities.objects.get(id=facility_id)
-            facility_to_swap = Facilities.objects.get(order=new_order)
-
-            # On changer 'Order' avec celui qui prends sa place
-            # temp_order = facility_to_move.order
-            facility_to_move.order = facility_to_swap.order
-            facility_to_swap.order = facility_to_move.order
-
-            facility_to_move.save()
-            facility_to_swap.save()
-
-            return Response({"message": "Les facilities on bien été reordonnées"}, status=status.HTTP_200_OK)
-        except Facilities.DoesNotExist:
-            return Response({"message": "Cette facilitie n'existe pas"}, status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-            return Response({"message": "Une erreur est survenue"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
 class FacilitiesRoomViewSet(viewsets.ModelViewSet):
     queryset = FacilitiesRoom.objects.all()
     serializer_class = FacilitiesRoomSerializer
@@ -246,13 +225,13 @@ class RoomsViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path='promotions') 
     def get_promotional_rooms(self, request):
-        # Pour la date actuelle
+        # Pour la date actuelle sans l'heure avec date()
         current_date = timezone.now().date()
         
         # Filtrer  les chambres de promo qui sont en cours
         promotional_rooms = self.queryset.filter(prom_start__lte=current_date, prom_end__gte=current_date)
         
-        # Obtient une liste de toutes les chambres de promo disponibles
+        # Obtient une liste de toutes les chambres de promo disponibles pour pouvoir iterer sur elles
         all_promotional_rooms = list(promotional_rooms)
         
         # Obtient 4 chambres de manière aléatoire, min 4 ou len s'il est plus petit
@@ -285,6 +264,7 @@ class RoomsViewSet(viewsets.ModelViewSet):
 
         if not reserved_rooms.exists():
             available_rooms = self.queryset.all()
+            # Q sert à faire des requêtes complexes, avec plusieurs conditions logiques
         else:
             available_rooms = self.queryset.filter(
                 Q(date_in__gt=check_out_date) | Q(date_out__lt=check_in_date)
