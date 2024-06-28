@@ -394,9 +394,10 @@ useEffect(() => {
                 <button
                   className="bg-khaki w-full h-10 2xl:h-[50px] text-white font-Lora font-semibold px-5 hover-animBg after:rounded-none after:bg-normalBlack"
                   onClick={handleSubmit}
+                  disabled={!authToken}
                   // onClick={() => setAlert()}
                 >
-                  Confirm Booking
+                  {!authToken ? "Please login to confirm booking" : "Confirm Booking"}
                 </button>
               </div>
             </div>
